@@ -6,7 +6,6 @@ public class SortAlgorithm {
     public static void main(String[] args) {
         int size = 20;
 
-
         int[] randomArray = generateRandomArray(size, 0, 100);
 
         System.out.println("Before sorting: " + Arrays.toString(randomArray));
@@ -16,7 +15,9 @@ public class SortAlgorithm {
 
     // Generates an array of random integers within a specified range
     private static int[] generateRandomArray(int size, int min, int max) {
-        return ThreadLocalRandom.current().ints(size, min, max).toArray();
+        return ThreadLocalRandom.current()
+                .ints(size, min, max)
+                .toArray();
     }
 
     // QuickSort algorithm implementation
