@@ -7,11 +7,6 @@ package core;
 public abstract class Entity {
     private long id;
 
-    /**
-     * Constructor to initialize the entity with id, name, and email.
-     *
-     * @param id    Unique identifier for the entity.
-     */
     public Entity(long id) {
         this.id = id;
     }

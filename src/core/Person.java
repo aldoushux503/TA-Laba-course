@@ -9,13 +9,6 @@ public abstract class Person extends Entity {
     private String name;
     private String email;
 
-    /**
-     * Constructor to initialize the person with id, name, and email.
-     *
-     * @param id    Unique identifier for the person.
-     * @param name  Name of the person.
-     * @param email Email address of the person.
-     */
     public Person(long id, String name, String email) {
         super(id);
         this.name = name;
