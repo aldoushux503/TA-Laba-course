@@ -39,6 +39,7 @@ public abstract class Tour {
 
     public void addTransport(Transport transport) {
         transports.add(transport);
+        transport.addTour(this);
     }
 
     public abstract void displayTourDetails();
