@@ -10,16 +10,23 @@ import core.Entity;
 public class Room extends Entity {
 
     private String number; // Room number can be - 10A, 123Q
-    private int floor;
+    private RoomType type;
     private boolean isAvailable;
     private Hotel hotel;
 
-    public Room(long id, String number, int floor, boolean isAvailable, Hotel hotel) {
+    public Room(long id, String number, boolean isAvailable, Hotel hotel) {
         super(id);
         this.number = number;
-        this.floor = floor;
         this.isAvailable = isAvailable;
         this.hotel = hotel;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public void setType(RoomType type) {
+        this.type = type;
     }
 
     public String getNumber() {
@@ -28,14 +35,6 @@ public class Room extends Entity {
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    public int getFloor() {
-        return floor;
-    }
-
-    public void setFloor(int floor) {
-        this.floor = floor;
     }
 
     public boolean isAvailable() {
