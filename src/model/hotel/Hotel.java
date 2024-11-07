@@ -1,4 +1,4 @@
-package model;
+package model.hotel;
 
 import core.Entity;
 import core.Tour;
@@ -15,16 +15,16 @@ import java.util.List;
 public class Hotel extends Entity {
     private String name;
     private String address;
-    private double rating;
+    private HotelStars stars;
     private List<Room> rooms;
 
     private List<Tour> tours;
 
-    public Hotel(long id, String name, String address, double rating, List<Room> rooms, List<Tour> tours) {
+    public Hotel(long id, String name, String address, HotelStars stars, List<Room> rooms, List<Tour> tours) {
         super(id);
         this.name = name;
         this.address = address;
-        this.rating = rating;
+        this.stars = stars;
         this.rooms = new ArrayList<>(rooms);
         this.tours = new ArrayList<>(tours);
     }
@@ -45,12 +45,20 @@ public class Hotel extends Entity {
         this.address = address;
     }
 
-    public double getRating() {
-        return rating;
+    public HotelStars getStars() {
+        return stars;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setStars(HotelStars stars) {
+        this.stars = stars;
+    }
+
+    public List<Tour> getTours() {
+        return tours;
+    }
+
+    public void setTours(List<Tour> tours) {
+        this.tours = tours;
     }
 
     public List<Room> getRooms() {

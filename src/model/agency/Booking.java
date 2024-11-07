@@ -1,4 +1,4 @@
-package model;
+package model.agency;
 
 import core.Entity;
 import core.Tour;

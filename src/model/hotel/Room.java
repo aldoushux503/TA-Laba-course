@@ -1,4 +1,4 @@
-package model;
+package model.hotel;
 
 import core.Entity;
 

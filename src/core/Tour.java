@@ -1,7 +1,7 @@
 package core;
 
-import model.Attraction;
-import model.Hotel;
+import model.tour.Attraction;
+import model.hotel.Hotel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * <p>
  * Many-to-Many relationship with hotels, attractions, transports;
  */
-public abstract class Tour {
+public abstract class Tour extends Entity {
     private String name;
     private String description;
     private double price;
@@ -20,7 +20,8 @@ public abstract class Tour {
     private List<Attraction> attractions;
     private List<Transport> transports;
 
-    public Tour(String name, String description, double price) {
+    public Tour(long id, String name, String description, double price) {
+        super(id);
         this.name = name;
         this.description = description;
         this.price = price;
@@ -43,4 +44,52 @@ public abstract class Tour {
     }
 
     public abstract void displayTourDetails();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(List<Hotel> hotels) {
+        this.hotels = hotels;
+    }
+
+    public List<Attraction> getAttractions() {
+        return attractions;
+    }
+
+    public void setAttractions(List<Attraction> attractions) {
+        this.attractions = attractions;
+    }
+
+    public List<Transport> getTransports() {
+        return transports;
+    }
+
+    public void setTransports(List<Transport> transports) {
+        this.transports = transports;
+    }
 }

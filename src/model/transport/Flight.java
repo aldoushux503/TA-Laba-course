@@ -1,4 +1,4 @@
-package model;
+package model.transport;
 
 import core.Tour;
 import core.Transport;
@@ -22,5 +22,13 @@ public class Flight extends Transport {
     @Override
     public void transportDetails() {
         System.out.println("Flight with airline: " + airline);
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public void setAirline(String airline) {
+        this.airline = airline;
     }
 }

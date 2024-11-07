@@ -1,4 +1,4 @@
-package model;
+package model.transport;
 
 import core.Tour;
 import core.Transport;
@@ -24,5 +24,11 @@ public class Bus extends Transport {
         System.out.println("Bus with capacity: " + capacity);
     }
 
-    // hashCode, equals, toString
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 }

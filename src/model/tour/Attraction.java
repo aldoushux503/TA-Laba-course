@@ -1,4 +1,4 @@
-package model;
+package model.tour;
 
 import core.Entity;
 import core.Tour;

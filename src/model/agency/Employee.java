@@ -1,6 +1,8 @@
-package model;
+package model.agency;
 
 import core.Person;
+
+import java.util.List;
 
 /**
  * Represents a employee entity in the system. Inherits from the Person class
@@ -9,6 +11,7 @@ import core.Person;
 public class Employee extends Person {
 
     private String position;
+    private TravelAgency travelAgency;
 
     public Employee(long id, String name, String email, String position) {
         super(id, name, email);
