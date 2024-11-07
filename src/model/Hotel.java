@@ -1,6 +1,7 @@
 package model;
 
 import core.Entity;
+import core.Tour;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +18,15 @@ public class Hotel extends Entity {
     private double rating;
     private List<Room> rooms;
 
-    public Hotel(long id, String name, String address, double rating) {
-        super(id);
-        this.name = name;
-        this.address = address;
-        this.rating = rating;
-        this.rooms = new ArrayList<>();
-    }
+    private List<Tour> tours;
 
-    public Hotel(long id, String name, String address, double rating, List<Room> rooms) {
+    public Hotel(long id, String name, String address, double rating, List<Room> rooms, List<Tour> tours) {
         super(id);
         this.name = name;
         this.address = address;
         this.rating = rating;
         this.rooms = new ArrayList<>(rooms);
+        this.tours = new ArrayList<>(tours);
     }
 
     public String getName() {

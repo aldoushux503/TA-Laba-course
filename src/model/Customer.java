@@ -2,29 +2,36 @@ package model;
 
 import core.Person;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Represents a customer entity in the system. Inherits from the Person class.
  * This class encapsulates customer-specific attributes and behaviors.
+ *
+ * Many-to-One relationship with Booking;
  */
 public class Customer extends Person {
 
-    private int loyaltyPoints;
+    private List<Booking> booking;
 
-    public Customer(long id, String name, String email, int loyaltyPoints) {
+
+    public Customer(long id, String name, String email, List<Booking> booking) {
         super(id, name, email);
-        this.loyaltyPoints = loyaltyPoints;
+        this.booking = new ArrayList<>(booking);
     }
 
     @Override
     public String displayInfo() {
-        return String.format("Customer - №%d %s %s %d", getId(), getName(), getEmail(), getLoyaltyPoints());
+        return String.format("Customer - №%d %s %s %s", getId(), getName(), getEmail(), booking.toString());
     }
 
-    public int getLoyaltyPoints() {
-        return loyaltyPoints;
+    public List<Booking> getBooking() {
+        return new ArrayList<>(booking);
     }
 
-    public void setLoyaltyPoints(int loyaltyPoints) {
-        this.loyaltyPoints = loyaltyPoints;
+    public void setBooking(List<Booking> booking) {
+        this.booking = new ArrayList<>(booking);
     }
 }
