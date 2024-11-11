@@ -5,6 +5,7 @@ import model.hotel.Hotel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Abstract class representing a tour
@@ -81,5 +82,32 @@ public abstract class Tour extends Entity {
 
     public void setTransports(List<Transport> transports) {
         this.transports = transports;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Tour)) return false;
+        Tour o = (Tour) obj;
+
+        return getId() == o.getId() &&
+                name.equals(o.name) &&
+                description.equals(o.description) &&
+                hotels.equals(o.hotels) &&
+                attractions.equals(o.attractions) &&
+                transports.equals(o.transports);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getId(),
+                name,
+                description,
+                new ArrayList<>(hotels),
+                new ArrayList<>(attractions),
+                new ArrayList<>(transports)
+        );
     }
 }

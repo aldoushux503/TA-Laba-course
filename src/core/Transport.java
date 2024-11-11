@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Abstract class representing a transport
@@ -27,6 +28,7 @@ public abstract class Transport extends Priceable {
         tours.add(tour);
         tour.addTransport(this);
     }
+
     public void addTour(List<Tour> tours) {
         tours = new ArrayList<>(tours);
         tours.forEach(t -> t.addTransport(this));
@@ -46,5 +48,23 @@ public abstract class Transport extends Priceable {
 
     public void setTours(List<Tour> tours) {
         this.tours = new ArrayList<>(tours);
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Transport)) return false;
+        Transport o = (Transport) obj;
+
+        return getId() == o.getId() &&
+                model.equals(o.model) &&
+                tours.equals(o.tours);
+    }
+
+    public int hashCode() {
+        return Objects.hash(
+                getId(),
+                model,
+                tours
+        );
     }
 }
