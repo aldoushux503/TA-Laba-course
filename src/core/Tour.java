@@ -14,11 +14,11 @@ import java.util.Objects;
  * Many-to-Many relationship with hotels, attractions, transports;
  */
 public abstract class Tour extends Entity {
-    private String name;
-    private String description;
-    private List<Hotel> hotels;
-    private List<Attraction> attractions;
-    private List<Transport> transports;
+    protected String name;
+    protected String description;
+    protected List<Hotel> hotels;
+    protected List<Attraction> attractions;
+    protected List<Transport> transports;
 
     public Tour(long id, String name, String description) {
         super(id);
