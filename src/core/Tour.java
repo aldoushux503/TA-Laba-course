@@ -15,7 +15,6 @@ import java.util.List;
 public abstract class Tour extends Entity {
     private String name;
     private String description;
-
     private List<Hotel> hotels;
     private List<Attraction> attractions;
     private List<Transport> transports;

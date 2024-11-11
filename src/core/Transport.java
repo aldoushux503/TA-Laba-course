@@ -8,22 +8,18 @@ import java.util.List;
  * This class serves as a base for other transport-related entities.
  * Many-to-Many relationship with Tours;
  */
-public abstract class Transport extends Entity {
-    private String name;
-    private double cost;
-
+public abstract class Transport extends Priceable {
+    private String model;
     private List<Tour> tours;
 
-    public Transport(long id, String name, double cost) {
-        super(id);
-        this.name = name;
-        this.cost = cost;
+    public Transport(long id, double price, String model) {
+        super(id, price);
+        this.model = model;
     }
 
-    public Transport(long id, String name, double cost, List<Tour> tours) {
-        super(id);
-        this.name = name;
-        this.cost = cost;
+    public Transport(long id, double price, String model, List<Tour> tours) {
+        super(id, price);
+        this.model = model;
         this.tours = new ArrayList<>(tours);
     }
 

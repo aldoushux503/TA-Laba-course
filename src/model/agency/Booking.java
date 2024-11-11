@@ -2,6 +2,7 @@ package model.agency;
 
 import core.Entity;
 import core.Tour;
+import manager.BookingPriceManager;
 
 import java.time.LocalDate;
 
@@ -21,6 +22,6 @@ public class Booking extends Entity {
         this.customer = customer;
         this.tour = tour;
         this.date = date;
-        this.price = price;
+        this.price = BookingPriceManager.calculateTourPrice(tour);
     }
 }
