@@ -8,13 +8,13 @@ import java.util.List;
 public class Train extends Transport {
     private int numberOfCarriages;
 
-    public Train(long id, String name, double cost, int numberOfCarriages) {
-        super(id, name, cost);
+    public Train(long id, double cost, String name,  int numberOfCarriages) {
+        super(id, cost, name);
         this.numberOfCarriages = numberOfCarriages;
     }
 
-    public Train(long id, String name, double cost, List<Tour> tours, int numberOfCarriages) {
-        super(id, name, cost, tours);
+    public Train(long id, double cost, String name,  List<Tour> tours, int numberOfCarriages) {
+        super(id, cost, name, tours);
         this.numberOfCarriages = numberOfCarriages;
     }
 
@@ -26,8 +26,4 @@ public class Train extends Transport {
         this.numberOfCarriages = numberOfCarriages;
     }
 
-    @Override
-    public void transportDetails() {
-        System.out.println("Bus with number of carriages: " + numberOfCarriages);
-    }
 }

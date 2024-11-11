@@ -42,8 +42,6 @@ public abstract class Tour extends Entity {
         transport.addTour(this);
     }
 
-    public abstract void displayTourDetails();
-
     public String getName() {
         return name;
     }
@@ -109,5 +107,9 @@ public abstract class Tour extends Entity {
                 new ArrayList<>(attractions),
                 new ArrayList<>(transports)
         );
+    }
+    @Override
+    public String toString() {
+        return String.format("Tour: %s, description=%s", name, description);
     }
 }

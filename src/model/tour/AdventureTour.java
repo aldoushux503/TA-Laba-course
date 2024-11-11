@@ -11,8 +11,4 @@ public class AdventureTour extends Tour {
         this.difficultyLevel = difficultyLevel;
     }
 
-    @Override
-    public void displayTourDetails() {
-        System.out.println("Adventure Tour: " + getName() + ", Difficulty: " + difficultyLevel);
-    }
 }

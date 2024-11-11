@@ -8,26 +8,21 @@ import java.util.Objects;
  */
 public abstract class Person extends Entity {
 
-    private String name;
+    private String fullName;
     private String email;
 
-    public Person(long id, String name, String email) {
+    public Person(long id, String fullName, String email) {
         super(id);
-        this.name = name;
+        this.fullName = fullName;
         this.email = email;
     }
 
-    /**
-     * Abstract method for displaying the person's information.
-     */
-    abstract public String displayInfo();
-
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -44,14 +39,19 @@ public abstract class Person extends Entity {
         Person o = (Person) obj;
 
         return getId() == o.getId() &&
-                name.equals(o.name) &&
+                fullName.equals(o.fullName) &&
                 email.equals(o.email);
     }
     public int hashCode() {
         return Objects.hash(
                 getId(),
-                name,
+                fullName,
                 email
         );
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Information about a person %s email=%s", fullName, email);
     }
 }

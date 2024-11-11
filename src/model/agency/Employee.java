@@ -2,8 +2,6 @@ package model.agency;
 
 import core.Person;
 
-import java.util.List;
-
 /**
  * Represents a employee entity in the system. Inherits from the Person class
  * This class encapsulates employee-specific attributes and behaviors.
@@ -18,16 +16,19 @@ public class Employee extends Person {
         this.position = position;
     }
 
-    @Override
-    public String displayInfo() {
-        return String.format("Employee - №%d, %s, %s, %s", getId(), getName(), getEmail(), getPosition());
-    }
-
     public String getPosition() {
         return position;
     }
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public TravelAgency getTravelAgency() {
+        return travelAgency;
+    }
+
+    public void setTravelAgency(TravelAgency travelAgency) {
+        this.travelAgency = travelAgency;
     }
 }

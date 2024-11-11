@@ -10,8 +10,4 @@ public class LuxuryTour extends Tour {
         this.includesSpa = includesSpa;
     }
 
-    @Override
-    public void displayTourDetails() {
-        System.out.println("Luxury Tour: " + getName() + ", Includes Spa: " + includesSpa);
-    }
 }

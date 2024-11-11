@@ -9,19 +9,14 @@ public class Bus extends Transport {
     private int capacity;
 
 
-    public Bus(long id, String name, double cost, int capacity) {
-        super(id, name, cost);
+    public Bus(long id, double cost, String name,  int capacity) {
+        super(id, cost, name);
         this.capacity = capacity;
     }
 
-    public Bus(long id, String name, double cost, List<Tour> tours, int capacity) {
-        super(id, name, cost, tours);
+    public Bus(long id, double cost, String name, List<Tour> tours, int capacity) {
+        super(id, cost, name, tours);
         this.capacity = capacity;
-    }
-
-    @Override
-    public void transportDetails() {
-        System.out.println("Bus with capacity: " + capacity);
     }
 
     public int getCapacity() {

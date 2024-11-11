@@ -67,4 +67,9 @@ public abstract class Transport extends Priceable {
                 tours
         );
     }
+
+    @Override
+    public String toString() {
+        return String.format("Transport model - %s", model);
+    }
 }

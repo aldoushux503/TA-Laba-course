@@ -1,7 +1,6 @@
 package model.agency;
 
 import core.Person;
-import model.agency.Booking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,34 +13,29 @@ import java.util.List;
  */
 public class Customer extends Person {
 
-    private List<Booking> booking;
+    private List<Booking> bookings;
 
     public Customer(long id, String name, String email) {
         super(id, name, email);
-        this.booking = new ArrayList<>();
+        this.bookings = new ArrayList<>();
     }
 
 
-    public Customer(long id, String name, String email, List<Booking> booking) {
+    public Customer(long id, String name, String email, List<Booking> bookings) {
         super(id, name, email);
-        this.booking = new ArrayList<>(booking);
+        this.bookings = new ArrayList<>(bookings);
     }
 
-
-    @Override
-    public String displayInfo() {
-        return String.format("Customer - №%d %s %s %s", getId(), getName(), getEmail(), booking.toString());
-    }
 
     public void addBooking(Booking booking) {
-        this.booking.add(booking);
+        this.bookings.add(booking);
     }
 
-    public List<Booking> getBooking() {
-        return new ArrayList<>(booking);
+    public List<Booking> getBookings() {
+        return new ArrayList<>(bookings);
     }
 
-    public void setBooking(List<Booking> booking) {
-        this.booking = new ArrayList<>(booking);
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = new ArrayList<>(bookings);
     }
 }

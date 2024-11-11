@@ -14,8 +14,4 @@ public class Guide extends Person {
         this.languages = new ArrayList<>(languages);
     }
 
-    @Override
-    public String displayInfo() {
-        return String.format("The languages guid speak: %s", languages.toString());
-    }
 }
