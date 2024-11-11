@@ -6,8 +6,8 @@ public class AdventureTour extends Tour {
 
     private String difficultyLevel;
 
-    public AdventureTour(long id, String name, String description, double price, String difficultyLevel) {
-        super(id, name, description, price);
+    public AdventureTour(long id, String name, String description, String difficultyLevel) {
+        super(id, name, description);
         this.difficultyLevel = difficultyLevel;
     }
 

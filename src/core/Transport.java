@@ -32,5 +32,19 @@ public abstract class Transport extends Priceable {
         tours.forEach(t -> t.addTransport(this));
     }
 
-    public abstract void transportDetails();
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public List<Tour> getTours() {
+        return tours;
+    }
+
+    public void setTours(List<Tour> tours) {
+        this.tours = new ArrayList<>(tours);
+    }
 }
