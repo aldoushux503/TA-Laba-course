@@ -15,16 +15,15 @@ import java.util.List;
 public abstract class Tour extends Entity {
     private String name;
     private String description;
-    private double price;
+
     private List<Hotel> hotels;
     private List<Attraction> attractions;
     private List<Transport> transports;
 
-    public Tour(long id, String name, String description, double price) {
+    public Tour(long id, String name, String description) {
         super(id);
         this.name = name;
         this.description = description;
-        this.price = price;
         this.hotels = new ArrayList<>();
         this.attractions = new ArrayList<>();
         this.transports = new ArrayList<>();
@@ -59,14 +58,6 @@ public abstract class Tour extends Entity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public List<Hotel> getHotels() {
