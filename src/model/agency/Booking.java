@@ -27,7 +27,9 @@ public class Booking extends Entity {
 
     @Override
     public String toString() {
-        return String.format("Client %s has a booking to %s", customer.getFullName(), tour.getName());
+        return String.format(
+                "Client %s has a booking to %s total price - %.2f", customer.getFullName(), tour.getName(), price
+        );
     }
 
     public Customer getCustomer() {

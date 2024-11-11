@@ -9,8 +9,8 @@ public class Bus extends Transport {
     private int capacity;
 
 
-    public Bus(long id, double cost, String name,  int capacity) {
-        super(id, cost, name);
+    public Bus(long id, double cost, String model,  int capacity) {
+        super(id, cost, model);
         this.capacity = capacity;
     }
 

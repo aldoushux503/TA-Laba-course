@@ -17,7 +17,7 @@ public class BookingPriceManager {
     }
 
     public static double calculateTourPrice(Tour tour) {
-        double hotelPrice = calculateTotalPrice(tour.getHotels());
+        double hotelPrice = calculateTotalPrice(tour.getRooms());
         double attractionPrice = calculateTotalPrice(tour.getAttractions());
         double transportPrice = calculateTotalPrice(tour.getTransports());
 

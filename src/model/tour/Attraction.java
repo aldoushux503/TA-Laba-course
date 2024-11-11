@@ -1,6 +1,5 @@
 package model.tour;
 
-import core.Entity;
 import core.Priceable;
 import core.Tour;
 
@@ -14,22 +13,19 @@ import java.util.List;
 public class Attraction extends Priceable {
     private String name;
     private String location;
-    private String description;
     private List<Tour> tours;
 
-    public Attraction(long id,  double price, String name, String location, String description) {
+    public Attraction(long id,  double price, String name, String location) {
         super(id, price);
         this.name = name;
         this.location = location;
-        this.description = description;
         this.tours = new ArrayList<>();
     }
 
-    public Attraction(long id, double price, String name, String location, String description, List<Tour> tours) {
+    public Attraction(long id, double price, String name, String location, List<Tour> tours) {
         super(id, price);
         this.name = name;
         this.location = location;
-        this.description = description;
         this.tours = new ArrayList<>(tours);
     }
 
@@ -49,17 +45,9 @@ public class Attraction extends Priceable {
         this.location = location;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
 
     public List<Tour> getTours() {
-        return tours;
+        return new ArrayList<>(tours);
     }
 
     public void setTours(List<Tour> tours) {

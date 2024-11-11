@@ -8,13 +8,13 @@ import java.util.List;
 public class Train extends Transport {
     private int numberOfCarriages;
 
-    public Train(long id, double cost, String name,  int numberOfCarriages) {
-        super(id, cost, name);
+    public Train(long id, double cost, String model,  int numberOfCarriages) {
+        super(id, cost, model);
         this.numberOfCarriages = numberOfCarriages;
     }
 
-    public Train(long id, double cost, String name,  List<Tour> tours, int numberOfCarriages) {
-        super(id, cost, name, tours);
+    public Train(long id, double cost, String model,  List<Tour> tours, int numberOfCarriages) {
+        super(id, cost, model, tours);
         this.numberOfCarriages = numberOfCarriages;
     }
 

@@ -1,7 +1,7 @@
 package core;
 
+import model.hotel.Room;
 import model.tour.Attraction;
-import model.hotel.Hotel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,35 +11,35 @@ import java.util.Objects;
  * Abstract class representing a tour
  * This class serves as a base for other tour-related entities.
  * <p>
- * Many-to-Many relationship with hotels, attractions, transports;
+ * Many-to-One relationship with room
+ * Many-to-Many relationship with attractions, transports;
  */
 public abstract class Tour extends Entity {
     protected String name;
     protected String description;
-    protected List<Hotel> hotels;
-    protected List<Attraction> attractions;
-    protected List<Transport> transports;
+    protected List<Room> rooms = new ArrayList<>();
+    protected List<Attraction> attractions = new ArrayList<>();
+    protected List<Transport> transports = new ArrayList<>();
 
     public Tour(long id, String name, String description) {
         super(id);
         this.name = name;
         this.description = description;
-        this.hotels = new ArrayList<>();
-        this.attractions = new ArrayList<>();
-        this.transports = new ArrayList<>();
     }
 
-    public void addHotel(Hotel hotel) {
-        hotels.add(hotel);
+    public void addRoom(Room room) {
+        rooms.add(room);
+        room.setTour(this);
     }
 
     public void addAttraction(Attraction attraction) {
         attractions.add(attraction);
+        attraction.setTours(List.of(this));
     }
 
     public void addTransport(Transport transport) {
         transports.add(transport);
-        transport.addTour(this);
+        transport.setTours(List.of(this));
     }
 
     public String getName() {
@@ -58,12 +58,12 @@ public abstract class Tour extends Entity {
         this.description = description;
     }
 
-    public List<Hotel> getHotels() {
-        return hotels;
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public void setHotels(List<Hotel> hotels) {
-        this.hotels = hotels;
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public List<Attraction> getAttractions() {
@@ -91,7 +91,7 @@ public abstract class Tour extends Entity {
         return getId() == o.getId() &&
                 name.equals(o.name) &&
                 description.equals(o.description) &&
-                hotels.equals(o.hotels) &&
+                rooms.equals(o.rooms) &&
                 attractions.equals(o.attractions) &&
                 transports.equals(o.transports);
 
@@ -103,11 +103,12 @@ public abstract class Tour extends Entity {
                 getId(),
                 name,
                 description,
-                new ArrayList<>(hotels),
+                new ArrayList<>(rooms),
                 new ArrayList<>(attractions),
                 new ArrayList<>(transports)
         );
     }
+
     @Override
     public String toString() {
         return String.format("Tour: %s, description=%s", name, description);

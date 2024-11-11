@@ -1,7 +1,6 @@
 package model.hotel;
 
 import core.Entity;
-import core.Priceable;
 import core.Tour;
 
 import java.util.ArrayList;
@@ -13,25 +12,23 @@ import java.util.List;
  * <p>
  * One-to-Many relationship with Room; A hotel belongs to a many room
  */
-public class Hotel extends Priceable {
+public class Hotel extends Entity {
     private String name;
     private String address;
     private HotelStars stars;
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
-    private List<Tour> tours;
+    private List<Tour> tours = new ArrayList<>();
 
-    public Hotel(long id, double price, String name, String address, HotelStars stars) {
-        super(id, price);
+    public Hotel(long id, String name, String address, HotelStars stars) {
+        super(id);
         this.name = name;
         this.address = address;
         this.stars = stars;
-        this.rooms = new ArrayList<>();
-        this.tours = new ArrayList<>();
     }
 
-    public Hotel(long id, double price, String name, String address, HotelStars stars, List<Room> rooms, List<Tour> tours) {
-        super(id, price);
+    public Hotel(long id, String name, String address, HotelStars stars, List<Room> rooms, List<Tour> tours) {
+        super(id);
         this.name = name;
         this.address = address;
         this.stars = stars;

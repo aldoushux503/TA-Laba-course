@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public abstract class Transport extends Priceable {
     private String model;
-    private List<Tour> tours;
+    private List<Tour> tours = new ArrayList<>();
 
     public Transport(long id, double price, String model) {
         super(id, price);
@@ -24,16 +24,6 @@ public abstract class Transport extends Priceable {
         this.tours = new ArrayList<>(tours);
     }
 
-    public void addTour(Tour tour) {
-        tours.add(tour);
-        tour.addTransport(this);
-    }
-
-    public void addTour(List<Tour> tours) {
-        tours = new ArrayList<>(tours);
-        tours.forEach(t -> t.addTransport(this));
-    }
-
     public String getModel() {
         return model;
     }
@@ -43,7 +33,7 @@ public abstract class Transport extends Priceable {
     }
 
     public List<Tour> getTours() {
-        return tours;
+        return new ArrayList<>(tours);
     }
 
     public void setTours(List<Tour> tours) {
