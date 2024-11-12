@@ -6,24 +6,24 @@ import core.Transport;
 import java.util.List;
 
 public class Bus extends Transport {
-    private int capacity;
+    private int numberOfDecks;
 
 
-    public Bus(long id, double cost, String model,  int capacity) {
+    public Bus(long id, double cost, String model,  int numberOfDecks) {
         super(id, cost, model);
-        this.capacity = capacity;
+        this.numberOfDecks = numberOfDecks;
     }
 
-    public Bus(long id, double cost, String name, List<Tour> tours, int capacity) {
+    public Bus(long id, double cost, String name, List<Tour> tours, int numberOfDecks) {
         super(id, cost, name, tours);
-        this.capacity = capacity;
+        this.numberOfDecks = numberOfDecks;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getNumberOfDecks() {
+        return numberOfDecks;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setNumberOfDecks(int numberOfDecks) {
+        this.numberOfDecks = numberOfDecks;
     }
 }
