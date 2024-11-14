@@ -47,7 +47,9 @@ public class Main {
                 0,
                 "Mountain Hike",
                 "Exciting mountain adventure",
-                "Hard"
+                "Hard",
+                List.of("Tent", "Knife", "Water"),
+                true
         );
 
         adventureTour.addRoom(room);
@@ -60,6 +62,6 @@ public class Main {
 
         System.out.println(booking1);
         System.out.println(customer);
-        System.out.println(adventureTour);
+        System.out.println(adventureTour.fullInformationPrint());
     }
 }

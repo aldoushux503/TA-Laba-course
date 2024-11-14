@@ -27,6 +27,8 @@ public abstract class Tour extends Entity {
         this.description = description;
     }
 
+    public abstract String fullInformationPrint();
+
     public void addRoom(Room room) {
         rooms.add(room);
     }
