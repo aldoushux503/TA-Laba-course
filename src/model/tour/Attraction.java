@@ -13,20 +13,17 @@ import java.util.List;
 public class Attraction extends Priceable {
     private String name;
     private String location;
-    private List<Tour> tours;
 
     public Attraction(long id,  double price, String name, String location) {
         super(id, price);
         this.name = name;
         this.location = location;
-        this.tours = new ArrayList<>();
     }
 
     public Attraction(long id, double price, String name, String location, List<Tour> tours) {
         super(id, price);
         this.name = name;
         this.location = location;
-        this.tours = new ArrayList<>(tours);
     }
 
     public String getName() {
@@ -46,11 +43,4 @@ public class Attraction extends Priceable {
     }
 
 
-    public List<Tour> getTours() {
-        return new ArrayList<>(tours);
-    }
-
-    public void setTours(List<Tour> tours) {
-        this.tours = tours;
-    }
 }

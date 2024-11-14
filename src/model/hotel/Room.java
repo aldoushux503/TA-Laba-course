@@ -16,16 +16,12 @@ public class Room extends Priceable {
     private RoomType type;
     private boolean isAvailable;
     private double price;
-    private Hotel hotel;
 
-    private Tour tour;
-
-    public Room(long id, double price, String number, RoomType type, boolean isAvailable, Hotel hotel) {
+    public Room(long id, double price, String number, RoomType type, boolean isAvailable) {
         super(id, price);
         this.number = number;
         this.type = type;
         this.isAvailable = isAvailable;
-        this.hotel = hotel;
     }
 
 
@@ -61,21 +57,5 @@ public class Room extends Priceable {
     @Override
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
-
-    public Tour getTour() {
-        return tour;
-    }
-
-    public void setTour(Tour tour) {
-        this.tour = tour;
     }
 }

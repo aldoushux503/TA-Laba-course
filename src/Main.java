@@ -22,8 +22,8 @@ public class Main {
         agency.addCustomer(customer);
 
         Hotel hotel = new Hotel(0, "Letoh", "Nepal", HotelStars.FIVE);
-        Room room = new Room(0, 300, "10A", RoomType.SINGLE, true, hotel);
-        Room room1 = new Room(1, 300, "101C", RoomType.DOUBLE, true, hotel);
+        Room room = new Room(0, 300, "10A", RoomType.SINGLE, true);
+        Room room1 = new Room(1, 300, "101C", RoomType.DOUBLE, true);
         hotel.setRooms(
                 List.of(room,
                         room1)

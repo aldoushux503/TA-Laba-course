@@ -29,17 +29,14 @@ public abstract class Tour extends Entity {
 
     public void addRoom(Room room) {
         rooms.add(room);
-        room.setTour(this);
     }
 
     public void addAttraction(Attraction attraction) {
         attractions.add(attraction);
-        attraction.setTours(List.of(this));
     }
 
     public void addTransport(Transport transport) {
         transports.add(transport);
-        transport.setTours(List.of(this));
     }
 
     public String getName() {

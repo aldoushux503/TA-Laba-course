@@ -11,7 +11,6 @@ import java.util.Objects;
  */
 public abstract class Transport extends Priceable {
     private String model;
-    private List<Tour> tours = new ArrayList<>();
 
     public Transport(long id, double price, String model) {
         super(id, price);
@@ -21,7 +20,6 @@ public abstract class Transport extends Priceable {
     public Transport(long id, double price, String model, List<Tour> tours) {
         super(id, price);
         this.model = model;
-        this.tours = new ArrayList<>(tours);
     }
 
     public String getModel() {
@@ -32,13 +30,6 @@ public abstract class Transport extends Priceable {
         this.model = model;
     }
 
-    public List<Tour> getTours() {
-        return new ArrayList<>(tours);
-    }
-
-    public void setTours(List<Tour> tours) {
-        this.tours = new ArrayList<>(tours);
-    }
 
     public boolean equals(Object obj) {
         if (obj == this) return true;
@@ -46,15 +37,13 @@ public abstract class Transport extends Priceable {
         Transport o = (Transport) obj;
 
         return getId() == o.getId() &&
-                model.equals(o.model) &&
-                tours.equals(o.tours);
+                model.equals(o.model);
     }
 
     public int hashCode() {
         return Objects.hash(
                 getId(),
-                model,
-                tours
+                model
         );
     }
 
