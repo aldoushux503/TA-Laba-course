@@ -1,5 +1,7 @@
 package main.java.com.labas.travelagency.core;
 
+import main.java.com.labas.travelagency.core.interfaces.Priceable;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +10,7 @@ import java.util.Objects;
  * This class serves as a base for other transport-related entities.
  * Many-to-Many relationship with Tours;
  */
-public abstract class Transport extends Priceable {
+public abstract class Transport extends PricedEntity {
     private String model;
 
     public Transport(long id, double price, String model) {

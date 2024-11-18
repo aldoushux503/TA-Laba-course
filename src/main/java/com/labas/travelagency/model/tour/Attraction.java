@@ -1,6 +1,7 @@
 package main.java.com.labas.travelagency.model.tour;
 
-import main.java.com.labas.travelagency.core.Priceable;
+import main.java.com.labas.travelagency.core.PricedEntity;
+import main.java.com.labas.travelagency.core.interfaces.Priceable;
 import main.java.com.labas.travelagency.core.Tour;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Represents attractions included in the tours
  * Many-to-Many relationship with Tours;
  */
-public class Attraction extends Priceable {
+public class Attraction extends PricedEntity {
     private String name;
     private String location;
 
