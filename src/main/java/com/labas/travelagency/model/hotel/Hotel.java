@@ -2,6 +2,9 @@ package main.java.com.labas.travelagency.model.hotel;
 
 import main.java.com.labas.travelagency.core.Entity;
 import main.java.com.labas.travelagency.core.Tour;
+import main.java.com.labas.travelagency.core.interfaces.Bookable;
+import main.java.com.labas.travelagency.core.interfaces.Describable;
+import main.java.com.labas.travelagency.core.interfaces.Rateable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,12 @@ import java.util.List;
  * <p>
  * One-to-Many relationship with Room; A hotel belongs to a many room
  */
-public class Hotel extends Entity {
+public class Hotel extends Entity implements Rateable, Describable {
     private String name;
     private String address;
     private HotelStars stars;
+    private String description;
+    private double rating;
     private List<Room> rooms = new ArrayList<>();
 
     private List<Tour> tours = new ArrayList<>();
@@ -34,6 +39,25 @@ public class Hotel extends Entity {
         this.stars = stars;
         this.rooms = new ArrayList<>(rooms);
         this.tours = new ArrayList<>(tours);
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    @Override
+    public double getRating() {
+        return rating;
+    }
+
+    @Override
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public String getName() {

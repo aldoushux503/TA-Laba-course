@@ -1,6 +1,9 @@
 package main.java.com.labas.travelagency.model.hotel;
 
 import main.java.com.labas.travelagency.core.PricedEntity;
+import main.java.com.labas.travelagency.core.interfaces.Bookable;
+import main.java.com.labas.travelagency.core.interfaces.Cancelable;
+import main.java.com.labas.travelagency.core.interfaces.Describable;
 import main.java.com.labas.travelagency.core.interfaces.Priceable;
 
 /**
@@ -8,20 +11,34 @@ import main.java.com.labas.travelagency.core.interfaces.Priceable;
  * <p>
  * Many-to-One relationship with Hotel; A room belongs to a single hotel
  */
-public class Room extends PricedEntity {
+public class Room extends PricedEntity implements Bookable {
 
     private String number; // Room number can be - 10A, 123Q
     private RoomType type;
-    private boolean isAvailable;
+    private boolean available;
     private double price;
 
-    public Room(long id, double price, String number, RoomType type, boolean isAvailable) {
+    public Room(long id, double price, String number, RoomType type, boolean available) {
         super(id, price);
         this.number = number;
         this.type = type;
-        this.isAvailable = isAvailable;
+        this.available = available;
     }
 
+    @Override
+    public boolean isAvailable() {
+        return available;
+    }
+
+    @Override
+    public void book() {
+        if (available) {
+            available = false;
+            System.out.println("Room booked successfully.");
+        } else {
+            System.out.println("Room is not available for booking.");
+        }
+    }
 
     public String getNumber() {
         return number;
@@ -37,14 +54,6 @@ public class Room extends PricedEntity {
 
     public void setType(RoomType type) {
         this.type = type;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
     }
 
     @Override

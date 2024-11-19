@@ -1,6 +1,6 @@
 package main.java.com.labas.travelagency.core;
 
-import main.java.com.labas.travelagency.core.interfaces.Priceable;
+import main.java.com.labas.travelagency.core.interfaces.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,8 +10,11 @@ import java.util.Objects;
  * This class serves as a base for other transport-related entities.
  * Many-to-Many relationship with Tours;
  */
-public abstract class Transport extends PricedEntity {
+public abstract class Transport extends PricedEntity implements Bookable, Describable, Rateable, Cancelable {
     private String model;
+    private String description;
+    private double rating;
+    private boolean available;
 
     public Transport(long id, double price, String model) {
         super(id, price);
@@ -21,6 +24,46 @@ public abstract class Transport extends PricedEntity {
     public Transport(long id, double price, String model, List<Tour> tours) {
         super(id, price);
         this.model = model;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return available;
+    }
+
+    @Override
+    public void book() {
+        if (available) {
+            available = false;
+            System.out.println("Transport booked successfully.");
+        } else {
+            System.out.println("Transport is not available for booking.");
+        }
+    }
+
+    @Override
+    public void cancel() {
+        System.out.println("Transport booking cancelled.");
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public double getRating() {
+        return rating;
+    }
+
+    @Override
+    public void setRating(double rating) {
+
     }
 
     public String getModel() {

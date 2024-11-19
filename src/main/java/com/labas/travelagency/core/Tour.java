@@ -1,5 +1,9 @@
 package main.java.com.labas.travelagency.core;
 
+import main.java.com.labas.travelagency.core.interfaces.Bookable;
+import main.java.com.labas.travelagency.core.interfaces.Cancelable;
+import main.java.com.labas.travelagency.core.interfaces.Describable;
+import main.java.com.labas.travelagency.core.interfaces.Rateable;
 import main.java.com.labas.travelagency.model.hotel.Room;
 import main.java.com.labas.travelagency.model.tour.Attraction;
 
@@ -14,9 +18,11 @@ import java.util.Objects;
  * Many-to-One relationship with room
  * Many-to-Many relationship with attractions, transports;
  */
-public abstract class Tour extends Entity {
+public abstract class Tour extends Entity implements Rateable, Bookable, Describable, Cancelable {
     protected String name;
     protected String description;
+    private double rating;
+    private boolean available;
     protected List<Room> rooms = new ArrayList<>();
     protected List<Attraction> attractions = new ArrayList<>();
     protected List<Transport> transports = new ArrayList<>();
@@ -25,6 +31,37 @@ public abstract class Tour extends Entity {
         super(id);
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public double getRating() {
+        return rating;
+    }
+
+    @Override
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return available;
+    }
+
+    @Override
+    public void book() {
+        if (available) {
+            available = false;
+            System.out.println("Tour booked successfully.");
+        } else {
+            System.out.println("Tour is not available for booking.");
+        }
+    }
+
+    @Override
+    public void cancel() {
+        available = true;
+        System.out.println("Tour booking cancelled.");
     }
 
     public abstract String fullInformationPrint();
