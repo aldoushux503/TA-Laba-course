@@ -16,12 +16,12 @@ public abstract class PricedEntity extends Entity implements Priceable {
         this.price = price;
     }
 
-    @Override
+
     public double getPrice() {
         return price;
     }
 
-    @Override
+
     public void setPrice(double price) {
         this.price = price;
     }

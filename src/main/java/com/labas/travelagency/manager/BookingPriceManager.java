@@ -14,7 +14,7 @@ import java.util.List;
 public class BookingPriceManager {
     public static double calculateTotalPrice(List<? extends PricedEntity> items) {
         return items.stream()
-                .mapToDouble(Priceable::getPrice)
+                .mapToDouble(PricedEntity::getPrice)
                 .sum();
     }
 
