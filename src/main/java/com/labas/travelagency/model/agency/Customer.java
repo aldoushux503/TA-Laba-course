@@ -3,6 +3,7 @@ package main.java.com.labas.travelagency.model.agency;
 import main.java.com.labas.travelagency.core.Person;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,25 +18,22 @@ public class Customer extends Person {
 
     public Customer(long id, String name, String email) {
         super(id, name, email);
-        this.bookings = new ArrayList<>();
+        this.bookings = Collections.emptyList();
     }
-
 
     public Customer(long id, String name, String email, List<Booking> bookings) {
         super(id, name, email);
-        this.bookings = new ArrayList<>(bookings);
+        this.bookings = Collections.unmodifiableList(bookings);
     }
 
-
     public void addBooking(Booking booking) {
+        if (booking == null) {
+            throw new IllegalArgumentException("Booking cannot be null.");
+        }
         this.bookings.add(booking);
     }
 
     public List<Booking> getBookings() {
-        return new ArrayList<>(bookings);
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = new ArrayList<>(bookings);
+        return Collections.unmodifiableList(bookings);
     }
 }

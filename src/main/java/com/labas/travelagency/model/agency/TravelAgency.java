@@ -23,16 +23,28 @@ public class TravelAgency extends Entity {
         this.employees = new ArrayList<>();
     }
 
-    public void addTour(Tour tour) {
-        tours.add(tour);
+    public void addEmployee(Employee employee) {
+        if (!employees.contains(employee)) {
+            employees.add(employee);
+        } else {
+            throw new IllegalArgumentException("Employee already exists in the agency.");
+        }
     }
 
     public void addCustomer(Customer customer) {
-        customers.add(customer);
+        if (!customers.contains(customer)) {
+            customers.add(customer);
+        } else {
+            throw new IllegalArgumentException("Customer already exists in the agency.");
+        }
     }
 
-    public void addEmployee(Customer customer) {
-        customers.add(customer);
+    public void addTour(Tour tour) {
+        if (!tours.contains(tour)) {
+            tours.add(tour);
+        } else {
+            throw new IllegalArgumentException("Tour already exists in the agency.");
+        }
     }
 
     public String getName() {

@@ -31,15 +31,18 @@ public class Room extends PricedEntity implements Manageable {
     public void book() {
         if (available) {
             available = false;
-            System.out.println("Room booked successfully.");
         } else {
-            System.out.println("Room is not available for booking.");
+            throw new IllegalStateException("Room is not available for booking.");
         }
     }
 
     @Override
     public void cancel() {
-        available = true;
+        if (!available) {
+            available = true;
+        } else {
+            throw new IllegalStateException("Room is already available.");
+        }
     }
 
     public String getNumber() {

@@ -1,7 +1,6 @@
 package main.java.com.labas.travelagency.manager;
 
 import main.java.com.labas.travelagency.core.PricedEntity;
-import main.java.com.labas.travelagency.core.interfaces.Priceable;
 import main.java.com.labas.travelagency.core.Tour;
 import main.java.com.labas.travelagency.util.Constants;
 
