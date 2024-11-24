@@ -2,7 +2,6 @@ package main.java.com.labas.travelagency.model.hotel;
 
 import main.java.com.labas.travelagency.core.Entity;
 import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.core.interfaces.Bookable;
 import main.java.com.labas.travelagency.core.interfaces.Describable;
 import main.java.com.labas.travelagency.core.interfaces.Rateable;
 

@@ -1,7 +1,6 @@
 package main.java.com.labas.travelagency.core;
 
-import main.java.com.labas.travelagency.core.interfaces.Bookable;
-import main.java.com.labas.travelagency.core.interfaces.Cancelable;
+import main.java.com.labas.travelagency.core.interfaces.Manageable;
 import main.java.com.labas.travelagency.core.interfaces.Describable;
 import main.java.com.labas.travelagency.core.interfaces.Rateable;
 import main.java.com.labas.travelagency.model.hotel.Room;
@@ -18,7 +17,7 @@ import java.util.Objects;
  * Many-to-One relationship with room
  * Many-to-Many relationship with attractions, transports;
  */
-public abstract class Tour extends Entity implements Rateable, Bookable, Describable, Cancelable {
+public abstract class Tour extends Entity implements Rateable, Manageable, Describable {
     protected String name;
     protected String description;
     private double rating;

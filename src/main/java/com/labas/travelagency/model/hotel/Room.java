@@ -1,17 +1,14 @@
 package main.java.com.labas.travelagency.model.hotel;
 
 import main.java.com.labas.travelagency.core.PricedEntity;
-import main.java.com.labas.travelagency.core.interfaces.Bookable;
-import main.java.com.labas.travelagency.core.interfaces.Cancelable;
-import main.java.com.labas.travelagency.core.interfaces.Describable;
-import main.java.com.labas.travelagency.core.interfaces.Priceable;
+import main.java.com.labas.travelagency.core.interfaces.Manageable;
 
 /**
  * Represents a room within a hotel
  * <p>
  * Many-to-One relationship with Hotel; A room belongs to a single hotel
  */
-public class Room extends PricedEntity implements Bookable {
+public class Room extends PricedEntity implements Manageable {
 
     private String number; // Room number can be - 10A, 123Q
     private RoomType type;
@@ -38,6 +35,11 @@ public class Room extends PricedEntity implements Bookable {
         } else {
             System.out.println("Room is not available for booking.");
         }
+    }
+
+    @Override
+    public void cancel() {
+        available = true;
     }
 
     public String getNumber() {

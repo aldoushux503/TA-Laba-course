@@ -10,7 +10,7 @@ import java.util.Objects;
  * This class serves as a base for other transport-related entities.
  * Many-to-Many relationship with Tours;
  */
-public abstract class Transport extends PricedEntity implements Bookable, Describable, Rateable, Cancelable {
+public abstract class Transport extends PricedEntity implements Manageable, Describable, Rateable {
     private String model;
     private String description;
     private double rating;
@@ -44,6 +44,7 @@ public abstract class Transport extends PricedEntity implements Bookable, Descri
     @Override
     public void cancel() {
         System.out.println("Transport booking cancelled.");
+        available= true;
     }
 
     @Override
