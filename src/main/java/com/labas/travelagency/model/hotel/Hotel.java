@@ -97,4 +97,12 @@ public class Hotel extends Entity implements Rateable, Describable {
     public List<Tour> getTours() {
         return tours;
     }
+
+    public void setTours(List<Tour> tours) {
+        this.tours = tours;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
 }

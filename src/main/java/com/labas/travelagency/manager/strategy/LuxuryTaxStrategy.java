@@ -7,7 +7,7 @@ import main.java.com.labas.travelagency.util.Constants;
  */
 public class LuxuryTaxStrategy implements TaxStrategy {
     @Override
-    public double applyTax(double price) {
+    public final double applyTax(double price) {
         return price * Constants.LUXURY_TOUR_TAX;
     }
 }

@@ -2,6 +2,7 @@ package main.java.com.labas.travelagency.manager;
 
 import main.java.com.labas.travelagency.core.PricedEntity;
 import main.java.com.labas.travelagency.core.Tour;
+import main.java.com.labas.travelagency.manager.strategy.DefaultTaxStrategy;
 import main.java.com.labas.travelagency.util.Constants;
 
 import java.util.List;
@@ -22,10 +23,10 @@ public class BookingPriceManager {
         double attractionPrice = calculateTotalPrice(tour.getAttractions());
         double transportPrice = calculateTotalPrice(tour.getTransports());
 
-        return applyTax(hotelPrice + attractionPrice + transportPrice);
+        return applyDefaultTax(hotelPrice + attractionPrice + transportPrice);
     }
 
-    public static double applyTax(double price) {
-        return price * Constants.DEFAULT_TOUR_TAX;
+    public static double applyDefaultTax(double price) {
+        return Constants.DEFAULT_TAX_STRATEGY.applyTax(price);
     }
 }

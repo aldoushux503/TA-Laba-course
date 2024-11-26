@@ -6,7 +6,6 @@ import main.java.com.labas.travelagency.model.agency.Booking;
 import main.java.com.labas.travelagency.model.agency.Customer;
 import main.java.com.labas.travelagency.model.agency.TravelAgency;
 import main.java.com.labas.travelagency.model.hotel.Hotel;
-import main.java.com.labas.travelagency.model.hotel.HotelStars;
 import main.java.com.labas.travelagency.model.hotel.Room;
 import main.java.com.labas.travelagency.model.hotel.RoomType;
 import main.java.com.labas.travelagency.model.tour.AdventureTour;
@@ -23,7 +22,7 @@ public class Main {
         Customer customer = new Customer(0, "John Doe", "john.doe@example.com");
         agency.addCustomer(customer);
 
-        Hotel hotel = new Hotel(0, "Letoh", "Nepal", HotelStars.FIVE);
+        Hotel hotel = new Hotel(0, "Letoh", "Nepal", 4.5);
         Room room = new Room(0, 300, "10A", RoomType.SINGLE, true);
         Room room1 = new Room(1, 300, "101C", RoomType.DOUBLE, true);
         hotel.setRooms(
