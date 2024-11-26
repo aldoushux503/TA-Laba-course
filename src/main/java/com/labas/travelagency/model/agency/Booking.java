@@ -22,7 +22,7 @@ public class Booking extends Entity {
         this.customer = customer;
         this.tour = tour;
         this.date = date;
-        this.price = BookingPriceManager.calculateTourPrice(tour);
+        this.price = BookingPriceManager.calculateDefaultTourPrice(tour);
     }
 
     @Override

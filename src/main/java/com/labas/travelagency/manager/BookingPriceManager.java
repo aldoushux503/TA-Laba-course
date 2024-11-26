@@ -2,7 +2,6 @@ package main.java.com.labas.travelagency.manager;
 
 import main.java.com.labas.travelagency.core.PricedEntity;
 import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.manager.strategy.DefaultTaxStrategy;
 import main.java.com.labas.travelagency.manager.strategy.TaxStrategy;
 import main.java.com.labas.travelagency.util.Constants;
 
@@ -19,7 +18,7 @@ public class BookingPriceManager {
                 .sum();
     }
 
-    public static double calculateTourPrice(Tour tour) {
+    public static double calculateDefaultTourPrice(Tour tour) {
         double hotelPrice = calculateTotalPrice(tour.getRooms());
         double attractionPrice = calculateTotalPrice(tour.getAttractions());
         double transportPrice = calculateTotalPrice(tour.getTransports());
