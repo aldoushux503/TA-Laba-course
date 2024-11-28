@@ -1,5 +1,6 @@
 package main.java.com.labas.travelagency.model.hotel;
 
+import main.java.com.labas.exceptions.ReservationException;
 import main.java.com.labas.travelagency.core.PricedEntity;
 import main.java.com.labas.travelagency.core.interfaces.Manageable;
 
@@ -28,20 +29,20 @@ public class Room extends PricedEntity implements Manageable {
     }
 
     @Override
-    public void book() {
+    public void reserve() throws ReservationException {
         if (available) {
             available = false;
         } else {
-            throw new IllegalStateException("Room is not available for booking.");
+            throw new ReservationException("Room is not available for booking.");
         }
     }
 
     @Override
-    public void cancel() {
+    public void cancel() throws ReservationException {
         if (!available) {
             available = true;
         } else {
-            throw new IllegalStateException("Room is already available.");
+            throw new ReservationException("Room is already available.");
         }
     }
 

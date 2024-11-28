@@ -1,5 +1,6 @@
 package main.java.com.labas.travelagency;
 
+
 import main.java.com.labas.travelagency.core.Tour;
 import main.java.com.labas.travelagency.core.Transport;
 import main.java.com.labas.travelagency.model.agency.Booking;
@@ -19,8 +20,9 @@ public class Main {
     public static void main(String[] args) {
         TravelAgency agency = new TravelAgency(0, "Sunny Travel", "1234 Sunshine St.");
 
-        Customer customer = new Customer(0, "John Doe", "john.doe@example.com");
+        Customer customer = new Customer(0, "John Doe", "john.doe@example.com", 1000);
         agency.addCustomer(customer);
+
 
         Hotel hotel = new Hotel(0, "Letoh", "Nepal", 4.5);
         Room room = new Room(0, 300, "10A", RoomType.SINGLE, true);
@@ -53,16 +55,13 @@ public class Main {
                 true
         );
 
+
         adventureTour.addRoom(room);
         adventureTour.addAttraction(attraction);
         adventureTour.addTransport(transport);
 
 
-        Booking booking1 = new Booking(0, customer, adventureTour, LocalDate.now());
-        customer.addBooking(booking1);
-
-        System.out.println(booking1);
-        System.out.println(customer);
-        System.out.println(adventureTour.fullInformationPrint());
+        Booking booking = new Booking(0, customer, adventureTour, LocalDate.now());
+        customer.addBooking(booking);
     }
 }

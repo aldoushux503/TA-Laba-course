@@ -18,15 +18,12 @@ public class BookingPriceManager {
                 .sum();
     }
 
-    public static double calculateDefaultTourPrice(Tour tour) {
-        double hotelPrice = calculateTotalPrice(tour.getRooms());
-        double attractionPrice = calculateTotalPrice(tour.getAttractions());
-        double transportPrice = calculateTotalPrice(tour.getTransports());
+    public static double calculateTourPrice(Tour tour, TaxStrategy strategy) {
+        double totalPrice = calculateTotalPrice(tour.getRooms())
+                + calculateTotalPrice(tour.getAttractions())
+                + calculateTotalPrice(tour.getTransports());
 
-        return applyTax(hotelPrice + attractionPrice + transportPrice, Constants.DEFAULT_TAX_STRATEGY);
+        return strategy != null ? strategy.applyTax(totalPrice) : totalPrice;
     }
 
-    public static double applyTax(double price, TaxStrategy strategy) {
-        return strategy.applyTax(price);
-    }
 }

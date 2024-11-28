@@ -1,11 +1,13 @@
 package main.java.com.labas.travelagency.core.interfaces;
 
+import main.java.com.labas.exceptions.ReservationException;
+
 /**
  * Interface representing bookable entities.
  */
 public interface Manageable {
     boolean isAvailable();
 
-    void book();
-    void cancel();
+    void reserve() throws ReservationException;
+    void cancel() throws ReservationException;
 }

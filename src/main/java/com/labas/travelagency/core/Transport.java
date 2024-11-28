@@ -1,5 +1,6 @@
 package main.java.com.labas.travelagency.core;
 
+import main.java.com.labas.exceptions.ReservationException;
 import main.java.com.labas.travelagency.core.interfaces.*;
 
 import java.util.List;
@@ -32,19 +33,21 @@ public abstract class Transport extends PricedEntity implements Manageable, Desc
     }
 
     @Override
-    public void book() {
+    public void reserve() throws ReservationException {
         if (available) {
             available = false;
-            System.out.println("Transport booked successfully.");
         } else {
-            System.out.println("Transport is not available for booking.");
+            throw new ReservationException("Transport is not available for booking.");
         }
     }
 
     @Override
-    public void cancel() {
-        System.out.println("Transport booking cancelled.");
-        available= true;
+    public void cancel() throws ReservationException {
+        if (!available) {
+            available = true;
+        } else {
+            throw new ReservationException("Transport is already available.");
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package main.java.com.labas.travelagency.model.agency;
 
+import main.java.com.labas.exceptions.CustomerNotFoundException;
+import main.java.com.labas.exceptions.InsufficientFundsException;
 import main.java.com.labas.travelagency.core.Person;
 
 import java.util.ArrayList;
@@ -16,14 +18,35 @@ public class Customer extends Person {
 
     private List<Booking> bookings;
 
-    public Customer(long id, String name, String email) {
+    private double balance;
+
+    public Customer(long id, String name, String email, long balance) {
         super(id, name, email);
         this.bookings = Collections.emptyList();
+        this.balance = balance;
     }
 
-    public Customer(long id, String name, String email, List<Booking> bookings) {
+    public Customer(long id, String name, String email, long balance, List<Booking> bookings) {
         super(id, name, email);
+        this.balance = balance;
         this.bookings = Collections.unmodifiableList(bookings);
+    }
+
+    public void processPayment(double bookingPrice) throws InsufficientFundsException {
+        if (this.getBalance() < bookingPrice) {
+            throw new InsufficientFundsException("The customer does not have sufficient funds to complete the booking.");
+        }
+
+        this.setBalance(bookingPrice - getBalance());
+    }
+
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public void addBooking(Booking booking) {

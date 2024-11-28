@@ -1,5 +1,8 @@
 package main.java.com.labas.travelagency.model.agency;
 
+import main.java.com.labas.exceptions.CustomerNotFoundException;
+import main.java.com.labas.exceptions.InsufficientFundsException;
+import main.java.com.labas.exceptions.InvalidBookingException;
 import main.java.com.labas.travelagency.core.Entity;
 import main.java.com.labas.travelagency.core.Tour;
 
@@ -29,6 +32,27 @@ public class TravelAgency extends Entity {
         } else {
             throw new IllegalArgumentException("Employee already exists in the agency.");
         }
+    }
+
+    // TODO: 11/28/2024
+    public void processBooking(Booking booking) throws InvalidBookingException {
+        try {
+            Customer customer = booking.getCustomer();
+            customer.processPayment(booking.getPrice());
+        } catch (InsufficientFundsException e) {
+            throw new InvalidBookingException("The booking process failed... Please check the booking details.", e);
+        }
+    }
+
+    public Customer findCustomerById(long customerId) throws CustomerNotFoundException {
+        Customer customer = customers.stream()
+                .filter(c -> c.getId() == customerId)
+                .findFirst()
+                .orElse(null);
+        if (customer == null) {
+            throw new CustomerNotFoundException("Customer with ID " + customerId + " not found.");
+        }
+        return customer;
     }
 
     public void addCustomer(Customer customer) {

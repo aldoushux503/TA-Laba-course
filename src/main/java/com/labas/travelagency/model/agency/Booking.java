@@ -3,6 +3,7 @@ package main.java.com.labas.travelagency.model.agency;
 import main.java.com.labas.travelagency.core.Entity;
 import main.java.com.labas.travelagency.core.Tour;
 import main.java.com.labas.travelagency.manager.BookingPriceManager;
+import main.java.com.labas.travelagency.util.Constants;
 
 import java.time.LocalDate;
 
@@ -22,7 +23,7 @@ public class Booking extends Entity {
         this.customer = customer;
         this.tour = tour;
         this.date = date;
-        this.price = BookingPriceManager.calculateDefaultTourPrice(tour);
+        this.price = BookingPriceManager.calculateTourPrice(tour, Constants.DEFAULT_TAX_STRATEGY);
     }
 
     @Override
