@@ -1,7 +1,7 @@
-package main.java.com.labas.travelagency.util;
+package com.labas.travelagency.util;
 
-import main.java.com.labas.travelagency.manager.strategy.DefaultTaxStrategy;
-import main.java.com.labas.travelagency.manager.strategy.LuxuryTaxStrategy;
+import com.labas.travelagency.manager.strategy.DefaultTaxStrategy;
+import com.labas.travelagency.manager.strategy.LuxuryTaxStrategy;
 
 public final class Constants {
     public static final double DEFAULT_TOUR_TAX = 1.15;

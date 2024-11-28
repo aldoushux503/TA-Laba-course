@@ -1,6 +1,6 @@
-package main.java.com.labas.travelagency.model.tour;
+package com.labas.travelagency.model.tour;
 
-import main.java.com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.Tour;
 
 import java.util.List;
 
@@ -16,14 +16,6 @@ public class AdventureTour extends Tour {
         this.difficultyLevel = difficultyLevel;
         this.requiredEquipment = requiredEquipment;
         this.physicalConditionRequirement = physicalConditionRequirement;
-    }
-
-    @Override
-    public String fullInformationPrint() {
-        return String.format(
-                "Adventure Tour: %s\nDescription: %s\nDifficulty Level: %s\nRequired Equipment: %s\nPhysical Condition Requirement: %s",
-                name, description, difficultyLevel, requiredEquipment, physicalConditionRequirement ? "Yes" : "No"
-        );
     }
 
     public String getDifficultyLevel() {

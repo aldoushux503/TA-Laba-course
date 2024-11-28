@@ -1,6 +1,6 @@
-package main.java.com.labas.travelagency.model.agency;
+package com.labas.travelagency.model.agency;
 
-import main.java.com.labas.travelagency.core.Person;
+import com.labas.travelagency.core.Person;
 
 /**
  * Represents a employee entity in the system. Inherits from the Person class

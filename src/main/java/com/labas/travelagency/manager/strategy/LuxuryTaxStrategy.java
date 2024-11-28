@@ -1,6 +1,6 @@
-package main.java.com.labas.travelagency.manager.strategy;
+package com.labas.travelagency.manager.strategy;
 
-import main.java.com.labas.travelagency.util.Constants;
+import com.labas.travelagency.util.Constants;
 
 /**
  * Luxury tax strategy with higher tax rates.

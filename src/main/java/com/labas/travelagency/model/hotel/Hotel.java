@@ -1,9 +1,9 @@
-package main.java.com.labas.travelagency.model.hotel;
+package com.labas.travelagency.model.hotel;
 
-import main.java.com.labas.travelagency.core.Entity;
-import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.core.interfaces.Describable;
-import main.java.com.labas.travelagency.core.interfaces.Rateable;
+import com.labas.travelagency.core.Entity;
+import com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.interfaces.Describable;
+import com.labas.travelagency.core.interfaces.Rateable;
 
 import java.util.ArrayList;
 import java.util.Collections;

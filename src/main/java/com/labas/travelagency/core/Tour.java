@@ -1,11 +1,11 @@
-package main.java.com.labas.travelagency.core;
+package com.labas.travelagency.core;
 
-import main.java.com.labas.exceptions.ReservationException;
-import main.java.com.labas.travelagency.core.interfaces.Manageable;
-import main.java.com.labas.travelagency.core.interfaces.Describable;
-import main.java.com.labas.travelagency.core.interfaces.Rateable;
-import main.java.com.labas.travelagency.model.hotel.Room;
-import main.java.com.labas.travelagency.model.tour.Attraction;
+import com.labas.exceptions.ReservationException;
+import com.labas.travelagency.core.interfaces.Manageable;
+import com.labas.travelagency.core.interfaces.Describable;
+import com.labas.travelagency.core.interfaces.Rateable;
+import com.labas.travelagency.model.hotel.Room;
+import com.labas.travelagency.model.tour.Attraction;
 
 import java.util.ArrayList;
 import java.util.List;

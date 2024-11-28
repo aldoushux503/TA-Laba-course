@@ -1,10 +1,10 @@
-package main.java.com.labas.travelagency.model.agency;
+package com.labas.travelagency.model.agency;
 
-import main.java.com.labas.exceptions.CustomerNotFoundException;
-import main.java.com.labas.exceptions.InsufficientFundsException;
-import main.java.com.labas.exceptions.InvalidBookingException;
-import main.java.com.labas.travelagency.core.Entity;
-import main.java.com.labas.travelagency.core.Tour;
+import com.labas.exceptions.CustomerNotFoundException;
+import com.labas.exceptions.InsufficientFundsException;
+import com.labas.exceptions.InvalidBookingException;
+import com.labas.travelagency.core.Entity;
+import com.labas.travelagency.core.Tour;
 
 import java.util.ArrayList;
 import java.util.List;

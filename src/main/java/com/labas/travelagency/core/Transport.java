@@ -1,7 +1,7 @@
-package main.java.com.labas.travelagency.core;
+package com.labas.travelagency.core;
 
-import main.java.com.labas.exceptions.ReservationException;
-import main.java.com.labas.travelagency.core.interfaces.*;
+import com.labas.exceptions.ReservationException;
+import com.labas.travelagency.core.interfaces.*;
 
 import java.util.List;
 import java.util.Objects;

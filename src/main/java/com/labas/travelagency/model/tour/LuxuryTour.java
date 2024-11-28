@@ -1,6 +1,6 @@
-package main.java.com.labas.travelagency.model.tour;
+package com.labas.travelagency.model.tour;
 
-import main.java.com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.Tour;
 
 public class LuxuryTour extends Tour {
     private boolean privateChefIncluded;
@@ -14,14 +14,6 @@ public class LuxuryTour extends Tour {
         this.privateChefIncluded = privateChefIncluded;
         this.spaAccess = spaAccess;
         this.luxuryVehicle = luxuryVehicle;
-    }
-
-    @Override
-    public String fullInformationPrint() {
-        return String.format(
-                "Luxury Tour: %s\nDescription: %s\nPrivate Chef Included: %s\nSPA Access: %s\nLuxury Vehicle: %s",
-                name, description, privateChefIncluded ? "Yes" : "No", spaAccess ? "Yes" : "No", luxuryVehicle
-        );
     }
 
 

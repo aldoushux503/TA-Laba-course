@@ -1,4 +1,4 @@
-package main.java.com.labas.travelagency.core;
+package com.labas.travelagency.core;
 
 /**
  * Base class representing a generic entity with a unique identifier (ID).

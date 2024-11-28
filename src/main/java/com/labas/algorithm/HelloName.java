@@ -1,4 +1,4 @@
-package main.java.com.labas.algorithm;
+package com.labas.algorithm;
 
 import java.util.Arrays;
 

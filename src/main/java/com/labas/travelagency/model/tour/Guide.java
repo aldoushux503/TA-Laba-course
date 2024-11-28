@@ -1,6 +1,6 @@
-package main.java.com.labas.travelagency.model.tour;
+package com.labas.travelagency.model.tour;
 
-import main.java.com.labas.travelagency.core.Person;
+import com.labas.travelagency.core.Person;
 
 import java.util.ArrayList;
 import java.util.List;

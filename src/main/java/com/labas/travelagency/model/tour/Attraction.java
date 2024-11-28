@@ -1,10 +1,8 @@
-package main.java.com.labas.travelagency.model.tour;
+package com.labas.travelagency.model.tour;
 
-import main.java.com.labas.travelagency.core.PricedEntity;
-import main.java.com.labas.travelagency.core.interfaces.Cancelable;
-import main.java.com.labas.travelagency.core.interfaces.Describable;
-import main.java.com.labas.travelagency.core.interfaces.Priceable;
-import main.java.com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.PricedEntity;
+import com.labas.travelagency.core.interfaces.Describable;
+import com.labas.travelagency.core.Tour;
 
 import java.util.List;
 

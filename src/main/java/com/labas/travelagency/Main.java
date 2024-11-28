@@ -1,17 +1,17 @@
-package main.java.com.labas.travelagency;
+package com.labas.travelagency;
 
 
-import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.core.Transport;
-import main.java.com.labas.travelagency.model.agency.Booking;
-import main.java.com.labas.travelagency.model.agency.Customer;
-import main.java.com.labas.travelagency.model.agency.TravelAgency;
-import main.java.com.labas.travelagency.model.hotel.Hotel;
-import main.java.com.labas.travelagency.model.hotel.Room;
-import main.java.com.labas.travelagency.model.hotel.RoomType;
-import main.java.com.labas.travelagency.model.tour.AdventureTour;
-import main.java.com.labas.travelagency.model.tour.Attraction;
-import main.java.com.labas.travelagency.model.transport.Flight;
+import com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.Transport;
+import com.labas.travelagency.model.agency.Booking;
+import com.labas.travelagency.model.agency.Customer;
+import com.labas.travelagency.model.agency.TravelAgency;
+import com.labas.travelagency.model.hotel.Hotel;
+import com.labas.travelagency.model.hotel.Room;
+import com.labas.travelagency.model.hotel.RoomType;
+import com.labas.travelagency.model.tour.AdventureTour;
+import com.labas.travelagency.model.tour.Attraction;
+import com.labas.travelagency.model.transport.Flight;
 
 import java.time.LocalDate;
 import java.util.List;

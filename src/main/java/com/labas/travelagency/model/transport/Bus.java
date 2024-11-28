@@ -1,7 +1,7 @@
-package main.java.com.labas.travelagency.model.transport;
+package com.labas.travelagency.model.transport;
 
-import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.core.Transport;
+import com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.Transport;
 
 import java.util.List;
 

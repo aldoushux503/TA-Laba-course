@@ -1,15 +1,15 @@
-package main.java.com.labas.travelagency.model.agency;
+package com.labas.travelagency.model.agency;
 
-import main.java.com.labas.exceptions.InsufficientFundsException;
-import main.java.com.labas.exceptions.InvalidBookingException;
-import main.java.com.labas.exceptions.ReservationException;
-import main.java.com.labas.travelagency.core.Entity;
-import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.core.interfaces.Manageable;
-import main.java.com.labas.travelagency.manager.BookingPriceManager;
-import main.java.com.labas.travelagency.manager.strategy.TaxStrategy;
-import main.java.com.labas.travelagency.model.hotel.Room;
-import main.java.com.labas.travelagency.util.Constants;
+import com.labas.exceptions.InsufficientFundsException;
+import com.labas.exceptions.InvalidBookingException;
+import com.labas.exceptions.ReservationException;
+import com.labas.travelagency.core.Entity;
+import com.labas.travelagency.core.Tour;
+import com.labas.travelagency.core.interfaces.Manageable;
+import com.labas.travelagency.manager.BookingPriceManager;
+import com.labas.travelagency.manager.strategy.TaxStrategy;
+import com.labas.travelagency.model.hotel.Room;
+import com.labas.travelagency.util.Constants;
 
 import java.time.LocalDate;
 import java.util.List;

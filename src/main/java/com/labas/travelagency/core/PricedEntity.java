@@ -1,4 +1,4 @@
-package main.java.com.labas.travelagency.core;
+package com.labas.travelagency.core;
 
 
 

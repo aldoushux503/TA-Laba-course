@@ -1,8 +1,8 @@
-package main.java.com.labas.travelagency.model.hotel;
+package com.labas.travelagency.model.hotel;
 
-import main.java.com.labas.exceptions.ReservationException;
-import main.java.com.labas.travelagency.core.PricedEntity;
-import main.java.com.labas.travelagency.core.interfaces.Manageable;
+import com.labas.exceptions.ReservationException;
+import com.labas.travelagency.core.PricedEntity;
+import com.labas.travelagency.core.interfaces.Manageable;
 
 /**
  * Represents a room within a hotel

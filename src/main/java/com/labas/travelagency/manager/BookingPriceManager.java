@@ -1,9 +1,9 @@
-package main.java.com.labas.travelagency.manager;
+package com.labas.travelagency.manager;
 
-import main.java.com.labas.travelagency.core.PricedEntity;
-import main.java.com.labas.travelagency.core.Tour;
-import main.java.com.labas.travelagency.manager.strategy.TaxStrategy;
-import main.java.com.labas.travelagency.util.Constants;
+import com.labas.travelagency.core.PricedEntity;
+import com.labas.travelagency.core.Tour;
+import com.labas.travelagency.manager.strategy.TaxStrategy;
+import com.labas.travelagency.util.Constants;
 
 import java.util.List;
 

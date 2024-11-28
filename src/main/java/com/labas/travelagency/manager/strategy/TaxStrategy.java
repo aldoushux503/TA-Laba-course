@@ -1,4 +1,4 @@
-package main.java.com.labas.travelagency.manager.strategy;
+package com.labas.travelagency.manager.strategy;
 
 /**
  * Interface for defining tax strategies.
