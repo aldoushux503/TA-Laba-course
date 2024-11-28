@@ -43,6 +43,7 @@ public class Main {
                 0,
                 100,
                 "Boeing123",
+                "A12",
                 "LOT"
         );
 

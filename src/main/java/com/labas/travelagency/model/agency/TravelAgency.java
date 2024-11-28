@@ -34,16 +34,6 @@ public class TravelAgency extends Entity {
         }
     }
 
-    // TODO: 11/28/2024
-    public void processBooking(Booking booking) throws InvalidBookingException {
-        try {
-            Customer customer = booking.getCustomer();
-            customer.processPayment(booking.getPrice());
-        } catch (InsufficientFundsException e) {
-            throw new InvalidBookingException("The booking process failed... Please check the booking details.", e);
-        }
-    }
-
     public Customer findCustomerById(long customerId) throws CustomerNotFoundException {
         Customer customer = customers.stream()
                 .filter(c -> c.getId() == customerId)

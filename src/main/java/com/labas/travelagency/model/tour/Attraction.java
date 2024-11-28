@@ -12,7 +12,7 @@ import java.util.List;
  * Represents attractions included in the tours
  * Many-to-Many relationship with Tours;
  */
-public class Attraction extends PricedEntity implements Describable, Cancelable {
+public class Attraction extends PricedEntity implements Describable {
     private String name;
     private String location;
 
@@ -38,11 +38,6 @@ public class Attraction extends PricedEntity implements Describable, Cancelable 
     @Override
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public void cancel() {
-        System.out.println("Attraction booking cancelled.");
     }
 
     public String getName() {

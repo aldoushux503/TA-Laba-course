@@ -9,13 +9,13 @@ public class Bus extends Transport {
     private int numberOfDecks;
 
 
-    public Bus(long id, double cost, String model,  int numberOfDecks) {
-        super(id, cost, model);
+    public Bus(long id, double cost, String model,  int numberOfDecks, String seatNumber) {
+        super(id, cost, model, seatNumber);
         this.numberOfDecks = numberOfDecks;
     }
 
-    public Bus(long id, double cost, String name, List<Tour> tours, int numberOfDecks) {
-        super(id, cost, name, tours);
+    public Bus(long id, double cost, String name, List<Tour> tours, String seatNumber, int numberOfDecks) {
+        super(id, cost, name, seatNumber, tours);
         this.numberOfDecks = numberOfDecks;
     }
 

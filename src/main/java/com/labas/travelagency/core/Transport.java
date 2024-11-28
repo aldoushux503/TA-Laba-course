@@ -14,17 +14,20 @@ import java.util.Objects;
 public abstract class Transport extends PricedEntity implements Manageable, Describable, Rateable {
     private String model;
     private String description;
+    private String seatNumber;
     private double rating;
     private boolean available;
 
-    public Transport(long id, double price, String model) {
+    public Transport(long id, double price, String model, String seatNumber) {
         super(id, price);
         this.model = model;
+        this.seatNumber = seatNumber;
     }
 
-    public Transport(long id, double price, String model, List<Tour> tours) {
+    public Transport(long id, double price, String model, String seatNumber, List<Tour> tours) {
         super(id, price);
         this.model = model;
+        this.seatNumber = seatNumber;
     }
 
     @Override

@@ -9,13 +9,13 @@ public class Flight extends Transport {
 
     private String airline;
 
-    public Flight(long id, double cost, String model, String airline) {
-        super(id, cost, model);
+    public Flight(long id, double cost, String model, String seatNumber, String airline) {
+        super(id, cost, model, seatNumber);
         this.airline = airline;
     }
 
-    public Flight(long id, double cost, String name, List<Tour> tours, String airline) {
-        super(id, cost, name, tours);
+    public Flight(long id, double cost, String name, String seatNumber, List<Tour> tours, String airline) {
+        super(id, cost, name, seatNumber, tours);
         this.airline = airline;
     }
 

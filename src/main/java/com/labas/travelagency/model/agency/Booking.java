@@ -1,11 +1,18 @@
 package main.java.com.labas.travelagency.model.agency;
 
+import main.java.com.labas.exceptions.InsufficientFundsException;
+import main.java.com.labas.exceptions.InvalidBookingException;
+import main.java.com.labas.exceptions.ReservationException;
 import main.java.com.labas.travelagency.core.Entity;
 import main.java.com.labas.travelagency.core.Tour;
+import main.java.com.labas.travelagency.core.interfaces.Manageable;
 import main.java.com.labas.travelagency.manager.BookingPriceManager;
+import main.java.com.labas.travelagency.manager.strategy.TaxStrategy;
+import main.java.com.labas.travelagency.model.hotel.Room;
 import main.java.com.labas.travelagency.util.Constants;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Represents a booking made by customer
@@ -26,11 +33,54 @@ public class Booking extends Entity {
         this.price = BookingPriceManager.calculateTourPrice(tour, Constants.DEFAULT_TAX_STRATEGY);
     }
 
+    public Booking(long id, Customer customer, Tour tour, LocalDate date, TaxStrategy strategy) {
+        super(id);
+        this.customer = customer;
+        this.tour = tour;
+        this.date = date;
+        this.price = BookingPriceManager.calculateTourPrice(tour, strategy);
+    }
+
     @Override
     public String toString() {
         return String.format(
                 "Client %s has a booking to %s total price - %.2f", customer.getFullName(), tour.getName(), price
         );
+    }
+
+    public void processBooking() throws InvalidBookingException {
+        try {
+            // Take payment from customer
+            Customer customer = this.getCustomer();
+            customer.processPayment(this.getPrice());
+
+            // Book rooms and Transport
+            reserveResources(this.tour.getRooms(), "Room");
+            reserveResources(this.tour.getTransports(), "Transport");
+
+            System.out.println("Booking processed successfully for customer: " + customer.getFullName());
+
+        } catch (InsufficientFundsException e) {
+            throw new InvalidBookingException("Payment failed for booking.", e);
+        } catch (ReservationException e) {
+            throw new InvalidBookingException("Failed to reserve resources for the booking.", e);
+        }
+    }
+
+    private <T extends Manageable> void reserveResources(List<T> resources, String resourceType) throws ReservationException {
+        for (T resource : resources) {
+            if (resource.isAvailable()) {
+                try {
+                    resource.reserve();
+
+                } catch (ReservationException e) {
+                    System.err.println("Failed to reserve " + resourceType + ": " + resource);
+                    throw e;
+                }
+            } else {
+                throw new ReservationException(resourceType + " is not available: " + resource);
+            }
+        }
     }
 
     public Customer getCustomer() {
