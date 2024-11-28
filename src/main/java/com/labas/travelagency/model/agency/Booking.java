@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class Booking extends Entity {
 
-    private static Logger logger = LoggerFactory.getLogger(Booking.class);
+    private static final Logger logger = LoggerFactory.getLogger("Booking.class");
     private Customer customer;
     private Tour tour;
     private LocalDate date;
