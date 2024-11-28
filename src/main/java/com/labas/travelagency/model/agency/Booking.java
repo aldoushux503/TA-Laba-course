@@ -10,6 +10,8 @@ import com.labas.travelagency.manager.BookingPriceManager;
 import com.labas.travelagency.manager.strategy.TaxStrategy;
 import com.labas.travelagency.model.hotel.Room;
 import com.labas.travelagency.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.List;
  * One-to-Many relationship with Customer and Tour;
  */
 public class Booking extends Entity {
+
+    private static Logger logger = LoggerFactory.getLogger(Booking.class);
     private Customer customer;
     private Tour tour;
     private LocalDate date;
@@ -58,8 +62,7 @@ public class Booking extends Entity {
             reserveResources(this.tour.getRooms(), "Room");
             reserveResources(this.tour.getTransports(), "Transport");
 
-            System.out.println("Booking processed successfully for customer: " + customer.getFullName());
-
+            logger.info("Booking processed successfully for customer: " + customer.getFullName());
         } catch (InsufficientFundsException e) {
             throw new InvalidBookingException("Payment failed for booking.", e);
         } catch (ReservationException e) {
@@ -69,16 +72,12 @@ public class Booking extends Entity {
 
     private <T extends Manageable> void reserveResources(List<T> resources, String resourceType) throws ReservationException {
         for (T resource : resources) {
-            if (resource.isAvailable()) {
-                try {
-                    resource.reserve();
+            try {
+                resource.reserve();
 
-                } catch (ReservationException e) {
-                    System.err.println("Failed to reserve " + resourceType + ": " + resource);
-                    throw e;
-                }
-            } else {
-                throw new ReservationException(resourceType + " is not available: " + resource);
+            } catch (ReservationException e) {
+                logger.error("Failed to reserve " + resourceType + ": " + resource, e);
+                throw e;
             }
         }
     }
