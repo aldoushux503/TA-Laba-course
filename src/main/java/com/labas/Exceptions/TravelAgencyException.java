@@ -1,4 +1,4 @@
-package com.labas.exceptions;
+package com.labas.Exceptions;
 
 public class TravelAgencyException extends Exception {
     public TravelAgencyException(String message) {

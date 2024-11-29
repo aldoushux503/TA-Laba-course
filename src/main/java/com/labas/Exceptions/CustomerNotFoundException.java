@@ -1,4 +1,4 @@
-package com.labas.exceptions;
+package com.labas.Exceptions;
 
 public class CustomerNotFoundException extends TravelAgencyException {
     public CustomerNotFoundException(String message) {

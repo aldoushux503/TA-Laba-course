@@ -1,8 +1,6 @@
 package com.labas.travelagency.model.agency;
 
-import com.labas.exceptions.CustomerNotFoundException;
-import com.labas.exceptions.InsufficientFundsException;
-import com.labas.exceptions.InvalidBookingException;
+import com.labas.Exceptions.CustomerNotFoundException;
 import com.labas.travelagency.core.Entity;
 import com.labas.travelagency.core.Tour;
 

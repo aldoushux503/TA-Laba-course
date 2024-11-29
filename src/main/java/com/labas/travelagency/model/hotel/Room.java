@@ -1,6 +1,6 @@
 package com.labas.travelagency.model.hotel;
 
-import com.labas.exceptions.ReservationException;
+import com.labas.Exceptions.ReservationException;
 import com.labas.travelagency.core.PricedEntity;
 import com.labas.travelagency.core.interfaces.Manageable;
 
