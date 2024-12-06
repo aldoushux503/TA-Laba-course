@@ -1,7 +1,10 @@
 package com.labas.LinkedList;
 
+import java.util.Objects;
+
 /**
  * A custom implementation of a singly linked list with generics.
+ *
  * @param <T> the type of elements stored in the list
  */
 public class CustomLinkedList<T> {
@@ -32,6 +35,7 @@ public class CustomLinkedList<T> {
 
     /**
      * Adds an element to the end of the linked list.
+     *
      * @param data the element to add
      */
     public void add(T data) {
@@ -48,8 +52,9 @@ public class CustomLinkedList<T> {
 
     /**
      * Adds an element at a specific index.
+     *
      * @param index the position to insert the element
-     * @param data the element to insert
+     * @param data  the element to insert
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public void add(int index, T data) {
@@ -77,6 +82,7 @@ public class CustomLinkedList<T> {
 
     /**
      * Removes and returns the element at a specific index.
+     *
      * @param index the position of the element to remove
      * @return the removed element
      * @throws IndexOutOfBoundsException if the index is out of range
@@ -107,6 +113,7 @@ public class CustomLinkedList<T> {
 
     /**
      * Returns the element at a specific index.
+     *
      * @param index the position of the element
      * @return the element at the given index
      * @throws IndexOutOfBoundsException if the index is out of range
@@ -117,6 +124,7 @@ public class CustomLinkedList<T> {
 
     /**
      * Returns the size of the linked list.
+     *
      * @return the size of the list
      */
     public int size() {
@@ -125,6 +133,7 @@ public class CustomLinkedList<T> {
 
     /**
      * Checks if the linked list is empty.
+     *
      * @return true if the list is empty, false otherwise
      */
     public boolean isEmpty() {
@@ -151,5 +160,28 @@ public class CustomLinkedList<T> {
             current = current.next;
         }
         return current;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomLinkedList<?> that = (CustomLinkedList<?>) o;
+        return size == that.size && Objects.equals(head, that.head) && Objects.equals(tail, that.tail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(head, tail, size);
+    }
+
+    @Override
+    public String toString() {
+        return "CustomLinkedList{" +
+                "head=" + head +
+                ", tail=" + tail +
+                ", size=" + size +
+                '}';
     }
 }
