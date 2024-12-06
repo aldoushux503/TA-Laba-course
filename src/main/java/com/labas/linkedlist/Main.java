@@ -1,12 +1,8 @@
-package com.labas.LinkedList;
-
-import com.labas.travelagency.model.agency.Booking;
+package com.labas.linkedlist;
 
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;

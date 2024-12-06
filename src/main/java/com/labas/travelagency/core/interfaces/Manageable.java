@@ -1,6 +1,6 @@
 package com.labas.travelagency.core.interfaces;
 
-import com.labas.Exceptions.ReservationException;
+import com.labas.exceptions.ReservationException;
 
 /**
  * Interface representing bookable entities.

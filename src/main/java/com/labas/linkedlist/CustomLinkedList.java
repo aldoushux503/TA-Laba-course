@@ -1,4 +1,4 @@
-package com.labas.LinkedList;
+package com.labas.linkedlist;
 
 import java.util.Objects;
 

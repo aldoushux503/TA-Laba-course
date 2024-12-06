@@ -1,4 +1,4 @@
-package com.labas.Exceptions;
+package com.labas.exceptions;
 
 public class InsufficientFundsException extends TravelAgencyException {
     public InsufficientFundsException(String message) {
