@@ -8,9 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -23,22 +22,18 @@ public class Main {
         File result = new File(resultPath);
 
         firstSolution(source, result);
-
-        try {
-            secondSolution(source, result);
-        } catch (IOException e) {
-            logger.error("Error occurred while processing the file: {}", e.getMessage(), e);
-        }
-
+//        secondSolution(source, result);
     }
 
     private static void firstSolution(File source, File result) {
         try {
-            String str = FileUtils.readFileToString(source, "UTF-8").toLowerCase();
+            String content = FileUtils.readFileToString(source, "UTF-8").toLowerCase();
 
             Set<String> uniqueWords = new HashSet<>(
-                    Arrays.asList(
-                            StringUtils.split(str, " \n\t\r\f.,!?;:")
+                    List.of(
+                            StringUtils.split(
+                                    content, " \n\t\r\f.,!?;:"
+                            )
                     )
             );
 
@@ -52,7 +47,19 @@ public class Main {
         }
     }
 
-    private static void secondSolution(File source, File result) throws IOException {
-        FileUtils.writeStringToFile(result, "The number of unique words - " + new HashSet<>(Arrays.asList(StringUtils.split(FileUtils.readFileToString(source, "UTF-8").toLowerCase()))).size(), "UTF-8");
+    private static void secondSolution(File source, File result) {
+        try {
+            String content = FileUtils.readFileToString(source, "UTF-8").toLowerCase();
+            Map<String, Long> wordCounts = Arrays.stream(StringUtils.split(content, " \n\t\r\f.,!?;:"))
+                    .collect(Collectors.groupingBy(word -> word, Collectors.counting()));
+
+            String result1 = wordCounts.entrySet().stream()
+                    .map(entry -> entry.getKey() + " - " + entry.getValue())
+                    .collect(Collectors.joining("\n"));
+
+            FileUtils.writeStringToFile(result, result1, "UTF-8");
+        } catch (IOException e) {
+            logger.error("Error occurred while processing the file: {}", e.getMessage(), e);
+        }
     }
 }
