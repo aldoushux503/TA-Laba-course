@@ -58,8 +58,4 @@ public class Main {
     private static void secondSolution(File source, File result) throws IOException {
         FileUtils.writeStringToFile(result, "The number of unique words - " + new HashSet<>(Arrays.asList(StringUtils.split(FileUtils.readFileToString(source, "UTF-8").toLowerCase()))).size(), "UTF-8");
     }
-
-    private static void thirdSolution(File source, File result) {
-
-    }
 }
