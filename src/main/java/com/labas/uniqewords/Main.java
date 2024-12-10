@@ -1,4 +1,4 @@
-package com.labas.countwords;
+package com.labas.uniqewords;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FileUtils;
@@ -7,13 +7,10 @@ import org.slf4j.LoggerFactory;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
