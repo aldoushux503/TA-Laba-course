@@ -17,11 +17,6 @@ public class Bus extends Transport {
         this.numberOfDecks = numberOfDecks;
     }
 
-    public Bus(long id, double cost, String name, List<Tour> tours, String seatNumber, int numberOfDecks) {
-        super(id, cost, name, seatNumber, tours);
-        this.numberOfDecks = numberOfDecks;
-    }
-
     public int getNumberOfDecks() {
         return numberOfDecks;
     }
