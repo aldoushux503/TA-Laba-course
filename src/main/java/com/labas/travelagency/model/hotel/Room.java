@@ -3,6 +3,7 @@ package com.labas.travelagency.model.hotel;
 import com.labas.exceptions.ReservationException;
 import com.labas.travelagency.core.PricedEntity;
 import com.labas.travelagency.core.interfaces.Manageable;
+import com.labas.travelagency.enums.hotel.RoomType;
 
 /**
  * Represents a room within a hotel
@@ -17,7 +18,7 @@ public class Room extends PricedEntity implements Manageable {
     private double price;
 
     public Room(long id, double price, String number, RoomType type, boolean available) {
-        super(id, price);
+        super(id, price + type.getBasePrice());
         this.number = number;
         this.type = type;
         this.available = available;
