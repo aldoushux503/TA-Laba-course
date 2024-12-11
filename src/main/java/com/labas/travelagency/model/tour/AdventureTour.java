@@ -1,6 +1,7 @@
 package com.labas.travelagency.model.tour;
 
 import com.labas.travelagency.core.Tour;
+import com.labas.travelagency.enums.general.TravelPurpose;
 
 import java.util.List;
 
@@ -10,12 +11,13 @@ public class AdventureTour extends Tour {
     private List<String> requiredEquipment;
     private boolean physicalConditionRequirement;
 
-    public AdventureTour(long id, String name, String description, String difficultyLevel,
-                         List<String> requiredEquipment, boolean physicalConditionRequirement) {
-        super(id, name, description);
+
+    public AdventureTour(long id, String name, String description, TravelPurpose travelPurpose,
+                         String difficultyLevel, List<String> requiredEquipment, boolean pcr) {
+        super(id, name, description, travelPurpose);
         this.difficultyLevel = difficultyLevel;
         this.requiredEquipment = requiredEquipment;
-        this.physicalConditionRequirement = physicalConditionRequirement;
+        this.physicalConditionRequirement = pcr;
     }
 
     public String getDifficultyLevel() {

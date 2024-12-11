@@ -1,11 +1,13 @@
 package com.labas.travelagency.core.interfaces;
 
 
+import com.labas.travelagency.enums.general.Rating;
+
 /**
  * Interface representing rateable entities.
  */
 public interface Rateable {
-    double getRating();
+    Rating getRating();
 
-    void setRating(double rating);
+    void setRating(Rating rating);
 }

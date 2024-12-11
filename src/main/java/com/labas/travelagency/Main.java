@@ -3,12 +3,16 @@ package com.labas.travelagency;
 
 import com.labas.travelagency.core.Tour;
 import com.labas.travelagency.core.Transport;
+import com.labas.travelagency.enums.general.Rating;
+import com.labas.travelagency.enums.general.TravelPurpose;
+import com.labas.travelagency.enums.hotel.MealPlan;
+import com.labas.travelagency.enums.hotel.RoomType;
+import com.labas.travelagency.enums.transport.TransportationMode;
 import com.labas.travelagency.model.agency.Booking;
 import com.labas.travelagency.model.agency.Customer;
 import com.labas.travelagency.model.agency.TravelAgency;
 import com.labas.travelagency.model.hotel.Hotel;
 import com.labas.travelagency.model.hotel.Room;
-import com.labas.travelagency.model.hotel.RoomType;
 import com.labas.travelagency.model.tour.AdventureTour;
 import com.labas.travelagency.model.tour.Attraction;
 import com.labas.travelagency.model.transport.Flight;
@@ -24,7 +28,7 @@ public class Main {
         agency.addCustomer(customer);
 
 
-        Hotel hotel = new Hotel(0, "Letoh", "Nepal", 4.5);
+        Hotel hotel = new Hotel(0, "Letoh", "Nepal", Rating.EXCELLENT, MealPlan.BREAKFAST);
         Room room = new Room(0, 300, "10A", RoomType.SINGLE, true);
         Room room1 = new Room(1, 300, "101C", RoomType.DOUBLE, true);
         hotel.setRooms(
@@ -43,7 +47,11 @@ public class Main {
                 0,
                 100,
                 "Boeing123",
+                "Good airplane",
                 "A12",
+                true,
+                TransportationMode.BUSINESS,
+                Rating.EXCELLENT,
                 "LOT"
         );
 
@@ -51,6 +59,7 @@ public class Main {
                 0,
                 "Mountain Hike",
                 "Exciting mountain adventure",
+                TravelPurpose.EDUCATION,
                 "Hard",
                 List.of("Tent", "Knife", "Water"),
                 true

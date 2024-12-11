@@ -4,6 +4,8 @@ import com.labas.travelagency.core.Entity;
 import com.labas.travelagency.core.Tour;
 import com.labas.travelagency.core.interfaces.Describable;
 import com.labas.travelagency.core.interfaces.Rateable;
+import com.labas.travelagency.enums.general.Rating;
+import com.labas.travelagency.enums.hotel.MealPlan;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,27 +21,32 @@ public class Hotel extends Entity implements Rateable, Describable {
     private String name;
     private String address;
     private String description;
-    private double rating;
-    private List<Room> rooms = new ArrayList<>();
+    private Rating rating;
 
-    private List<Tour> tours = new ArrayList<>();
+    private List<Room> rooms;
 
-    public Hotel(long id, String name, String address, double rating) {
+    private List<Tour> tours;
+    private MealPlan mealPlan;
+
+    public Hotel(long id, String name, String address, Rating rating, MealPlan mealPlan) {
         super(id);
         this.name = name;
         this.address = address;
         this.setRating(rating);
         this.rooms = Collections.emptyList();
         this.tours = Collections.emptyList();
+        this.mealPlan = mealPlan;
     }
 
-    public Hotel(long id, String name, String address, double rating, List<Room> rooms, List<Tour> tours) {
+    public Hotel(long id, String name, String address, Rating rating,
+                 List<Room> rooms, List<Tour> tours, MealPlan mealPlan) {
         super(id);
         this.name = name;
         this.address = address;
         this.setRating(rating);
         this.rooms = Collections.unmodifiableList(rooms);
         this.tours = Collections.unmodifiableList(tours);
+        this.mealPlan = mealPlan;
     }
 
     @Override
@@ -56,17 +63,15 @@ public class Hotel extends Entity implements Rateable, Describable {
     }
 
     @Override
-    public double getRating() {
+    public Rating getRating() {
         return rating;
     }
 
     @Override
-    public void setRating(double rating) {
-        if (rating < 0 || rating > 5) {
-            throw new IllegalArgumentException("Rating must be between 0 and 5.");
-        }
+    public void setRating(Rating rating) {
         this.rating = rating;
     }
+
 
     public String getName() {
         return name;
@@ -104,5 +109,13 @@ public class Hotel extends Entity implements Rateable, Describable {
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public MealPlan getMealPlan() {
+        return mealPlan;
+    }
+
+    public void setMealPlan(MealPlan mealPlan) {
+        this.mealPlan = mealPlan;
     }
 }

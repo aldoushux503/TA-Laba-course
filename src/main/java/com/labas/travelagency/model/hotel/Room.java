@@ -72,4 +72,8 @@ public class Room extends PricedEntity implements Manageable {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

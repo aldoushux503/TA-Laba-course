@@ -2,6 +2,8 @@ package com.labas.travelagency.core;
 
 import com.labas.travelagency.core.interfaces.Describable;
 import com.labas.travelagency.core.interfaces.Rateable;
+import com.labas.travelagency.enums.general.Rating;
+import com.labas.travelagency.enums.general.TravelPurpose;
 import com.labas.travelagency.model.hotel.Room;
 import com.labas.travelagency.model.tour.Attraction;
 
@@ -17,26 +19,29 @@ import java.util.Objects;
  * Many-to-Many relationship with attractions, transports;
  */
 public abstract class Tour extends Entity implements Rateable, Describable {
-    protected String name;
-    protected String description;
-    private double rating;
-    protected List<Room> rooms = new ArrayList<>();
-    protected List<Attraction> attractions = new ArrayList<>();
-    protected List<Transport> transports = new ArrayList<>();
+    private String name;
+    private String description;
+    private Rating rating;
+    private List<Room> rooms = new ArrayList<>();
+    private List<Attraction> attractions = new ArrayList<>();
+    private List<Transport> transports = new ArrayList<>();
 
-    public Tour(long id, String name, String description) {
+    private TravelPurpose travelPurpose;
+
+    public Tour(long id, String name, String description, TravelPurpose travelPurpose) {
         super(id);
         this.name = name;
         this.description = description;
+        this.travelPurpose = travelPurpose;
     }
 
     @Override
-    public double getRating() {
+    public Rating getRating() {
         return rating;
     }
 
     @Override
-    public void setRating(double rating) {
+    public void setRating(Rating rating) {
         this.rating = rating;
     }
 
@@ -90,6 +95,14 @@ public abstract class Tour extends Entity implements Rateable, Describable {
 
     public void setTransports(List<Transport> transports) {
         this.transports = transports;
+    }
+
+    public TravelPurpose getTravelPurpose() {
+        return travelPurpose;
+    }
+
+    public void setTravelPurpose(TravelPurpose travelPurpose) {
+        this.travelPurpose = travelPurpose;
     }
 
     @Override

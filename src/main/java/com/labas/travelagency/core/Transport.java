@@ -2,6 +2,8 @@ package com.labas.travelagency.core;
 
 import com.labas.exceptions.ReservationException;
 import com.labas.travelagency.core.interfaces.*;
+import com.labas.travelagency.enums.general.Rating;
+import com.labas.travelagency.enums.transport.TransportationMode;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,19 +17,20 @@ public abstract class Transport extends PricedEntity implements Manageable, Desc
     private String model;
     private String description;
     private String seatNumber;
-    private double rating;
     private boolean available;
+    private TransportationMode transportMode;
 
-    public Transport(long id, double price, String model, String seatNumber) {
+    private Rating rating;
+
+    public Transport(long id, double price, String model, String description,
+                     String seatNumber, boolean available, TransportationMode transportMode, Rating rating) {
         super(id, price);
         this.model = model;
+        this.description = description;
         this.seatNumber = seatNumber;
-    }
-
-    public Transport(long id, double price, String model, String seatNumber, List<Tour> tours) {
-        super(id, price);
-        this.model = model;
-        this.seatNumber = seatNumber;
+        this.available = available;
+        this.transportMode = transportMode;
+        this.rating = rating;
     }
 
     @Override
@@ -63,15 +66,6 @@ public abstract class Transport extends PricedEntity implements Manageable, Desc
         this.description = description;
     }
 
-    @Override
-    public double getRating() {
-        return rating;
-    }
-
-    @Override
-    public void setRating(double rating) {
-
-    }
 
     public String getModel() {
         return model;
@@ -81,6 +75,35 @@ public abstract class Transport extends PricedEntity implements Manageable, Desc
         this.model = model;
     }
 
+    public TransportationMode getTransportMode() {
+        return transportMode;
+    }
+
+    public void setTransportMode(TransportationMode transportMode) {
+        this.transportMode = transportMode;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    @Override
+    public Rating getRating() {
+        return rating;
+    }
+
+    @Override
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
 
     public boolean equals(Object obj) {
         if (obj == this) return true;
