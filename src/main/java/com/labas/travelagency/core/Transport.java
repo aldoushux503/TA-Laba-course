@@ -24,7 +24,7 @@ public abstract class Transport extends PricedEntity implements Manageable, Desc
 
     public Transport(long id, double price, String model, String description,
                      String seatNumber, boolean available, TransportationMode transportMode, Rating rating) {
-        super(id, price);
+        super(id, transportMode.calculateCost(price));
         this.model = model;
         this.description = description;
         this.seatNumber = seatNumber;
