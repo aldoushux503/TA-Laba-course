@@ -10,6 +10,8 @@ public class Main {
     public static void main(String[] args) {
         List<List<Integer>> nestedNumbers = List.of(
                 List.of(1, 2, 3),
+                List.of(4, 5, 6),
+                List.of(4, 5, 6),
                 List.of(4, 5, 6)
         );
         List<Integer> squared = flattenAndTransform(nestedNumbers, n -> n * n);

@@ -1,6 +1,7 @@
 package com.labas.travelagency;
 
 
+import com.labas.exceptions.CustomerNotFoundException;
 import com.labas.travelagency.core.Tour;
 import com.labas.travelagency.core.Transport;
 import com.labas.travelagency.enums.general.Rating;
@@ -16,16 +17,19 @@ import com.labas.travelagency.model.hotel.Room;
 import com.labas.travelagency.model.tour.AdventureTour;
 import com.labas.travelagency.model.tour.Attraction;
 import com.labas.travelagency.model.transport.Flight;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
+
+    private static final Logger logger = LoggerFactory.getLogger("Main.class");
     public static void main(String[] args) {
-        TravelAgency agency = new TravelAgency(0, "Sunny Travel", "1234 Sunshine St.");
 
         Customer customer = new Customer(0, "John Doe", "john.doe@example.com", 1000);
-        agency.addCustomer(customer);
+
 
 
         Hotel hotel = new Hotel(0, "Letoh", "Nepal", Rating.EXCELLENT, MealPlan.BREAKFAST);
@@ -73,5 +77,26 @@ public class Main {
 
         Booking booking = new Booking(0, customer, adventureTour, LocalDate.now());
         customer.addBooking(booking);
+        booking.processBooking();
+
+        TravelAgency agency = new TravelAgency(0, "Sunny Travel", "1234 Sunshine St.");
+        agency.addCustomer(customer);
+        agency.addTour(adventureTour);
+
+        try {
+            logger.info(String.valueOf(agency.findCustomerById(0)));
+        } catch (CustomerNotFoundException e) {
+            logger.error("Customer not found:", e);
+        }
+
+        logger.info(String.valueOf(agency.findTourByName("Mountain Hike")));
+        logger.info(String.valueOf(agency.findEmployeesByRole("Manager")));
+        logger.info(String.valueOf(agency.removeToursByCondition(c -> c.getName().length() > 2)));
+        logger.info(String.format("After remove - %s%n",  agency.getTours()));
+
+        logger.info(String.format(String.valueOf(adventureTour.filterTransportsByRating(3))));
+        logger.info(String.format(String.valueOf(adventureTour.getMostPopularTransport())));
+
+
     }
 }

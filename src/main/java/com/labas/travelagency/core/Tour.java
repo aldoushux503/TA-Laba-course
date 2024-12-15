@@ -7,9 +7,8 @@ import com.labas.travelagency.enums.general.TravelPurpose;
 import com.labas.travelagency.model.hotel.Room;
 import com.labas.travelagency.model.tour.Attraction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class representing a tour
@@ -34,6 +33,22 @@ public abstract class Tour extends Entity implements Rateable, Describable {
         this.description = description;
         this.travelPurpose = travelPurpose;
     }
+
+    public List<Transport> filterTransportsByRating(double minRating) {
+        return transports.stream()
+                .filter(attraction -> attraction.getRating().getScore() >= minRating)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Transport> getMostPopularTransport() {
+        return transports.stream()
+                .collect(Collectors.groupingBy(transport -> transport, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey);
+    }
+
 
     @Override
     public Rating getRating() {

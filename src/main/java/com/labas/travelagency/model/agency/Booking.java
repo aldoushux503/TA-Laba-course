@@ -51,7 +51,7 @@ public class Booking extends Entity {
         );
     }
 
-    public void processBooking() throws InvalidBookingException {
+    public void processBooking() {
         try {
             // Take payment from customer
             Customer customer = this.getCustomer();
@@ -63,22 +63,18 @@ public class Booking extends Entity {
 
             logger.info("Booking processed successfully for customer: " + customer.getFullName());
         } catch (InsufficientFundsException e) {
-            throw new InvalidBookingException("Payment failed for booking.", e);
-        } catch (ReservationException e) {
-            throw new InvalidBookingException("Failed to reserve resources for the booking.", e);
+            logger.error("Payment failed for booking.", e);
         }
     }
 
-    private <T extends Manageable> void reserveResources(List<T> resources, String resourceType) throws ReservationException {
-        for (T resource : resources) {
+    private <T extends Manageable> void reserveResources(List<T> resources, String resourceType) {
+        resources.forEach(r -> {
             try {
-                resource.reserve();
-
+                r.reserve();
             } catch (ReservationException e) {
-                logger.error("Failed to reserve " + resourceType + ": " + resource, e);
-                throw e;
+                logger.error("Failed to reserve " + resourceType + ": " + r, e);
             }
-        }
+        });
     }
 
     public Customer getCustomer() {

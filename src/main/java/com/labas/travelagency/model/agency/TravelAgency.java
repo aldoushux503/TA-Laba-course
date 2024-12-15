@@ -4,8 +4,9 @@ import com.labas.exceptions.CustomerNotFoundException;
 import com.labas.travelagency.core.Entity;
 import com.labas.travelagency.core.Tour;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TravelAgency extends Entity {
 
@@ -41,6 +42,21 @@ public class TravelAgency extends Entity {
             throw new CustomerNotFoundException("Customer with ID " + customerId + " not found.");
         }
         return customer;
+    }
+    public List<Employee> findEmployeesByRole(String role) {
+        return employees.stream()
+                .filter(employee -> employee.getRole().equalsIgnoreCase(role))
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Tour> findTourByName(String name) {
+        return tours.stream()
+                .filter(tour -> tour.getName().equalsIgnoreCase(name))
+                .findFirst();
+    }
+
+    public boolean removeToursByCondition(Predicate<Tour> condition) {
+        return tours.removeIf(condition);
     }
 
     public void addCustomer(Customer customer) {

@@ -3,6 +3,7 @@ package com.labas.travelagency.model.agency;
 import com.labas.exceptions.InsufficientFundsException;
 import com.labas.travelagency.core.Person;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Customer extends Person {
 
     public Customer(long id, String name, String email, long balance) {
         super(id, name, email);
-        this.bookings = Collections.emptyList();
+        this.bookings = new ArrayList<>();
         this.balance = balance;
     }
 
@@ -51,7 +52,7 @@ public class Customer extends Person {
         if (booking == null) {
             throw new IllegalArgumentException("Booking cannot be null.");
         }
-        this.bookings.add(booking);
+        bookings.add(booking);
     }
 
     public List<Booking> getBookings() {

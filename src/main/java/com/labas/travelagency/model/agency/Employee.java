@@ -8,20 +8,20 @@ import com.labas.travelagency.core.Person;
  */
 public class Employee extends Person {
 
-    private String position;
+    private String role;
     private TravelAgency travelAgency;
 
-    public Employee(long id, String name, String email, String position) {
+    public Employee(long id, String name, String email, String role) {
         super(id, name, email);
-        this.position = position;
+        this.role = role;
     }
 
-    public String getPosition() {
-        return position;
+    public String getRole() {
+        return role;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public TravelAgency getTravelAgency() {
