@@ -1,8 +1,5 @@
 package com.labas.reflection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.*;
 
 public class Main {
@@ -10,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // 1: Load the class
-            Class<?> clazz = Class.forName("SampleClass");
+            Class<?> clazz = Class.forName("com.labas.reflection.SigmaClass");
 
             // 2: Extract information about fields
             System.out.println("Fields:");

@@ -1,13 +1,13 @@
 package com.labas.reflection;
 
-public class SampleClass {
+public class SigmaClass {
     private int id;
     private String name;
 
-    public SampleClass() {
+    public SigmaClass() {
     }
 
-    public SampleClass(int id, String name) {
+    public SigmaClass(int id, String name) {
         this.id = id;
         this.name = name;
     }
