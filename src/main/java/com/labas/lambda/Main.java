@@ -113,33 +113,4 @@ public class Main {
                 .collect(Collectors.toList());
     }
 
-    // Animal class definition
-    static class Animal {
-        private final String name;
-        private final String species;
-        private final int population;
-
-        public Animal(String name, String species, int population) {
-            this.name = name;
-            this.species = species;
-            this.population = population;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getSpecies() {
-            return species;
-        }
-
-        public int getPopulation() {
-            return population;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s(%s, %d)", name, species, population);
-        }
-    }
 }
