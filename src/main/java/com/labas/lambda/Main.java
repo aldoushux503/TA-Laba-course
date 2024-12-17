@@ -6,7 +6,29 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
 public class Main {
+
+    // Custom functional interfaces
+    @FunctionalInterface
+    interface Transformer<T, R> {
+        R apply(T t);
+    }
+
+    @FunctionalInterface
+    interface Condition<T> {
+        boolean test(T t);
+    }
+
+    @FunctionalInterface
+    interface Extractor<T> {
+        int extract(T t);
+    }
+
     public static void main(String[] args) {
         List<List<Integer>> nestedNumbers = List.of(
                 List.of(1, 2, 3),
@@ -36,63 +58,88 @@ public class Main {
                 new Animal("Python", "Reptile", 8)
         );
 
-        // 1. Predicate: Filter animals with a population greater than 5
-        Predicate<Animal> populationFilter = animal -> animal.getPopulation() > 5;
+        // 1. Condition: Filter animals with a population greater than 5
+        Condition<Animal> populationFilter = animal -> animal.getPopulation() > 5;
         List<Animal> filteredAnimals = zoo.stream()
-                .filter(populationFilter)
+                .filter(populationFilter::test)
                 .toList();
 
-        // 2. Function: Convert animal names to uppercase
-        Function<Animal, Animal> nameToUppercase = animal ->
+        // 2. Transformer: Convert animal names to uppercase
+        Transformer<Animal, Animal> nameToUppercase = animal ->
                 new Animal(animal.getName().toUpperCase(), animal.getSpecies(), animal.getPopulation());
         List<Animal> uppercaseAnimals = filteredAnimals.stream()
-                .map(nameToUppercase)
+                .map(nameToUppercase::apply)
                 .toList();
 
-        // 3. ToIntFunction: Calculate total population
-        ToIntFunction<Animal> populationExtractor = Animal::getPopulation;
+        // 3. Extractor: Calculate total population
+        Extractor<Animal> populationExtractor = Animal::getPopulation;
         int totalPopulation = zoo.stream()
-                .mapToInt(populationExtractor)
+                .mapToInt(populationExtractor::extract)
                 .sum();
 
-        // 4. Function and Collector: Group animals by species
-        Function<Animal, String> speciesClassifier = Animal::getSpecies;
+        // 4. Transformer and Collector: Group animals by species
+        Transformer<Animal, String> speciesClassifier = Animal::getSpecies;
         Map<String, List<Animal>> animalsBySpecies = uppercaseAnimals.stream()
-                .collect(Collectors.groupingBy(speciesClassifier));
+                .collect(Collectors.groupingBy(speciesClassifier::apply));
 
         // 5. Consumer: Print formatted results for uppercaseAnimals
-        Consumer<Animal> animalPrinter = animal ->
-                System.out.println(animal.getName() + " belongs to "
-                        + animal.getSpecies() + " category and has " + animal.getPopulation() + " population.");
+        Consumer<Animal> animalPrinter = animal -> System.out.println(
+                animal.getName() + " belongs to " + animal.getSpecies() + " category and has " + animal.getPopulation() + " population."
+        );
         uppercaseAnimals.forEach(animalPrinter);
 
-
         System.out.println("\nAnimals grouped by species:");
-        animalsBySpecies.forEach((species, animals) -> {
-            System.out.println(species + ": " + animals);
-        });
+        animalsBySpecies.forEach((species, animals) -> System.out.println(species + ": " + animals));
 
         System.out.println("\nTotal population: " + totalPopulation);
-
     }
 
-
-    static <T, U> List<U> flattenAndTransform(List<List<T>> list, Function<T, U> function) {
+    static <T, U> List<U> flattenAndTransform(List<List<T>> list, Transformer<T, U> transformer) {
         return list.stream()
                 .flatMap(List::stream)
-                .map(function)
+                .map(transformer::apply)
                 .collect(Collectors.toList());
     }
 
-    static <T, U> Map<U, List<T>> groupBy(List<T> list, Function<T, U> function) {
+    static <T, U> Map<U, List<T>> groupBy(List<T> list, Transformer<T, U> transformer) {
         return list.stream()
-                .collect(Collectors.groupingBy(function));
+                .collect(Collectors.groupingBy(transformer::apply));
     }
 
-    static <T, U> List<U> filterAndTransform(List<T> list, Predicate<T> filter, Function<T, U> function) {
+    static <T, U> List<U> filterAndTransform(List<T> list, Condition<T> condition, Transformer<T, U> transformer) {
         return list.stream()
-                .filter(filter)
-                .map(function)
+                .filter(condition::test)
+                .map(transformer::apply)
                 .collect(Collectors.toList());
+    }
+
+    // Animal class definition
+    static class Animal {
+        private final String name;
+        private final String species;
+        private final int population;
+
+        public Animal(String name, String species, int population) {
+            this.name = name;
+            this.species = species;
+            this.population = population;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getSpecies() {
+            return species;
+        }
+
+        public int getPopulation() {
+            return population;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s(%s, %d)", name, species, population);
+        }
     }
 }
