@@ -1,5 +1,7 @@
 package com.labas.lambda;
 
+import com.labas.travelagency.core.Person;
+import com.labas.travelagency.model.agency.Booking;
 import com.labas.travelagency.model.agency.Customer;
 
 import java.util.*;
@@ -12,105 +14,54 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Main {
-
-    // Custom functional interfaces
-    @FunctionalInterface
-    interface Transformer<T, R> {
-        R apply(T t);
-    }
-
-    @FunctionalInterface
-    interface Condition<T> {
-        boolean test(T t);
-    }
-
-    @FunctionalInterface
-    interface Extractor<T> {
-        int extract(T t);
-    }
-
     public static void main(String[] args) {
-        List<List<Integer>> nestedNumbers = List.of(
-                List.of(1, 2, 3),
-                List.of(4, 5, 6),
-                List.of(4, 5, 6),
-                List.of(4, 5, 6)
-        );
-        List<Integer> squared = flattenAndTransform(nestedNumbers, n -> n * n);
-
-        List<String> words = List.of("apple", "banana", "cherry", "avocado");
-        Map<Character, List<String>> groupedByFirstLetter = groupBy(words, word -> word.charAt(0));
-
-        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
-        List<Integer> evenCubes = filterAndTransform(numbers, n -> n % 2 == 0, n -> n * n * n);
-
-        System.out.printf("Flattened and squared numbers: %s%n", squared);
-        System.out.printf("Grouped words by first letter: %s%n", groupedByFirstLetter);
-        System.out.printf("Even numbers cubed: %s%n%n", evenCubes);
-
-        // Sample zoo data
-        List<Animal> zoo = List.of(
-                new Animal("Lion", "Mammal", 10),
-                new Animal("Tiger", "Mammal", 5),
-                new Animal("Elephant", "Mammal", 20),
-                new Animal("Crocodile", "Reptile", 2),
-                new Animal("Zebra", "Mammal", 12),
-                new Animal("Python", "Reptile", 8)
+        List<Customer> customers = List.of(
+                new Customer(1, "Alice", "alice@mail.com", 15000.0),
+                new Customer(2, "Bob", "bob@mail.com", 5000.0),
+                new Customer(3, "Charlie", "charlie@mail.com", 20000.0),
+                new Customer(4, "David", "david@mail.com", 100.0)
         );
 
-        // 1. Condition: Filter animals with a population greater than 5
-        Condition<Animal> populationFilter = animal -> animal.getPopulation() > 5;
-        List<Animal> filteredAnimals = zoo.stream()
-                .filter(populationFilter::test)
+        // 1. Predicate: Filter customers with a balance > 1000
+        Predicate<Customer> balancePredicate = customer -> customer.getBalance() > 1000;
+        List<Customer> richCustomers = customers.stream()
+                .filter(balancePredicate)
                 .toList();
 
-        // 2. Transformer: Convert animal names to uppercase
-        Transformer<Animal, Animal> nameToUppercase = animal ->
-                new Animal(animal.getName().toUpperCase(), animal.getSpecies(), animal.getPopulation());
-        List<Animal> uppercaseAnimals = filteredAnimals.stream()
-                .map(nameToUppercase::apply)
+        // 2. Function: Transform customer names to uppercase
+        Function<Customer, Customer> toUppercaseName = customer ->
+                new Customer(customer.getId(), customer.getFullName().toUpperCase(),
+                        customer.getEmail(), customer.getBalance(), customer.getBookings());
+
+        List<Customer> uppercaseNameCustomers = richCustomers.stream()
+                .map(toUppercaseName)
                 .toList();
 
-        // 3. Extractor: Calculate total population
-        Extractor<Animal> populationExtractor = Animal::getPopulation;
-        int totalPopulation = zoo.stream()
-                .mapToInt(populationExtractor::extract)
+        // 3. ToDoubleFunction: Extract the balance of customers
+        ToDoubleFunction<Customer> balanceExtractor = Customer::getBalance;
+        double totalBalance = customers.stream()
+                .mapToDouble(balanceExtractor)
                 .sum();
 
-        // 4. Transformer and Collector: Group animals by species
-        Transformer<Animal, String> speciesClassifier = Animal::getSpecies;
-        Map<String, List<Animal>> animalsBySpecies = uppercaseAnimals.stream()
-                .collect(Collectors.groupingBy(speciesClassifier::apply));
+        // 4. Function: Group customers by the first letter of their name
+        Function<Customer, Character> groupByFirstLetter = customer -> customer.getFullName().charAt(0);
+        Map<Character, List<Customer>> customersByLetter = customers.stream()
+                .collect(Collectors.groupingBy(groupByFirstLetter));
 
-        // 5. Consumer: Print formatted results for uppercaseAnimals
-        Consumer<Animal> animalPrinter = animal -> System.out.println(
-                animal.getName() + " belongs to " + animal.getSpecies() + " category and has " + animal.getPopulation() + " population."
-        );
-        uppercaseAnimals.forEach(animalPrinter);
+        // 5. Consumer: Print customer information
+        Consumer<Customer> printCustomer = customer -> System.out.println(
+                customer.getFullName() + " - Balance: " + customer.getBalance());
 
-        System.out.println("\nAnimals grouped by species:");
-        animalsBySpecies.forEach((species, animals) -> System.out.println(species + ": " + animals));
+        // Output Results
+        System.out.println("Customers with a balance > 1000 (names in uppercase):");
+        uppercaseNameCustomers.forEach(printCustomer);
 
-        System.out.println("\nTotal population: " + totalPopulation);
+        System.out.println("\nGrouping customers by the first letter of their name:");
+        customersByLetter.forEach((letter, group) -> {
+            System.out.println(letter + ": " + group);
+        });
+
+        System.out.println("\nTotal balance of all customers: " + totalBalance);
     }
-
-    static <T, U> List<U> flattenAndTransform(List<List<T>> list, Transformer<T, U> transformer) {
-        return list.stream()
-                .flatMap(List::stream)
-                .map(transformer::apply)
-                .collect(Collectors.toList());
-    }
-
-    static <T, U> Map<U, List<T>> groupBy(List<T> list, Transformer<T, U> transformer) {
-        return list.stream()
-                .collect(Collectors.groupingBy(transformer::apply));
-    }
-
-    static <T, U> List<U> filterAndTransform(List<T> list, Condition<T> condition, Transformer<T, U> transformer) {
-        return list.stream()
-                .filter(condition::test)
-                .map(transformer::apply)
-                .collect(Collectors.toList());
-    }
-
 }
+

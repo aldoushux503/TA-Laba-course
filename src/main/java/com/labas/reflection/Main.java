@@ -6,21 +6,22 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            // 1: Load the class
-            Class<?> clazz = Class.forName("com.labas.reflection.SigmaClass");
+            // 1: Load the Customer class
+            Class<?> clazz = Class.forName("Main$Customer");
 
             // 2: Extract information about fields
             System.out.println("Fields:");
             for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true); // Allow access to private fields
                 System.out.printf("  Name: %s, Type: %s, Modifiers: %s%n",
                         field.getName(), field.getType(), Modifier.toString(field.getModifiers()));
             }
 
-            //  3: Extract information about constructors
+            // 3: Extract information about constructors
             System.out.println("\nConstructors:");
             for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
                 System.out.printf("  Constructor: %s, Parameters: %s%n",
-                        constructor.getName(), ParameterTypes(constructor.getParameterTypes()));
+                        constructor.getName(), parameterTypes(constructor.getParameterTypes()));
             }
 
             // 4: Extract information about methods
@@ -28,26 +29,33 @@ public class Main {
             for (Method method : clazz.getDeclaredMethods()) {
                 System.out.printf("  Name: %s, Return Type: %s, Parameters: %s, Modifiers: %s%n",
                         method.getName(), method.getReturnType(),
-                        ParameterTypes(method.getParameterTypes()), Modifier.toString(method.getModifiers()));
+                        parameterTypes(method.getParameterTypes()), Modifier.toString(method.getModifiers()));
             }
 
-            // 5: Dynamically create an object using a constructor
-            Constructor<?> constructor = clazz.getConstructor(int.class, String.class);
-            Object obj = constructor.newInstance(101, "John Doe");
+            // 5: Dynamically create a Customer object using a constructor
+            Constructor<?> constructor = clazz.getConstructor(long.class, String.class, String.class, double.class);
+            Object customer = constructor.newInstance(1L, "Alice", "alice@mail.com", 1000.0);
 
-            // 6: Call a method dynamically
-            Method setNameMethod = clazz.getMethod("setName", String.class);
-            setNameMethod.invoke(obj, "Jane Doe"); // Dynamically set name to "Jane Doe"
+            // 6: Modify a private field dynamically
+            Field balanceField = clazz.getDeclaredField("balance");
+            balanceField.setAccessible(true);
+            balanceField.set(customer, 5000.0); // Update balance to 5000.0
 
-            Method printInfoMethod = clazz.getMethod("printInfo");
-            printInfoMethod.invoke(obj); // Dynamically call printInfo()
+            // 7: Dynamically call the getBalance method
+            Method getBalanceMethod = clazz.getMethod("getBalance");
+            double balance = (double) getBalanceMethod.invoke(customer);
+            System.out.println("\nUpdated Balance: " + balance);
+
+            // 8: Dynamically call the toString method
+            Method toStringMethod = clazz.getMethod("toString");
+            System.out.println("Customer Details: " + toStringMethod.invoke(customer));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static String ParameterTypes(Class<?>[] parameterTypes) {
+    private static String parameterTypes(Class<?>[] parameterTypes) {
         StringBuilder sb = new StringBuilder();
         for (Class<?> type : parameterTypes) {
             if (sb.length() > 0) sb.append(", ");

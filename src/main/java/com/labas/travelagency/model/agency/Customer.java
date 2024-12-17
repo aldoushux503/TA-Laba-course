@@ -19,13 +19,13 @@ public class Customer extends Person {
 
     private double balance;
 
-    public Customer(long id, String name, String email, long balance) {
+    public Customer(long id, String name, String email, double balance) {
         super(id, name, email);
         this.bookings = new ArrayList<>();
         this.balance = balance;
     }
 
-    public Customer(long id, String name, String email, long balance, List<Booking> bookings) {
+    public Customer(long id, String name, String email, double balance, List<Booking> bookings) {
         super(id, name, email);
         this.balance = balance;
         this.bookings = Collections.unmodifiableList(bookings);
@@ -58,4 +58,6 @@ public class Customer extends Person {
     public List<Booking> getBookings() {
         return Collections.unmodifiableList(bookings);
     }
+
+
 }
