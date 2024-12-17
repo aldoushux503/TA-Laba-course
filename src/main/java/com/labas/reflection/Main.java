@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // 1: Load the Customer class
-            Class<?> clazz = Class.forName("Main$Customer");
+            Class<?> clazz = Class.forName("com.labas.travelagency.model.agency.Customer");
 
             // 2: Extract information about fields
             System.out.println("Fields:");
