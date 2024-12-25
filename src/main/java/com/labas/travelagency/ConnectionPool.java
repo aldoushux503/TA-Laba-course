@@ -1,4 +1,4 @@
-package com.labas.threads;
+package com.labas.travelagency;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

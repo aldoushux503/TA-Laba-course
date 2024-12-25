@@ -1,11 +1,10 @@
 package com.labas.travelagency.core;
 
-import com.labas.exceptions.ReservationException;
+import com.labas.travelagency.exceptions.ReservationException;
 import com.labas.travelagency.core.interfaces.*;
 import com.labas.travelagency.enums.general.Rating;
 import com.labas.travelagency.enums.transport.TransportationMode;
 
-import java.util.List;
 import java.util.Objects;
 
 /**

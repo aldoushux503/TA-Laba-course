@@ -1,4 +1,4 @@
-package com.labas.threads;
+package com.labas.travelagency;
 
 // Mocked Connection class
 class Connection {

@@ -1,6 +1,6 @@
 package com.labas.travelagency.model.agency;
 
-import com.labas.exceptions.InsufficientFundsException;
+import com.labas.travelagency.exceptions.InsufficientFundsException;
 import com.labas.travelagency.core.Person;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.labas.linkedlist;
+package com.labas.travelagency;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.labas.lambda;
+package com.labas.travelagency;
 
 @FunctionalInterface
 interface Extractor<T> {
