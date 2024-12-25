@@ -1,0 +1,4 @@
+package com.labas.travelagency.enums.transport;
+
+public enum TransportationMode {
+}
