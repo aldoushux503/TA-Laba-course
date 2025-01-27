@@ -50,7 +50,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public Connection acquiringConnection() {
+    public Connection acquiringConnection() throws InterruptedException {
         try {
             return pool.take();
         } catch (InterruptedException e) {
@@ -59,7 +59,21 @@ public class ConnectionPool {
 
             LOGGER.warn("Attempt to acquire connection was interrupted.", e);
 
-            throw new RuntimeException("Failed to acquire a database connection after multiple attempts.", e);
+            throw e;
+        }
+    }
+
+    public void releaseConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                if (!connection.isClosed()) {
+                    pool.offer(connection);
+                } else {
+                    LOGGER.warn("Attempted to release a closed connection back to the pool.");
+                }
+            } catch (SQLException e) {
+                LOGGER.error("Error while checking if the connection is closed.", e);
+            }
         }
     }
 }
