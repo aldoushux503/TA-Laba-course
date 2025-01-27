@@ -1,7 +1,7 @@
 package com.labas.travelagency;
 
 // Mocked Connection class
-class Connection {
+public class Connection {
     private final String id;
 
     public Connection(String id) {

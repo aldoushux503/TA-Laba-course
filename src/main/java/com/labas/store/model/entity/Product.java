@@ -1,4 +1,4 @@
-package com.labas.store.pojo;
+package com.labas.store.model.entity;
 
 /**
  * Represents a product in the OnlineStore platform.

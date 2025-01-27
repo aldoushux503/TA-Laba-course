@@ -1,4 +1,4 @@
-package com.labas.store.pojo;
+package com.labas.store.model.entity;
 
 /**
  * Represents the status of an order.

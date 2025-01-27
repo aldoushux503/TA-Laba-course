@@ -1,4 +1,4 @@
-package com.labas.store.pojo;
+package com.labas.store.model.entity;
 
 /**
  * Represents the relationship between a user and their roles.

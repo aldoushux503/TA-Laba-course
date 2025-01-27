@@ -1,4 +1,4 @@
-package com.labas.store.pojo;
+package com.labas.store.model.entity;
 
 /**
  * Represents an order placed by a user in the OnlineStore platform.
