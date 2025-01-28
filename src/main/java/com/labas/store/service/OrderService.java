@@ -1,4 +1,6 @@
 package com.labas.store.service;
 
-public interface OrderService {
+import com.labas.store.model.entity.Order;
+
+public interface OrderService extends GenericService<Order, Long> {
 }
