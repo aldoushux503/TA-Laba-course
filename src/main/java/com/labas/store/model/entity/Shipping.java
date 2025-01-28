@@ -11,10 +11,15 @@ public class Shipping {
     private String estimatedDelivery;
     private ShippingStatus shippingStatus;
     private Order order;
+    private Address address;
+
+    private Carrier carrier;
 
     public Shipping() {}
 
-    public Shipping(Long shippingId, String shippingCarrier, String trackingNumber, String shippedAt, String estimatedDelivery, ShippingStatus shippingStatus, Order order) {
+    public Shipping(Long shippingId, String shippingCarrier, String trackingNumber, String shippedAt,
+                    String estimatedDelivery, ShippingStatus shippingStatus, Order order,
+                    Address address, Carrier carrier) {
         this.shippingId = shippingId;
         this.shippingCarrier = shippingCarrier;
         this.trackingNumber = trackingNumber;
@@ -22,6 +27,8 @@ public class Shipping {
         this.estimatedDelivery = estimatedDelivery;
         this.shippingStatus = shippingStatus;
         this.order = order;
+        this.address = address;
+        this.carrier = carrier;
     }
 
     public Long getShippingId() {
@@ -78,5 +85,21 @@ public class Shipping {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Carrier getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(Carrier carrier) {
+        this.carrier = carrier;
     }
 }

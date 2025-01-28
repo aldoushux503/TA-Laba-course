@@ -1,13 +1,16 @@
 package com.labas.store.dao;
 
+import com.labas.store.exception.DAOException;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericDAO <T, ID> {
-    T findByID(ID id);
-    List<T> findAll();
-    boolean add (T entity);
+    Optional<T> findById(ID id) throws DAOException;
+    List<T> findAll() throws DAOException;
+    boolean save (T entity) throws DAOException;
 
-    boolean update(T entity);
-    boolean delete(ID id);
+    boolean update(T entity) throws DAOException;
+    boolean delete(ID id) throws DAOException;
 
 }

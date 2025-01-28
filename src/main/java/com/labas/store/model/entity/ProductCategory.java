@@ -10,7 +10,7 @@ public class ProductCategory {
     public ProductCategory() {
     }
 
-    public ProductCategory(Product product, Category category) {
+    public ProductCategory(Category category, Product product) {
         this.product = product;
         this.category = category;
     }
