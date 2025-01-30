@@ -1,10 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<store xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="onlineStore.xsd">
 
+    <!-- Categories Section -->
+    <categories>
+        <category categoryId="1">
+            <name>Electronics</name>
+        </category>
+        <category categoryId="2">
+            <name>Smartphones</name>
+            <parentCategory>1</parentCategory>
+        </category>
+        <category categoryId="3">
+            <name>Laptops</name>
+            <parentCategory>1</parentCategory>
+        </category>
+        <category categoryId="4">
+            <name>Gaming</name>
+            <parentCategory>1</parentCategory>
+        </category>
+    </categories>
 
+    <!-- Products Section -->
+    <products>
+        <product productId="101">
+            <name>iPhone 14</name>
+            <price>999.99</price>
+            <description>New Apple iPhone 14 with 128GB storage</description>
+        </product>
+        <product productId="102">
+            <name>Samsung Galaxy S23</name>
+            <price>899.99</price>
+            <description>Samsung flagship smartphone with 256GB storage</description>
+        </product>
+        <product productId="103">
+            <name>MacBook Pro 16</name>
+            <price>2499.99</price>
+            <description>Apple MacBook Pro with M2 Chip</description>
+        </product>
+        <product productId="104">
+            <name>PlayStation 5</name>
+            <price>499.99</price>
+            <description>Next-gen gaming console from Sony</description>
+        </product>
+    </products>
 
-<product>
-    <product_id>
+    <!-- Orders Section -->
+    <orders>
+        <order orderId="5001" orderStatusId="1" userId="1001">
+            <discount>10.00</discount>
+            <total>1889.99</total>
+            <createdAt>2024-01-15T10:30:00</createdAt>
+            <updatedAt>2024-01-16T14:45:00</updatedAt>
+        </order>
+        <order orderId="5002" orderStatusId="2" userId="1002">
+            <discount>5.00</discount>
+            <total>999.99</total>
+            <createdAt>2024-01-20T12:00:00</createdAt>
+        </order>
+        <order orderId="5003" orderStatusId="3" userId="1003">
+            <discount>15.00</discount>
+            <total>2499.99</total>
+            <createdAt>2024-02-01T09:15:00</createdAt>
+            <updatedAt>2024-02-02T11:00:00</updatedAt>
+        </order>
+    </orders>
 
-    </product_id>
+    <!-- Product Categories Relationship (Many-to-Many) -->
+    <productCategories>
+        <productCategory categoryId="1" productId="101"/>
+        <productCategory categoryId="2" productId="101"/>
+        <productCategory categoryId="1" productId="102"/>
+        <productCategory categoryId="3" productId="103"/>
+        <productCategory categoryId="4" productId="104"/>
+    </productCategories>
 
-</product>
+    <!-- Order-Product Relationship (Many-to-Many) -->
+    <orderProducts>
+        <orderProduct orderProductId="9001" orderId="5001" productId="101">
+            <priceAtOrder>999.99</priceAtOrder>
+            <quantity>1</quantity>
+        </orderProduct>
+        <orderProduct orderProductId="9002" orderId="5001" productId="102">
+            <priceAtOrder>899.99</priceAtOrder>
+            <quantity>1</quantity>
+        </orderProduct>
+        <orderProduct orderProductId="9003" orderId="5002" productId="101">
+            <priceAtOrder>999.99</priceAtOrder>
+            <quantity>1</quantity>
+        </orderProduct>
+        <orderProduct orderProductId="9004" orderId="5003" productId="103">
+            <priceAtOrder>2499.99</priceAtOrder>
+            <quantity>1</quantity>
+        </orderProduct>
+    </orderProducts>
+
+</store>
