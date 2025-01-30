@@ -31,7 +31,14 @@ public class Main {
 
             // Set related entities (OrderStatus and User)
             OrderStatus orderStatus = new OrderStatus(1L, "Pending"); // Example: Order status with ID = 1
-            User user = new User(1L, "John", "Doe", "john.doe@example.com", "123456789", "hashedPassword"); // Example: User with ID = 1
+            User user = new User(
+                    1L,
+                    "John",
+                    "Doe",
+                    "john.doe@example.com",
+                    "123456789",
+                    "hashedPassword"
+            ); // Example: User with ID = 1
 
             newOrder.setOrderStatus(orderStatus);
             newOrder.setUser(user);
@@ -73,6 +80,9 @@ public class Main {
             System.err.println("An error occurred while working with orders:");
             e.printStackTrace();
         }
+
+
+
     }
 }
 

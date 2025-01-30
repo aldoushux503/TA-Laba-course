@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:simpleType name="limitedString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="45"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="product">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="limitedString"/>
+                <xs:element name="price">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                            <xs:totalDigits value="20"/>
+                            <xs:fractionDigits value="5"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="description" type="limitedString" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="productId" type="xs:long" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="category">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="limitedString"/>
+                <xs:element name="parentCategory" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="categoryId" type="xs:long" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="productCategories">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="productCategory" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:attribute name="categoryId" type="xs:long" use="required"/>
+                        <xs:attribute name="productId" type="xs:long" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="order">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="discount" type="xs:float"/>
+                <xs:element name="total" type="xs:float"/>
+                <xs:element name="createdAt" type="xs:dateTime"/>
+                <xs:element name="updatedAt" type="xs:dateTime" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="orderId" type="xs:long" use="required"/>
+            <xs:attribute name="orderStatusId" type="xs:long" use="required"/>
+            <xs:attribute name="userId" type="xs:long" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="orderProducts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="orderProduct" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="priceAtOrder" type="xs:float"/>
+                            <xs:element name="quantity" type="xs:short"/>
+                        </xs:sequence>
+                        <xs:attribute name="orderProductId" type="xs:long" use="required"/>
+                        <xs:attribute name="orderId" type="xs:long" use="required"/>
+                        <xs:attribute name="productId" type="xs:long" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
