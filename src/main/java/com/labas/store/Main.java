@@ -9,6 +9,17 @@ import com.labas.store.service.OrderStatusService;
 import com.labas.store.service.UserService;
 import com.labas.store.util.ServiceFactory;
 
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,8 +92,68 @@ public class Main {
             e.printStackTrace();
         }
 
+        String xmlFilePath = "src/main/resources/onlineStore.xml";
+        String xsdFilePath = "src/main/resources/onlineStore.xsd";
 
+        // Validate XML against XSD
+        if (validateXML(xmlFilePath, xsdFilePath)) {
+            System.out.println("XML is valid according to XSD.");
 
+            // Parse XML using StAX
+            parseXMLWithStax(xmlFilePath);
+        } else {
+            System.out.println("XML validation failed.");
+        }
+
+    }
+
+    public static boolean validateXML(String xmlFile, String xsdFile) {
+        try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(xsdFile));
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(new File(xmlFile)));
+            return true;
+        } catch (Exception e) {
+            System.out.println("Validation error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static void parseXMLWithStax(String xmlFile) {
+        try {
+            InputStream inputStream = new FileInputStream(xmlFile);
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
+
+            String currentElement = "";
+            while (reader.hasNext()) {
+                int event = reader.next();
+
+                switch (event) {
+                    case XMLStreamConstants.START_ELEMENT -> {
+                        System.out.println("Start Element: " + reader.getLocalName());
+                        for (int i = 0; i < reader.getAttributeCount(); i++) {
+                            System.out.println(
+                                    "  Attribute: "
+                                            + reader.getAttributeLocalName(i) + " = " + reader.getAttributeValue(i)
+                            );
+                        }
+                    }
+                    case XMLStreamConstants.CHARACTERS -> {
+                        String text = reader.getText().trim();
+                        if (!text.isEmpty()) {
+                            System.out.println("  Text: " + text);
+                        }
+                    }
+                    case XMLStreamConstants.END_ELEMENT -> System.out.println("End Element: " + reader.getLocalName());
+                }
+            }
+            reader.close();
+            inputStream.close();
+        } catch (Exception e) {
+            System.out.println("Error while parsing XML: " + e.getMessage());
+        }
     }
 }
 

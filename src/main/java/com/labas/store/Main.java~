@@ -9,6 +9,17 @@ import com.labas.store.service.OrderStatusService;
 import com.labas.store.service.UserService;
 import com.labas.store.util.ServiceFactory;
 
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +42,14 @@ public class Main {
 
             // Set related entities (OrderStatus and User)
             OrderStatus orderStatus = new OrderStatus(1L, "Pending"); // Example: Order status with ID = 1
-            User user = new User(1L, "John", "Doe", "john.doe@example.com", "123456789", "hashedPassword"); // Example: User with ID = 1
+            User user = new User(
+                    1L,
+                    "John",
+                    "Doe",
+                    "john.doe@example.com",
+                    "123456789",
+                    "hashedPassword"
+            ); // Example: User with ID = 1
 
             newOrder.setOrderStatus(orderStatus);
             newOrder.setUser(user);
@@ -74,8 +92,164 @@ public class Main {
             e.printStackTrace();
         }
 
+        String xmlFilePath = "src/main/resources/onlineStore.xml";
+        String xsdFilePath = "src/main/resources/onlineStore.xsd";
 
-        
+        // Validate XML against XSD
+        if (validateXML(xmlFilePath, xsdFilePath)) {
+            System.out.println("XML is valid according to XSD.");
+
+            // Parse XML using StAX
+            parseXMLWithStax(xmlFilePath);
+        } else {
+            System.out.println("XML validation failed.");
+        }
+
+    }
+
+    public static boolean validateXML(String xmlFile, String xsdFile) {
+        try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(xsdFile));
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(new File(xmlFile)));
+            return true;
+        } catch (Exception e) {
+            System.out.println("Validation error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static void parseXMLWithStax(String xmlFile) {
+        try {
+            // Парсинг XML
+            while (reader.hasNext()) {
+                int event = reader.next();
+
+                switch (event) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        String elementName = reader.getLocalName();
+                        switch (elementName) {
+                            case "category":
+                                currentCategory = new Category();
+                                currentCategory.setCategoryId(Long.parseLong(reader.getAttributeValue(null, "categoryId")));
+                                break;
+                            case "name":
+                                if (currentCategory != null) {
+                                    currentCategory.setName(reader.getElementText());
+                                } else if (currentProduct != null) {
+                                    currentProduct.setName(reader.getElementText());
+                                }
+                                break;
+                            case "parentCategory":
+                                if (currentCategory != null) {
+                                    currentCategory.setParentCategory(Long.parseLong(reader.getElementText()));
+                                }
+                                break;
+                            case "product":
+                                currentProduct = new Product();
+                                currentProduct.setProductId(Long.parseLong(reader.getAttributeValue(null, "productId")));
+                                break;
+                            case "price":
+                                if (currentProduct != null) {
+                                    currentProduct.setPrice(Double.parseDouble(reader.getElementText()));
+                                }
+                                break;
+                            case "description":
+                                if (currentProduct != null) {
+                                    currentProduct.setDescription(reader.getElementText());
+                                }
+                                break;
+                            case "order":
+                                currentOrder = new Order();
+                                currentOrder.setOrderId(Long.parseLong(reader.getAttributeValue(null, "orderId")));
+                                currentOrder.setOrderStatusId(Long.parseLong(reader.getAttributeValue(null, "orderStatusId")));
+                                currentOrder.setUserId(Long.parseLong(reader.getAttributeValue(null, "userId")));
+                                break;
+                            case "discount":
+                                if (currentOrder != null) {
+                                    currentOrder.setDiscount(Float.parseFloat(reader.getElementText()));
+                                }
+                                break;
+                            case "total":
+                                if (currentOrder != null) {
+                                    currentOrder.setTotal(Float.parseFloat(reader.getElementText()));
+                                }
+                                break;
+                            case "createdAt":
+                                if (currentOrder != null) {
+                                    currentOrder.setCreatedAt(LocalDateTime.parse(reader.getElementText(), DateTimeFormatter.ISO_DATE_TIME));
+                                }
+                                break;
+                            case "updatedAt":
+                                if (currentOrder != null) {
+                                    currentOrder.setUpdatedAt(LocalDateTime.parse(reader.getElementText(), DateTimeFormatter.ISO_DATE_TIME));
+                                }
+                                break;
+                            case "productCategory":
+                                currentProductCategory = new ProductCategory();
+                                currentProductCategory.setCategoryId(Long.parseLong(reader.getAttributeValue(null, "categoryId")));
+                                currentProductCategory.setProductId(Long.parseLong(reader.getAttributeValue(null, "productId")));
+                                break;
+                            case "orderProduct":
+                                currentOrderProduct = new OrderProduct();
+                                currentOrderProduct.setOrderProductId(Long.parseLong(reader.getAttributeValue(null, "orderProductId")));
+                                currentOrderProduct.setOrderId(Long.parseLong(reader.getAttributeValue(null, "orderId")));
+                                currentOrderProduct.setProductId(Long.parseLong(reader.getAttributeValue(null, "productId")));
+                                break;
+                            case "priceAtOrder":
+                                if (currentOrderProduct != null) {
+                                    currentOrderProduct.setPriceAtOrder(Float.parseFloat(reader.getElementText()));
+                                }
+                                break;
+                            case "quantity":
+                                if (currentOrderProduct != null) {
+                                    currentOrderProduct.setQuantity(Integer.parseInt(reader.getElementText()));
+                                }
+                                break;
+                        }
+                        break;
+
+                    case XMLStreamConstants.END_ELEMENT:
+                        String endElementName = reader.getLocalName();
+                        switch (endElementName) {
+                            case "category":
+                                categories.add(currentCategory);
+                                currentCategory = null;
+                                break;
+                            case "product":
+                                products.add(currentProduct);
+                                currentProduct = null;
+                                break;
+                            case "order":
+                                orders.add(currentOrder);
+                                currentOrder = null;
+                                break;
+                            case "productCategory":
+                                productCategories.add(currentProductCategory);
+                                currentProductCategory = null;
+                                break;
+                            case "orderProduct":
+                                orderProducts.add(currentOrderProduct);
+                                currentOrderProduct = null;
+                                break;
+                        }
+                        break;
+                }
+            }
+
+            // Вывод объектов
+            System.out.println("Categories: " + categories);
+            System.out.println("Products: " + products);
+            System.out.println("Orders: " + orders);
+            System.out.println("Product Categories: " + productCategories);
+            System.out.println("Order Products: " + orderProducts);
+
+            // Закрываем ридер
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Error while parsing XML: " + e.getMessage());
+        }
     }
 }
 
