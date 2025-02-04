@@ -1,7 +1,7 @@
 package com.labas.store.dao.impl;
 
 import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.UserDAO;
+import com.labas.store.dao.IUserDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.User;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * Implementation of UserDAO.
  */
-public class UserDAOImpl extends AbstractDAO<User, Long> implements UserDAO {
+public class UserDAOImpl extends AbstractDAO<User, Long> implements IUserDAO {
     private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM User WHERE user_id = ?";

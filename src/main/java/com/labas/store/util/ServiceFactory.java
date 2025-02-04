@@ -9,64 +9,64 @@ import com.labas.store.service.impl.*;
  * Service factory to switch between different implementations or databases.
  */
 public class ServiceFactory {
-    private static final UserDAO userDAO = new UserDAOImpl();
-    private static final OrderStatusDAO orderStatusDAO = new OrderStatusDAOImpl();
-    private static final PaymentMethodDAO paymentMethodDAO = new PaymentMethodDAOImpl();
-    private static final CarrierDAO carrierDAO = new CarrierDAOImpl();
-    private static final AddressDAO addressDAO = new AddressDAOImpl(userDAO);
-    private static final ShippingStatusDAO shippingStatusDAO = new ShippingStatusDAOImpl();
-    private static final OrderDAO orderDAO = new OrderDAOImpl(orderStatusDAO, userDAO);
-    private static final PaymentDAO paymentDAO = new PaymentDAOImpl(paymentMethodDAO, orderDAO, userDAO);
-    private static final CategoryDAO categoryDAO = new CategoryDAOImpl();
+    private static final IUserDAO I_USER_DAO = new UserDAOImpl();
+    private static final IOrderStatusDAO I_ORDER_STATUS_DAO = new OrderStatusDAOImpl();
+    private static final IPaymentMethodDAO I_PAYMENT_METHOD_DAO = new PaymentMethodDAOImpl();
+    private static final ICarrierDAO I_CARRIER_DAO = new CarrierDAOImpl();
+    private static final IAddressDAO I_ADDRESS_DAO = new AddressDAOImpl(I_USER_DAO);
+    private static final IShippingStatusDAO I_SHIPPING_STATUS_DAO = new ShippingStatusDAOImpl();
+    private static final IOrderDAO I_ORDER_DAO = new OrderDAOImpl(I_ORDER_STATUS_DAO, I_USER_DAO);
+    private static final IPaymentDAO I_PAYMENT_DAO = new PaymentDAOImpl(I_PAYMENT_METHOD_DAO, I_ORDER_DAO, I_USER_DAO);
+    private static final ICategoryDAO I_CATEGORY_DAO = new CategoryDAOImpl();
 
-    private static final ProductDAO productDAO = new ProductDAOImpl();
-    private static final ShippingDAO shippingDAO = new ShippingDAOImpl(
-            shippingStatusDAO,
-            orderDAO,
-            addressDAO,
-            carrierDAO
+    private static final IProductDAO I_PRODUCT_DAO = new ProductDAOImpl();
+    private static final IShippingDAO I_SHIPPING_DAO = new ShippingDAOImpl(
+            I_SHIPPING_STATUS_DAO,
+            I_ORDER_DAO,
+            I_ADDRESS_DAO,
+            I_CARRIER_DAO
     );
-    private static final RoleDAO roleDAO = new RoleDAOImpl();
+    private static final IRoleDAO I_ROLE_DAO = new RoleDAOImpl();
 
     // Service Instances
-    private static final OrderService orderService = new OrderServiceImpl(orderDAO);
-    private static final ProductService productService = new ProductServiceImpl(productDAO);
-    private static final UserService userService = new UserServiceImpl(userDAO);
-    private static final CategoryService categoryService = new CategoryServiceImpl(categoryDAO);
-    private static final PaymentService paymentService = new PaymentServiceImpl(paymentDAO);
-    private static final ShippingService shippingService = new ShippingServiceImpl(shippingDAO);
-    private static final RoleService roleService = new RoleServiceImpl(roleDAO);
-    private static final OrderStatusService orderStatusService = new OrderStatusServiceImpl(orderStatusDAO);
+    private static final IOrderService I_ORDER_SERVICE = new OrderServiceImpl(I_ORDER_DAO);
+    private static final IProductService I_PRODUCT_SERVICE = new ProductServiceImpl(I_PRODUCT_DAO);
+    private static final IUserService I_USER_SERVICE = new UserServiceImpl(I_USER_DAO);
+    private static final ICategoryService I_CATEGORY_SERVICE = new CategoryServiceImpl(I_CATEGORY_DAO);
+    private static final IPaymentService I_PAYMENT_SERVICE = new PaymentServiceImpl(I_PAYMENT_DAO);
+    private static final IShippingService I_SHIPPING_SERVICE = new ShippingServiceImpl(I_SHIPPING_DAO);
+    private static final IRoleService I_ROLE_SERVICE = new RoleServiceImpl(I_ROLE_DAO);
+    private static final IOrderStatusService I_ORDER_STATUS_SERVICE = new OrderStatusServiceImpl(I_ORDER_STATUS_DAO);
 
-    public static OrderService getOrderService() {
-        return orderService;
+    public static IOrderService getOrderService() {
+        return I_ORDER_SERVICE;
     }
 
-    public static OrderStatusService getOrderStatusService() {
-        return orderStatusService;
+    public static IOrderStatusService getOrderStatusService() {
+        return I_ORDER_STATUS_SERVICE;
     }
 
-    public static ProductService getProductService() {
-        return productService;
+    public static IProductService getProductService() {
+        return I_PRODUCT_SERVICE;
     }
 
-    public static UserService getUserService() {
-        return userService;
+    public static IUserService getUserService() {
+        return I_USER_SERVICE;
     }
 
-    public static CategoryService getCategoryService() {
-        return categoryService;
+    public static ICategoryService getCategoryService() {
+        return I_CATEGORY_SERVICE;
     }
 
-    public static PaymentService getPaymentService() {
-        return paymentService;
+    public static IPaymentService getPaymentService() {
+        return I_PAYMENT_SERVICE;
     }
 
-    public static ShippingService getShippingService() {
-        return shippingService;
+    public static IShippingService getShippingService() {
+        return I_SHIPPING_SERVICE;
     }
 
-    public static RoleService getRoleService() {
-        return roleService;
+    public static IRoleService getRoleService() {
+        return I_ROLE_SERVICE;
     }
 }

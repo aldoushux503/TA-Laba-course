@@ -1,7 +1,7 @@
 package com.labas.store.dao.impl;
 
 import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.CarrierDAO;
+import com.labas.store.dao.ICarrierDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.Carrier;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * Implementation of CarrierDAO.
  */
-public class CarrierDAOImpl extends AbstractDAO<Carrier, Long> implements CarrierDAO {
+public class CarrierDAOImpl extends AbstractDAO<Carrier, Long> implements ICarrierDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(CarrierDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Carrier WHERE carrier_id = ?";

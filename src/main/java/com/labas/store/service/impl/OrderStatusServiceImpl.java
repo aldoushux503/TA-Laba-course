@@ -1,13 +1,12 @@
 package com.labas.store.service.impl;
 
-import com.labas.store.dao.GenericDAO;
-import com.labas.store.dao.OrderStatusDAO;
+import com.labas.store.dao.IOrderStatusDAO;
 import com.labas.store.model.entity.OrderStatus;
 import com.labas.store.service.AbstractService;
-import com.labas.store.service.OrderStatusService;
+import com.labas.store.service.IOrderStatusService;
 
-public class OrderStatusServiceImpl extends AbstractService<OrderStatus, Long> implements OrderStatusService {
-    public OrderStatusServiceImpl(OrderStatusDAO orderStatusDAO) {
-        super(orderStatusDAO);
+public class OrderStatusServiceImpl extends AbstractService<OrderStatus, Long> implements IOrderStatusService {
+    public OrderStatusServiceImpl(IOrderStatusDAO IOrderStatusDAO) {
+        super(IOrderStatusDAO);
     }
 }

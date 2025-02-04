@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * Implementation of PaymentDAO.
  */
-public class PaymentDAOImpl extends AbstractDAO<Payment, Long> implements PaymentDAO {
+public class PaymentDAOImpl extends AbstractDAO<Payment, Long> implements IPaymentDAO {
     private static final Logger logger = LoggerFactory.getLogger(PaymentDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Payment WHERE payment_id = ?";
@@ -26,15 +26,15 @@ public class PaymentDAOImpl extends AbstractDAO<Payment, Long> implements Paymen
     private static final String UPDATE = "UPDATE Payment SET updated_at = ?, payment_method_id = ?, user_id = ?, order_id = ? WHERE payment_id = ?";
     private static final String DELETE = "DELETE FROM Payment WHERE payment_id = ?";
 
-    private final PaymentMethodDAO paymentMethodDAO;
-    private final OrderDAO orderDAO;
-    private final UserDAO userDAO;
+    private final IPaymentMethodDAO IPaymentMethodDAO;
+    private final IOrderDAO IOrderDAO;
+    private final IUserDAO IUserDAO;
 
-    public PaymentDAOImpl(PaymentMethodDAO paymentMethodDAO, OrderDAO orderDAO, UserDAO userDAO) {
+    public PaymentDAOImpl(IPaymentMethodDAO IPaymentMethodDAO, IOrderDAO IOrderDAO, IUserDAO IUserDAO) {
         super();
-        this.paymentMethodDAO = paymentMethodDAO;
-        this.orderDAO = orderDAO;
-        this.userDAO = userDAO;
+        this.IPaymentMethodDAO = IPaymentMethodDAO;
+        this.IOrderDAO = IOrderDAO;
+        this.IUserDAO = IUserDAO;
     }
 
     @Override
@@ -131,12 +131,12 @@ public class PaymentDAOImpl extends AbstractDAO<Payment, Long> implements Paymen
         String createdAt = resultSet.getTimestamp("created_at").toString();
         String updatedAt = resultSet.getTimestamp("updated_at").toString();
         Long paymentMethodId = resultSet.getLong("payment_method_id");
-        PaymentMethod paymentMethod = paymentMethodDAO.findById(paymentMethodId).orElse(null);
+        PaymentMethod paymentMethod = IPaymentMethodDAO.findById(paymentMethodId).orElse(null);
 
         Long userId = resultSet.getLong("user_id");
-        User user = userDAO.findById(userId).orElse(null);
+        User user = IUserDAO.findById(userId).orElse(null);
         Long orderId = resultSet.getLong("order_id");
-        Order order = orderDAO.findById(orderId).orElse(null);
+        Order order = IOrderDAO.findById(orderId).orElse(null);
 
         return new Payment(id, createdAt, updatedAt, paymentMethod, user, order);
     }

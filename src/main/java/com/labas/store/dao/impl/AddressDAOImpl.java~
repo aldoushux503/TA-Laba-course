@@ -1,7 +1,7 @@
 package com.labas.store.dao.impl;
 
 import com.labas.store.dao.*;
-import com.labas.store.exceptions.DAOException;
+import com.labas.store.exception.DAOException;
 
 import com.labas.store.model.entity.*;
 import org.slf4j.Logger;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of AddressDAO.
  */
-public class AddressDAOImpl extends AbstractDAO<Address, Long> implements AddressDAO {
-    private static final Logger logger = LoggerFactory.getLogger(AddressDAOImpl.class);
+public class IAddressDAOImpl extends AbstractDAO<Address, Long> implements IAddressDAO {
+    private static final Logger logger = LoggerFactory.getLogger(IAddressDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Address WHERE address_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Address";
@@ -27,7 +27,7 @@ public class AddressDAOImpl extends AbstractDAO<Address, Long> implements Addres
 
     private final UserDAO userDAO;
 
-    public AddressDAOImpl(UserDAO userDAO) {
+    public IAddressDAOImpl(UserDAO userDAO) {
         super();
         this.userDAO = userDAO;
     }
@@ -63,6 +63,7 @@ public class AddressDAOImpl extends AbstractDAO<Address, Long> implements Addres
             while (resultSet.next()) {
                 addresses.add(mapRow(resultSet));
             }
+
         } catch (SQLException e) {
             logger.error("Error finding all addresses", e);
             throw new DAOException("Error finding all addresses", e);

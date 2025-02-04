@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of ShippingStatusDAO.
  */
-public class ShippingStatusDAOImpl extends AbstractDAO<ShippingStatus, Long> implements ShippingStatusDAO {
+public class ShippingStatusDAOImpl extends AbstractDAO<ShippingStatus, Long> implements IShippingStatusDAO {
     private static final Logger logger = LoggerFactory.getLogger(ShippingStatusDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Shipping_status WHERE shipping_status_id = ?";

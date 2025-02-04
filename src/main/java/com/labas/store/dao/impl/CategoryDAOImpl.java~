@@ -3,7 +3,7 @@ package com.labas.store.dao.impl;
 
 import com.labas.store.dao.AbstractDAO;
 import com.labas.store.dao.CategoryDAO;
-import com.labas.store.exceptions.DAOException;
+import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

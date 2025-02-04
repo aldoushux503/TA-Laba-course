@@ -1,9 +1,9 @@
 package com.labas.store.dao.impl;
 
 import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.RoleDAO;
-import com.labas.store.dao.UserDAO;
-import com.labas.store.dao.UserRoleDAO;
+import com.labas.store.dao.IRoleDAO;
+import com.labas.store.dao.IUserDAO;
+import com.labas.store.dao.IUserRoleDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.*;
 import com.labas.store.util.CompositeKey;
@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Implementation of UserRoleDAO.
  */
-public class UserRoleDAOImpl extends AbstractDAO<UserRole, CompositeKey<Long, Long>> implements UserRoleDAO {
+public class UserRoleDAOImpl extends AbstractDAO<UserRole, CompositeKey<Long, Long>> implements IUserRoleDAO {
     private static final Logger logger = LoggerFactory.getLogger(UserRoleDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM User_role WHERE user_id = ? AND role_id = ?";
@@ -28,12 +28,12 @@ public class UserRoleDAOImpl extends AbstractDAO<UserRole, CompositeKey<Long, Lo
     private static final String UPDATE = "UPDATE User_role SET role_id = ? WHERE user_id = ? AND role_id = ?";
     private static final String DELETE = "DELETE FROM User_role WHERE user_id = ? AND role_id = ?";
 
-    private final UserDAO userDAO;
-    private final RoleDAO roleDAO;
+    private final IUserDAO IUserDAO;
+    private final IRoleDAO IRoleDAO;
 
-    public UserRoleDAOImpl(UserDAO userDAO, RoleDAO roleDAO) {
-        this.userDAO = userDAO;
-        this.roleDAO = roleDAO;
+    public UserRoleDAOImpl(IUserDAO IUserDAO, IRoleDAO IRoleDAO) {
+        this.IUserDAO = IUserDAO;
+        this.IRoleDAO = IRoleDAO;
     }
 
     @Override
@@ -123,10 +123,10 @@ public class UserRoleDAOImpl extends AbstractDAO<UserRole, CompositeKey<Long, Lo
 
     private UserRole mapRow(ResultSet resultSet) throws SQLException, DAOException {
         Long userId = resultSet.getLong("user_id");
-        User user = userDAO.findById(userId).orElse(null);
+        User user = IUserDAO.findById(userId).orElse(null);
 
         Long roleId = resultSet.getLong("role_id");
-        Role role = roleDAO.findById(roleId).orElse(null);
+        Role role = IRoleDAO.findById(roleId).orElse(null);
 
         if (user == null || role == null) {
             throw new SQLException("Failed to map UserRole: missing related entities");

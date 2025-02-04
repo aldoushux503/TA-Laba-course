@@ -1,9 +1,9 @@
 package com.labas.store.dao.impl;
 
 import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.OrderDAO;
-import com.labas.store.dao.OrderStatusDAO;
-import com.labas.store.dao.UserDAO;
+import com.labas.store.dao.IOrderDAO;
+import com.labas.store.dao.IOrderStatusDAO;
+import com.labas.store.dao.IUserDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.Order;
 import com.labas.store.model.entity.OrderStatus;
@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Implementation of OrderDAO.
  */
-public class OrderDAOImpl extends AbstractDAO<Order, Long> implements OrderDAO {
+public class OrderDAOImpl extends AbstractDAO<Order, Long> implements IOrderDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM `Order` WHERE order_id = ?";
@@ -29,13 +29,13 @@ public class OrderDAOImpl extends AbstractDAO<Order, Long> implements OrderDAO {
     private static final String DELETE = "DELETE FROM `Order` WHERE order_id = ?";
 
 
-    private final OrderStatusDAO orderStatusDAO;
-    private final UserDAO userDAO;
+    private final IOrderStatusDAO IOrderStatusDAO;
+    private final IUserDAO IUserDAO;
 
-    public OrderDAOImpl(OrderStatusDAO orderStatusDAO, UserDAO userDAO) {
+    public OrderDAOImpl(IOrderStatusDAO IOrderStatusDAO, IUserDAO IUserDAO) {
         super();
-        this.orderStatusDAO = orderStatusDAO;
-        this.userDAO = userDAO;
+        this.IOrderStatusDAO = IOrderStatusDAO;
+        this.IUserDAO = IUserDAO;
     }
 
     @Override
@@ -137,10 +137,10 @@ public class OrderDAOImpl extends AbstractDAO<Order, Long> implements OrderDAO {
         String updatedAt = resultSet.getTimestamp("updated_at").toString();
 
         Long orderStatusId = resultSet.getLong("order_status_id");
-        OrderStatus orderStatus = orderStatusDAO.findById(orderStatusId).orElse(null);
+        OrderStatus orderStatus = IOrderStatusDAO.findById(orderStatusId).orElse(null);
 
         Long userId = resultSet.getLong("user_id");
-        User user = userDAO.findById(userId).orElse(null);
+        User user = IUserDAO.findById(userId).orElse(null);
 
         return new Order(id, discount, total, createdAt, updatedAt, orderStatus, user);
     }

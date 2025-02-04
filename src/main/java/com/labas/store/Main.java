@@ -4,9 +4,9 @@ import com.labas.store.exception.ServiceException;
 import com.labas.store.model.entity.Order;
 import com.labas.store.model.entity.OrderStatus;
 import com.labas.store.model.entity.User;
-import com.labas.store.service.OrderService;
-import com.labas.store.service.OrderStatusService;
-import com.labas.store.service.UserService;
+import com.labas.store.service.IOrderService;
+import com.labas.store.service.IOrderStatusService;
+import com.labas.store.service.IUserService;
 import com.labas.store.util.ServiceFactory;
 
 import javax.xml.XMLConstants;
@@ -27,9 +27,9 @@ import java.util.Optional;
 public class Main {
     public static void main(String[] args) {
         // Get the service instance for working with orders
-        OrderService orderService = ServiceFactory.getOrderService();
-        UserService userService = ServiceFactory.getUserService();
-        OrderStatusService orderStatusService = ServiceFactory.getOrderStatusService();
+        IOrderService IOrderService = ServiceFactory.getOrderService();
+        IUserService IUserService = ServiceFactory.getUserService();
+        IOrderStatusService IOrderStatusService = ServiceFactory.getOrderStatusService();
 
         try {
             // 1. Create a new order
@@ -54,19 +54,19 @@ public class Main {
             newOrder.setOrderStatus(orderStatus);
             newOrder.setUser(user);
 
-            boolean userSaved = userService.save(user);
-            boolean orderStatusSaved = orderStatusService.save(orderStatus);
-            boolean orderSaved = orderService.save(newOrder);
+            boolean userSaved = IUserService.save(user);
+            boolean orderStatusSaved = IOrderStatusService.save(orderStatus);
+            boolean orderSaved = IOrderService.save(newOrder);
             System.out.println("New order saved: " + orderSaved);
 
             // 2. Retrieve all orders
             System.out.println("\nRetrieving all orders...");
-            List<Order> orders = orderService.findAll();
+            List<Order> orders = IOrderService.findAll();
             orders.forEach(order -> System.out.println("Order: " + order));
 
             // 3. Retrieve an order by ID
             System.out.println("\nRetrieving order with ID = 1...");
-            Optional<Order> foundOrder = orderService.findById(1L);
+            Optional<Order> foundOrder = IOrderService.findById(1L);
             foundOrder.ifPresent(order -> System.out.println("Found order: " + order));
 
             // 4. Update an order
@@ -75,7 +75,7 @@ public class Main {
                 order.setDiscount(15.0f); // Change discount
                 order.setTotal(85.0f);   // Update total
                 try {
-                    boolean updated = orderService.update(order);
+                    boolean updated = IOrderService.update(order);
                     System.out.println("Order update completed: " + updated);
                 } catch (ServiceException e) {
                     e.printStackTrace();
@@ -84,7 +84,7 @@ public class Main {
 
             // 5. Delete an order
             System.out.println("\nDeleting order with ID = 1...");
-            boolean deleted = orderService.delete(1L);
+            boolean deleted = IOrderService.delete(1L);
             System.out.println("Order deletion completed: " + deleted);
 
         } catch (ServiceException e) {

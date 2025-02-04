@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of ShippingDAO.
  */
-public class ShippingDAOImpl extends AbstractDAO<Shipping, Long> implements ShippingDAO {
+public class ShippingDAOImpl extends AbstractDAO<Shipping, Long> implements IShippingDAO {
     private static final Logger logger = LoggerFactory.getLogger(ShippingDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Shipping WHERE shipping_id = ?";
@@ -25,17 +25,17 @@ public class ShippingDAOImpl extends AbstractDAO<Shipping, Long> implements Ship
     private static final String UPDATE = "UPDATE Shipping SET shipping_carrier = ?, tracking_number = ?, shipped_at = ?, estimated_delivery = ?, shipping_status_id = ?, order_id = ?, adress_id = ?, carrier_id = ? WHERE shipping_id = ?";
     private static final String DELETE = "DELETE FROM Shipping WHERE shipping_id = ?";
 
-    private final ShippingStatusDAO shippingStatusDAO;
-    private final OrderDAO orderDAO;
-    private final AddressDAO addressDAO;
-    private final CarrierDAO carrierDAO;
+    private final IShippingStatusDAO IShippingStatusDAO;
+    private final IOrderDAO IOrderDAO;
+    private final IAddressDAO IAddressDAO;
+    private final ICarrierDAO ICarrierDAO;
 
-    public ShippingDAOImpl(ShippingStatusDAO shippingStatusDAO, OrderDAO orderDAO, AddressDAO addressDAO, CarrierDAO carrierDAO) {
+    public ShippingDAOImpl(IShippingStatusDAO IShippingStatusDAO, IOrderDAO IOrderDAO, IAddressDAO IAddressDAO, ICarrierDAO ICarrierDAO) {
         super();
-        this.shippingStatusDAO = shippingStatusDAO;
-        this.orderDAO = orderDAO;
-        this.addressDAO = addressDAO;
-        this.carrierDAO = carrierDAO;
+        this.IShippingStatusDAO = IShippingStatusDAO;
+        this.IOrderDAO = IOrderDAO;
+        this.IAddressDAO = IAddressDAO;
+        this.ICarrierDAO = ICarrierDAO;
     }
 
     @Override
@@ -142,16 +142,16 @@ public class ShippingDAOImpl extends AbstractDAO<Shipping, Long> implements Ship
         String estimatedDelivery = resultSet.getDate("estimated_delivery").toString();
 
         Long shippingStatusId = resultSet.getLong("shipping_status_id");
-        ShippingStatus shippingStatus = shippingStatusDAO.findById(shippingStatusId).orElse(null);
+        ShippingStatus shippingStatus = IShippingStatusDAO.findById(shippingStatusId).orElse(null);
 
         Long orderId = resultSet.getLong("order_id");
-        Order order = orderDAO.findById(orderId).orElse(null);
+        Order order = IOrderDAO.findById(orderId).orElse(null);
 
         Long adressId = resultSet.getLong("adress_id");
-        Address address = addressDAO.findById(adressId).orElse(null);
+        Address address = IAddressDAO.findById(adressId).orElse(null);
 
         Long carrierId = resultSet.getLong("carrier_id");
-        Carrier carrier = carrierDAO.findById(carrierId).orElse(null);
+        Carrier carrier = ICarrierDAO.findById(carrierId).orElse(null);
 
         if (shippingStatus == null || order == null || address == null || carrier == null) {
             throw new SQLException("Failed to map Shipping: missing related entities");

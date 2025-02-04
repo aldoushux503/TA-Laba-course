@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class AbstractDAO<T, ID> implements GenericDAO<T, ID> {
+public abstract class AbstractDAO<T, ID> implements IGenericDAO<T, ID> {
     private static final Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
     protected ConnectionPool instance;
 

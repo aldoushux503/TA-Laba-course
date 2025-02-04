@@ -310,11 +310,11 @@ public class Main {
         ExecutorService threadPool = Executors.newFixedThreadPool(7);
 
         Callable<String> connectionTask = () -> {
-            Connection connection = connectionPool.acquireConnection();
-            System.out.println(Thread.currentThread().getName() + " acquired " + connection);
+            Connnection connnection = connectionPool.acquireConnection();
+            System.out.println(Thread.currentThread().getName() + " acquired " + connnection);
             Thread.sleep(2000); // Simulate work
-            connectionPool.releaseConnection(connection);
-            return "Released: " + connection;
+            connectionPool.releaseConnection(connnection);
+            return "Released: " + connnection;
         };
 
         List<Future<String>> futures = new ArrayList<>();
@@ -335,11 +335,11 @@ public class Main {
         for (int i = 0; i < 7; i++) {
             CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
                 try {
-                    Connection connection = connectionPool.acquireConnection();
-                    System.out.println(Thread.currentThread().getName() + " (Async) acquired " + connection);
+                    Connnection connnection = connectionPool.acquireConnection();
+                    System.out.println(Thread.currentThread().getName() + " (Async) acquired " + connnection);
                     Thread.sleep(2000);
-                    connectionPool.releaseConnection(connection);
-                    System.out.println(Thread.currentThread().getName() + " (Async) released " + connection);
+                    connectionPool.releaseConnection(connnection);
+                    System.out.println(Thread.currentThread().getName() + " (Async) released " + connnection);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

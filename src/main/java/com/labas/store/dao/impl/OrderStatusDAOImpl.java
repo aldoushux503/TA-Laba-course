@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of OrderStatusDAO.
  */
-public class OrderStatusDAOImpl extends AbstractDAO<OrderStatus, Long> implements OrderStatusDAO {
+public class OrderStatusDAOImpl extends AbstractDAO<OrderStatus, Long> implements IOrderStatusDAO {
     private static final Logger logger = LoggerFactory.getLogger(OrderStatusDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Order_status WHERE order_status_id = ?";

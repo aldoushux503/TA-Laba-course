@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * Implementation of ProductCategoryDAO.
  */
-public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory, CompositeKey<Long, Long>> implements ProductCategoryDAO {
+public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory, CompositeKey<Long, Long>> implements IProductCategoryDAO {
     private static final Logger logger = LoggerFactory.getLogger(ProductCategoryDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product_category WHERE category_id = ? AND product_id = ?";
@@ -26,13 +26,13 @@ public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory, Composi
     private static final String DELETE = "DELETE FROM Product_category WHERE category_id = ? AND product_id = ?";
     private static final String UPDATE = "UPDATE Product_category SET category_id = ? AND product_id = ? WHERE category_id = ? AND product_id = ?";
 
-    private final CategoryDAO categoryDAO;
-    private final ProductDAO productDAO;
+    private final ICategoryDAO ICategoryDAO;
+    private final IProductDAO IProductDAO;
 
-    public ProductCategoryDAOImpl(CategoryDAO categoryDAO, ProductDAO productDAO) {
+    public ProductCategoryDAOImpl(ICategoryDAO ICategoryDAO, IProductDAO IProductDAO) {
         super();
-        this.categoryDAO = categoryDAO;
-        this.productDAO = productDAO;
+        this.ICategoryDAO = ICategoryDAO;
+        this.IProductDAO = IProductDAO;
     }
 
     @Override
@@ -137,10 +137,10 @@ public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory, Composi
 
     private ProductCategory mapRow(ResultSet resultSet) throws SQLException, DAOException {
         Long categoryId = resultSet.getLong("category_id");
-        Category category = categoryDAO.findById(categoryId).orElse(null);
+        Category category = ICategoryDAO.findById(categoryId).orElse(null);
 
         Long productId = resultSet.getLong("product_id");
-        Product product = productDAO.findById(productId).orElse(null);
+        Product product = IProductDAO.findById(productId).orElse(null);
 
         if (category == null || product == null) {
             throw new SQLException("Failed to map ProductCategory: missing related entities");

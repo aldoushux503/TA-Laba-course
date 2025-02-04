@@ -122,131 +122,35 @@ public class Main {
 
     public static void parseXMLWithStax(String xmlFile) {
         try {
-            // Парсинг XML
+            InputStream inputStream = new FileInputStream(xmlFile);
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
+
+            String currentElement = "";
             while (reader.hasNext()) {
                 int event = reader.next();
 
                 switch (event) {
-                    case XMLStreamConstants.START_ELEMENT:
-                        String elementName = reader.getLocalName();
-                        switch (elementName) {
-                            case "category":
-                                currentCategory = new Category();
-                                currentCategory.setCategoryId(Long.parseLong(reader.getAttributeValue(null, "categoryId")));
-                                break;
-                            case "name":
-                                if (currentCategory != null) {
-                                    currentCategory.setName(reader.getElementText());
-                                } else if (currentProduct != null) {
-                                    currentProduct.setName(reader.getElementText());
-                                }
-                                break;
-                            case "parentCategory":
-                                if (currentCategory != null) {
-                                    currentCategory.setParentCategory(Long.parseLong(reader.getElementText()));
-                                }
-                                break;
-                            case "product":
-                                currentProduct = new Product();
-                                currentProduct.setProductId(Long.parseLong(reader.getAttributeValue(null, "productId")));
-                                break;
-                            case "price":
-                                if (currentProduct != null) {
-                                    currentProduct.setPrice(Double.parseDouble(reader.getElementText()));
-                                }
-                                break;
-                            case "description":
-                                if (currentProduct != null) {
-                                    currentProduct.setDescription(reader.getElementText());
-                                }
-                                break;
-                            case "order":
-                                currentOrder = new Order();
-                                currentOrder.setOrderId(Long.parseLong(reader.getAttributeValue(null, "orderId")));
-                                currentOrder.setOrderStatusId(Long.parseLong(reader.getAttributeValue(null, "orderStatusId")));
-                                currentOrder.setUserId(Long.parseLong(reader.getAttributeValue(null, "userId")));
-                                break;
-                            case "discount":
-                                if (currentOrder != null) {
-                                    currentOrder.setDiscount(Float.parseFloat(reader.getElementText()));
-                                }
-                                break;
-                            case "total":
-                                if (currentOrder != null) {
-                                    currentOrder.setTotal(Float.parseFloat(reader.getElementText()));
-                                }
-                                break;
-                            case "createdAt":
-                                if (currentOrder != null) {
-                                    currentOrder.setCreatedAt(LocalDateTime.parse(reader.getElementText(), DateTimeFormatter.ISO_DATE_TIME));
-                                }
-                                break;
-                            case "updatedAt":
-                                if (currentOrder != null) {
-                                    currentOrder.setUpdatedAt(LocalDateTime.parse(reader.getElementText(), DateTimeFormatter.ISO_DATE_TIME));
-                                }
-                                break;
-                            case "productCategory":
-                                currentProductCategory = new ProductCategory();
-                                currentProductCategory.setCategoryId(Long.parseLong(reader.getAttributeValue(null, "categoryId")));
-                                currentProductCategory.setProductId(Long.parseLong(reader.getAttributeValue(null, "productId")));
-                                break;
-                            case "orderProduct":
-                                currentOrderProduct = new OrderProduct();
-                                currentOrderProduct.setOrderProductId(Long.parseLong(reader.getAttributeValue(null, "orderProductId")));
-                                currentOrderProduct.setOrderId(Long.parseLong(reader.getAttributeValue(null, "orderId")));
-                                currentOrderProduct.setProductId(Long.parseLong(reader.getAttributeValue(null, "productId")));
-                                break;
-                            case "priceAtOrder":
-                                if (currentOrderProduct != null) {
-                                    currentOrderProduct.setPriceAtOrder(Float.parseFloat(reader.getElementText()));
-                                }
-                                break;
-                            case "quantity":
-                                if (currentOrderProduct != null) {
-                                    currentOrderProduct.setQuantity(Integer.parseInt(reader.getElementText()));
-                                }
-                                break;
+                    case XMLStreamConstants.START_ELEMENT -> {
+                        System.out.println("Start Element: " + reader.getLocalName());
+                        for (int i = 0; i < reader.getAttributeCount(); i++) {
+                            System.out.println(
+                                    "  Attribute: "
+                                            + reader.getAttributeLocalName(i) + " = " + reader.getAttributeValue(i)
+                            );
                         }
-                        break;
-
-                    case XMLStreamConstants.END_ELEMENT:
-                        String endElementName = reader.getLocalName();
-                        switch (endElementName) {
-                            case "category":
-                                categories.add(currentCategory);
-                                currentCategory = null;
-                                break;
-                            case "product":
-                                products.add(currentProduct);
-                                currentProduct = null;
-                                break;
-                            case "order":
-                                orders.add(currentOrder);
-                                currentOrder = null;
-                                break;
-                            case "productCategory":
-                                productCategories.add(currentProductCategory);
-                                currentProductCategory = null;
-                                break;
-                            case "orderProduct":
-                                orderProducts.add(currentOrderProduct);
-                                currentOrderProduct = null;
-                                break;
+                    }
+                    case XMLStreamConstants.CHARACTERS -> {
+                        String text = reader.getText().trim();
+                        if (!text.isEmpty()) {
+                            System.out.println("  Text: " + text);
                         }
-                        break;
+                    }
+                    case XMLStreamConstants.END_ELEMENT -> System.out.println("End Element: " + reader.getLocalName());
                 }
             }
-
-            // Вывод объектов
-            System.out.println("Categories: " + categories);
-            System.out.println("Products: " + products);
-            System.out.println("Orders: " + orders);
-            System.out.println("Product Categories: " + productCategories);
-            System.out.println("Order Products: " + orderProducts);
-
-            // Закрываем ридер
             reader.close();
+            inputStream.close();
         } catch (Exception e) {
             System.out.println("Error while parsing XML: " + e.getMessage());
         }

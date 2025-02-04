@@ -6,14 +6,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 // Thread-safe, lazy-initialized Connection Pool
 class ConnectionPool {
     private static volatile ConnectionPool instance;
-    private final BlockingQueue<Connection> pool;
+    private final BlockingQueue<Connnection> pool;
     private final int size;
 
     private ConnectionPool(int size) {
         this.size = size;
         this.pool = new LinkedBlockingQueue<>(size);
         for (int i = 1; i <= size; i++) {
-            pool.offer(new Connection("Connection-" + i));
+            pool.offer(new Connnection("Connection-" + i));
         }
     }
 
@@ -28,11 +28,11 @@ class ConnectionPool {
         return instance;
     }
 
-    public Connection acquireConnection() throws InterruptedException {
+    public Connnection acquireConnection() throws InterruptedException {
         return pool.take(); // Blocks if no connection is available
     }
 
-    public void releaseConnection(Connection connection) {
-        pool.offer(connection);
+    public void releaseConnection(Connnection connnection) {
+        pool.offer(connnection);
     }
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of ProductReviewDAO.
  */
-public class ProductReviewDAOImpl extends AbstractDAO<ProductReview, Long> implements ProductReviewDAO {
+public class ProductReviewDAOImpl extends AbstractDAO<ProductReview, Long> implements IProductReviewDAO {
     private static final Logger logger = LoggerFactory.getLogger(ProductReviewDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product_review WHERE review_id = ?";
@@ -26,13 +26,13 @@ public class ProductReviewDAOImpl extends AbstractDAO<ProductReview, Long> imple
     private static final String DELETE = "DELETE FROM Product_review WHERE review_id = ?";
 
 
-    private final ProductDAO productDAO;
-    private final UserDAO userDAO;
+    private final IProductDAO IProductDAO;
+    private final IUserDAO IUserDAO;
 
-    public ProductReviewDAOImpl(ProductDAO productDAO, UserDAO userDAO) {
+    public ProductReviewDAOImpl(IProductDAO IProductDAO, IUserDAO IUserDAO) {
         super();
-        this.productDAO = productDAO;
-        this.userDAO = userDAO;
+        this.IProductDAO = IProductDAO;
+        this.IUserDAO = IUserDAO;
     }
 
 
@@ -132,10 +132,10 @@ public class ProductReviewDAOImpl extends AbstractDAO<ProductReview, Long> imple
         Double rating = resultSet.getDouble("rating");
         String createdAt = resultSet.getTimestamp("created_at").toString();
         Long productId = resultSet.getLong("product_id");
-        Product product = productDAO.findById(productId).orElse(null);
+        Product product = IProductDAO.findById(productId).orElse(null);
 
         Long userId = resultSet.getLong("user_id");
-        User user = userDAO.findById(userId).orElse(null);
+        User user = IUserDAO.findById(userId).orElse(null);
 
         return new ProductReview(id, title, rating, createdAt, product, user);
     }

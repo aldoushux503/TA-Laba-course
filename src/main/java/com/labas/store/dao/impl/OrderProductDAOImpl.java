@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of OrderProductDAO.
  */
-public class OrderProductDAOImpl extends AbstractDAO<OrderProduct, CompositeKey<Long, Long>> implements OrderProductDAO {
+public class OrderProductDAOImpl extends AbstractDAO<OrderProduct, CompositeKey<Long, Long>> implements IOrderProductDAO {
     private static final Logger logger = LoggerFactory.getLogger(OrderProductDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Order_product WHERE order_id = ? AND product_id = ?";
@@ -25,12 +25,12 @@ public class OrderProductDAOImpl extends AbstractDAO<OrderProduct, CompositeKey<
     private static final String UPDATE = "UPDATE Order_product SET price_at_order = ?, quantity = ? WHERE order_id = ? AND product_id = ?";
     private static final String DELETE = "DELETE FROM Order_product WHERE order_id = ? AND product_id = ?";
 
-    private final OrderDAO orderDAO;
-    private final ProductDAO productDAO;
+    private final IOrderDAO IOrderDAO;
+    private final IProductDAO IProductDAO;
 
-    public OrderProductDAOImpl(OrderDAO orderDAO, ProductDAO productDAO) {
-        this.orderDAO = orderDAO;
-        this.productDAO = productDAO;
+    public OrderProductDAOImpl(IOrderDAO IOrderDAO, IProductDAO IProductDAO) {
+        this.IOrderDAO = IOrderDAO;
+        this.IProductDAO = IProductDAO;
     }
 
     @Override
@@ -123,10 +123,10 @@ public class OrderProductDAOImpl extends AbstractDAO<OrderProduct, CompositeKey<
 
     private OrderProduct mapRow(ResultSet resultSet) throws SQLException, DAOException {
         Long orderId = resultSet.getLong("order_id");
-        Order order = orderDAO.findById(orderId).orElse(null);
+        Order order = IOrderDAO.findById(orderId).orElse(null);
 
         Long productId = resultSet.getLong("product_id");
-        Product product = productDAO.findById(productId).orElse(null);
+        Product product = IProductDAO.findById(productId).orElse(null);
 
         float priceAtOrder = resultSet.getFloat("price_at_order");
         int quantity = resultSet.getInt("quantity");

@@ -1,6 +1,6 @@
 package com.labas.store.service;
 
-import com.labas.store.dao.GenericDAO;
+import com.labas.store.dao.IGenericDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.exception.ServiceException;
 
@@ -10,10 +10,10 @@ import java.util.Optional;
 /**
  * Abstract service class implementing common service logic.
  */
-public abstract class AbstractService<T, ID> implements GenericService<T, ID> {
-    protected final GenericDAO<T, ID> dao;
+public abstract class AbstractService<T, ID> implements IGenericService<T, ID> {
+    protected final IGenericDAO<T, ID> dao;
 
-    protected AbstractService(GenericDAO<T, ID> dao) {
+    protected AbstractService(IGenericDAO<T, ID> dao) {
         this.dao = dao;
     }
 

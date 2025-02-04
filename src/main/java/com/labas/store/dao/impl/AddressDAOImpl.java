@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of AddressDAO.
  */
-public class AddressDAOImpl extends AbstractDAO<Address, Long> implements AddressDAO {
+public class AddressDAOImpl extends AbstractDAO<Address, Long> implements IAddressDAO {
     private static final Logger logger = LoggerFactory.getLogger(AddressDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Address WHERE address_id = ?";
@@ -25,11 +25,11 @@ public class AddressDAOImpl extends AbstractDAO<Address, Long> implements Addres
     private static final String UPDATE = "UPDATE Address SET city = ?, street = ?, zip_code = ?, user_id = ? WHERE address_id = ?";
     private static final String DELETE = "DELETE FROM Address WHERE address_id = ?";
 
-    private final UserDAO userDAO;
+    private final IUserDAO IUserDAO;
 
-    public AddressDAOImpl(UserDAO userDAO) {
+    public AddressDAOImpl(IUserDAO IUserDAO) {
         super();
-        this.userDAO = userDAO;
+        this.IUserDAO = IUserDAO;
     }
 
     @Override
@@ -63,6 +63,7 @@ public class AddressDAOImpl extends AbstractDAO<Address, Long> implements Addres
             while (resultSet.next()) {
                 addresses.add(mapRow(resultSet));
             }
+
         } catch (SQLException e) {
             logger.error("Error finding all addresses", e);
             throw new DAOException("Error finding all addresses", e);
@@ -126,7 +127,7 @@ public class AddressDAOImpl extends AbstractDAO<Address, Long> implements Addres
         String street = resultSet.getString("street");
         String zipCode = resultSet.getString("zip_code");
         Long userId = resultSet.getLong("user_id");
-        User user = userDAO.findById(userId).orElse(null);
+        User user = IUserDAO.findById(userId).orElse(null);
 
         if (user == null) {
             throw new SQLException("Failed to map Address: missing related User");

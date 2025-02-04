@@ -1,6 +1,6 @@
 package com.labas.store.dao.impl;
 import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.ProductDAO;
+import com.labas.store.dao.IProductDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.Product;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProductDAOImpl extends AbstractDAO<Product, Long> implements ProductDAO {
+public class ProductDAOImpl extends AbstractDAO<Product, Long> implements IProductDAO {
     private static final Logger logger = LoggerFactory.getLogger(ProductDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product WHERE product_id = ?";

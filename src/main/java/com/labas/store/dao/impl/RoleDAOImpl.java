@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Implementation of RoleDAO.
  */
-public class RoleDAOImpl extends AbstractDAO<Role, Long> implements RoleDAO {
+public class RoleDAOImpl extends AbstractDAO<Role, Long> implements IRoleDAO {
     private static final Logger logger = LoggerFactory.getLogger(RoleDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Role WHERE role_id = ?";

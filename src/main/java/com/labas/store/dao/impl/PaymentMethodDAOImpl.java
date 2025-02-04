@@ -1,7 +1,7 @@
 package com.labas.store.dao.impl;
 
 import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.PaymentMethodDAO;
+import com.labas.store.dao.IPaymentMethodDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.PaymentMethod;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * Implementation of PaymentMethodDAO.
  */
-public class PaymentMethodDAOImpl extends AbstractDAO<PaymentMethod, Long> implements PaymentMethodDAO {
+public class PaymentMethodDAOImpl extends AbstractDAO<PaymentMethod, Long> implements IPaymentMethodDAO {
     private static final Logger logger = LoggerFactory.getLogger(PaymentMethodDAOImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Payment_method WHERE payment_method_id = ?";
