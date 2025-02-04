@@ -3,7 +3,6 @@ package com.labas.store.service.impl;
 import com.labas.store.dao.IOrderDAO;
 import com.labas.store.exception.ServiceException;
 import com.labas.store.model.entity.Order;
-import com.labas.store.service.AbstractService;
 import com.labas.store.service.IOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -14,7 +14,7 @@ public class JDBCConnectionPool implements ConnectionProvider {
     private static final String URL = "jdbc:mysql://localhost:3306/OnlineStore";
     private static final String USER = "root";
     private static final String PASSWORD = "7415";
-    private static final int POOL_SIZE = 1;
+    private static final int POOL_SIZE = 26;
 
 
     private static volatile JDBCConnectionPool instance;

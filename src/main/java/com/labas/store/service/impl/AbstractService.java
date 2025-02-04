@@ -1,8 +1,9 @@
-package com.labas.store.service;
+package com.labas.store.service.impl;
 
 import com.labas.store.dao.IGenericDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.exception.ServiceException;
+import com.labas.store.service.IGenericService;
 
 import java.util.List;
 import java.util.Optional;

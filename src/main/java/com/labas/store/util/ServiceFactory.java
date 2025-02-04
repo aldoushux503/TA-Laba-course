@@ -9,64 +9,70 @@ import com.labas.store.service.impl.*;
  * Service factory to switch between different implementations or databases.
  */
 public class ServiceFactory {
-    private static final IUserDAO I_USER_DAO = new JDBCUserDAO();
-    private static final IOrderStatusDAO I_ORDER_STATUS_DAO = new JDBCOrderStatusDAO();
-    private static final IPaymentMethodDAO I_PAYMENT_METHOD_DAO = new JDBCPaymentMethodDAO();
-    private static final ICarrierDAO I_CARRIER_DAO = new JDBCCarrierDAO();
-    private static final IAddressDAO I_ADDRESS_DAO = new JDBCAddressDAO(I_USER_DAO);
-    private static final IShippingStatusDAO I_SHIPPING_STATUS_DAO = new JDBCShippingStatusDAO();
-    private static final IOrderDAO I_ORDER_DAO = new JDBCOrderDAO(I_ORDER_STATUS_DAO, I_USER_DAO);
-    private static final IPaymentDAO I_PAYMENT_DAO = new JDBCPaymentDAO(I_PAYMENT_METHOD_DAO, I_ORDER_DAO, I_USER_DAO);
-    private static final ICategoryDAO I_CATEGORY_DAO = new JDBCCategoryDAO();
+    private static final String DATABASE_TYPE = "mysql";
+    private static DAOFactory daoFactory;
 
-    private static final IProductDAO I_PRODUCT_DAO = new JDBCProductDAO();
-    private static final IShippingDAO I_SHIPPING_DAO = new JDBCShippingDAO(
-            I_SHIPPING_STATUS_DAO,
-            I_ORDER_DAO,
-            I_ADDRESS_DAO,
-            I_CARRIER_DAO
-    );
-    private static final IRoleDAO I_ROLE_DAO = new JDBCRoleDAO();
-
-    // Service Instances
-    private static final IOrderService I_ORDER_SERVICE = new OrderServiceImpl(I_ORDER_DAO);
-    private static final IProductService I_PRODUCT_SERVICE = new ProductServiceImpl(I_PRODUCT_DAO);
-    private static final IUserService I_USER_SERVICE = new UserServiceImpl(I_USER_DAO);
-    private static final ICategoryService I_CATEGORY_SERVICE = new CategoryServiceImpl(I_CATEGORY_DAO);
-    private static final IPaymentService I_PAYMENT_SERVICE = new PaymentServiceImpl(I_PAYMENT_DAO);
-    private static final IShippingService I_SHIPPING_SERVICE = new ShippingServiceImpl(I_SHIPPING_DAO);
-    private static final IRoleService I_ROLE_SERVICE = new RoleServiceImpl(I_ROLE_DAO);
-    private static final IOrderStatusService I_ORDER_STATUS_SERVICE = new OrderStatusServiceImpl(I_ORDER_STATUS_DAO);
-
-    public static IOrderService getOrderService() {
-        return I_ORDER_SERVICE;
+    static {
+        if ("mysql".equalsIgnoreCase(DATABASE_TYPE)) {
+            daoFactory = new JDBCDAOFactory();
+//        } else if ("mongodb".equalsIgnoreCase(DATABASE_TYPE)) {
+//            daoFactory = new MongoDAOFactory();
+        } else {
+            throw new UnsupportedOperationException("Unsupported database type: " + DATABASE_TYPE);
+        }
     }
 
-    public static IOrderStatusService getOrderStatusService() {
-        return I_ORDER_STATUS_SERVICE;
+    private static final IUserDAO USER_DAO = daoFactory.createUserDAO();
+    private static final IOrderStatusDAO ORDER_STATUS_DAO = daoFactory.createOrderStatusDAO();
+    private static final IPaymentMethodDAO PAYMENT_METHOD_DAO = daoFactory.createPaymentMethodDAO();
+    private static final ICarrierDAO CARRIER_DAO = daoFactory.createCarrierDAO();
+    private static final IAddressDAO ADDRESS_DAO = daoFactory.createAddressDAO(USER_DAO);
+    private static final IShippingStatusDAO SHIPPING_STATUS_DAO = daoFactory.createShippingStatusDAO();
+    private static final IOrderDAO ORDER_DAO = daoFactory.createOrderDAO(ORDER_STATUS_DAO, USER_DAO);
+    private static final IPaymentDAO PAYMENT_DAO = daoFactory.createPaymentDAO(PAYMENT_METHOD_DAO, ORDER_DAO, USER_DAO);
+    private static final ICategoryDAO CATEGORY_DAO = daoFactory.createCategoryDAO();
+    private static final IProductDAO PRODUCT_DAO = daoFactory.createProductDAO();
+    private static final IShippingDAO SHIPPING_DAO = daoFactory.createShippingDAO(SHIPPING_STATUS_DAO, ORDER_DAO, ADDRESS_DAO, CARRIER_DAO);
+    private static final IRoleDAO ROLE_DAO = daoFactory.createRoleDAO();
+
+    private static final IOrderService ORDER_SERVICE = new OrderServiceImpl(ORDER_DAO);
+    private static final IProductService PRODUCT_SERVICE = new ProductServiceImpl(PRODUCT_DAO);
+    private static final IUserService USER_SERVICE = new UserServiceImpl(USER_DAO);
+    private static final ICategoryService CATEGORY_SERVICE = new CategoryServiceImpl(CATEGORY_DAO);
+    private static final IPaymentService PAYMENT_SERVICE = new PaymentServiceImpl(PAYMENT_DAO);
+    private static final IShippingService SHIPPING_SERVICE = new ShippingServiceImpl(SHIPPING_DAO);
+    private static final IRoleService ROLE_SERVICE = new RoleServiceImpl(ROLE_DAO);
+    private static final IOrderStatusService ORDER_STATUS_SERVICE = new OrderStatusServiceImpl(ORDER_STATUS_DAO);
+
+    public static IOrderService getOrderService() {
+        return ORDER_SERVICE;
     }
 
     public static IProductService getProductService() {
-        return I_PRODUCT_SERVICE;
+        return PRODUCT_SERVICE;
     }
 
     public static IUserService getUserService() {
-        return I_USER_SERVICE;
+        return USER_SERVICE;
     }
 
     public static ICategoryService getCategoryService() {
-        return I_CATEGORY_SERVICE;
+        return CATEGORY_SERVICE;
     }
 
     public static IPaymentService getPaymentService() {
-        return I_PAYMENT_SERVICE;
+        return PAYMENT_SERVICE;
     }
 
     public static IShippingService getShippingService() {
-        return I_SHIPPING_SERVICE;
+        return SHIPPING_SERVICE;
     }
 
     public static IRoleService getRoleService() {
-        return I_ROLE_SERVICE;
+        return ROLE_SERVICE;
+    }
+
+    public static IOrderStatusService getOrderStatusService() {
+        return ORDER_STATUS_SERVICE;
     }
 }

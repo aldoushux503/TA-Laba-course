@@ -9,24 +9,24 @@ import com.labas.store.service.impl.*;
  * Service factory to switch between different implementations or databases.
  */
 public class ServiceFactory {
-    private static final IUserDAO I_USER_DAO = new UserDAOImpl();
-    private static final IOrderStatusDAO I_ORDER_STATUS_DAO = new OrderStatusDAOImpl();
-    private static final IPaymentMethodDAO I_PAYMENT_METHOD_DAO = new PaymentMethodDAOImpl();
-    private static final ICarrierDAO I_CARRIER_DAO = new CarrierDAOImpl();
-    private static final IAddressDAO I_ADDRESS_DAO = new AddressDAOImpl(I_USER_DAO);
-    private static final IShippingStatusDAO I_SHIPPING_STATUS_DAO = new ShippingStatusDAOImpl();
-    private static final IOrderDAO I_ORDER_DAO = new OrderDAOImpl(I_ORDER_STATUS_DAO, I_USER_DAO);
-    private static final IPaymentDAO I_PAYMENT_DAO = new PaymentDAOImpl(I_PAYMENT_METHOD_DAO, I_ORDER_DAO, I_USER_DAO);
-    private static final ICategoryDAO I_CATEGORY_DAO = new CategoryDAOImpl();
+    private static final IUserDAO I_USER_DAO = new JDBCUserDAO();
+    private static final IOrderStatusDAO I_ORDER_STATUS_DAO = new JDBCOrderStatusDAO();
+    private static final IPaymentMethodDAO I_PAYMENT_METHOD_DAO = new JDBCPaymentMethodDAO();
+    private static final ICarrierDAO I_CARRIER_DAO = new JDBCCarrierDAO();
+    private static final IAddressDAO I_ADDRESS_DAO = new JDBCAddressDAO(I_USER_DAO);
+    private static final IShippingStatusDAO I_SHIPPING_STATUS_DAO = new JDBCShippingStatusDAO();
+    private static final IOrderDAO I_ORDER_DAO = new JDBCOrderDAO(I_ORDER_STATUS_DAO, I_USER_DAO);
+    private static final IPaymentDAO I_PAYMENT_DAO = new JDBCPaymentDAO(I_PAYMENT_METHOD_DAO, I_ORDER_DAO, I_USER_DAO);
+    private static final ICategoryDAO I_CATEGORY_DAO = new JDBCCategoryDAO();
 
-    private static final IProductDAO I_PRODUCT_DAO = new ProductDAOImpl();
-    private static final IShippingDAO I_SHIPPING_DAO = new ShippingDAOImpl(
+    private static final IProductDAO I_PRODUCT_DAO = new JDBCProductDAO();
+    private static final IShippingDAO I_SHIPPING_DAO = new JDBCShippingDAO(
             I_SHIPPING_STATUS_DAO,
             I_ORDER_DAO,
             I_ADDRESS_DAO,
             I_CARRIER_DAO
     );
-    private static final IRoleDAO I_ROLE_DAO = new RoleDAOImpl();
+    private static final IRoleDAO I_ROLE_DAO = new JDBCRoleDAO();
 
     // Service Instances
     private static final IOrderService I_ORDER_SERVICE = new OrderServiceImpl(I_ORDER_DAO);
