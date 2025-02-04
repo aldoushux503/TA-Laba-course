@@ -1,6 +1,5 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
-import com.labas.store.dao.AbstractDAO;
 import com.labas.store.dao.IRoleDAO;
 import com.labas.store.dao.IUserDAO;
 import com.labas.store.dao.IUserRoleDAO;
@@ -19,8 +18,8 @@ import java.util.Optional;
 /**
  * Implementation of UserRoleDAO.
  */
-public class UserRoleDAOImpl extends AbstractDAO<UserRole, CompositeKey<Long, Long>> implements IUserRoleDAO {
-    private static final Logger logger = LoggerFactory.getLogger(UserRoleDAOImpl.class);
+public class JDBCUserRoleDAO extends JDBCAbstractDAO<UserRole, CompositeKey<Long, Long>> implements IUserRoleDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCUserRoleDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM User_role WHERE user_id = ? AND role_id = ?";
     private static final String FIND_ALL = "SELECT * FROM User_role";
@@ -31,7 +30,7 @@ public class UserRoleDAOImpl extends AbstractDAO<UserRole, CompositeKey<Long, Lo
     private final IUserDAO IUserDAO;
     private final IRoleDAO IRoleDAO;
 
-    public UserRoleDAOImpl(IUserDAO IUserDAO, IRoleDAO IRoleDAO) {
+    public JDBCUserRoleDAO(IUserDAO IUserDAO, IRoleDAO IRoleDAO) {
         this.IUserDAO = IUserDAO;
         this.IRoleDAO = IRoleDAO;
     }

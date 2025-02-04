@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of OrderStatusDAO.
  */
-public class OrderStatusDAOImpl extends AbstractDAO<OrderStatus, Long> implements OrderStatusDAO {
-    private static final Logger logger = LoggerFactory.getLogger(OrderStatusDAOImpl.class);
+public class JDBCOrderStatusDAO extends JDBCAbstractDAO<OrderStatus, Long> implements IOrderStatusDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCOrderStatusDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Order_status WHERE order_status_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Order_status";

@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of AddressDAO.
  */
-public class AddressDAOImpl extends AbstractDAO<Address, Long> implements IAddressDAO {
-    private static final Logger logger = LoggerFactory.getLogger(AddressDAOImpl.class);
+public class JDBCAddressDAO extends JDBCAbstractDAO<Address, Long> implements IAddressDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCAddressDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Address WHERE address_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Address";
@@ -27,7 +27,7 @@ public class AddressDAOImpl extends AbstractDAO<Address, Long> implements IAddre
 
     private final IUserDAO IUserDAO;
 
-    public AddressDAOImpl(IUserDAO IUserDAO) {
+    public JDBCAddressDAO(IUserDAO IUserDAO) {
         super();
         this.IUserDAO = IUserDAO;
     }

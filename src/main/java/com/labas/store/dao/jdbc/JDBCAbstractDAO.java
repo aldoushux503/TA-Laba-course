@@ -1,19 +1,20 @@
-package com.labas.store.dao;
+package com.labas.store.dao.jdbc;
 
-import com.labas.store.util.ConnectionPool;
+import com.labas.store.dao.IGenericDAO;
+import com.labas.store.connection.JDBCConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class AbstractDAO<T, ID> implements IGenericDAO<T, ID> {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
-    protected ConnectionPool instance;
+public abstract class JDBCAbstractDAO<T, ID> implements IGenericDAO<T, ID> {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCAbstractDAO.class);
+    protected JDBCConnectionPool instance;
 
-    protected AbstractDAO() {
+    protected JDBCAbstractDAO() {
         try {
-            this.instance = ConnectionPool.getInstance();
+            this.instance = JDBCConnectionPool.getInstance();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to initialize Connection Pool", e);
         }

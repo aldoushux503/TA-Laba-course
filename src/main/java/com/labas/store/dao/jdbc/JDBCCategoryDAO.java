@@ -1,8 +1,7 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 
-import com.labas.store.dao.AbstractDAO;
-import com.labas.store.dao.CategoryDAO;
+import com.labas.store.dao.ICategoryDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.Category;
 import org.slf4j.Logger;
@@ -16,8 +15,8 @@ import java.util.Optional;
 /**
  * Implementation of CategoryDAO.
  */
-public class CategoryDAOImpl extends AbstractDAO<Category, Long> implements CategoryDAO {
-    private static final Logger logger = LoggerFactory.getLogger(CategoryDAOImpl.class);
+public class JDBCCategoryDAO extends JDBCAbstractDAO<Category, Long> implements ICategoryDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCCategoryDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Category WHERE category_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Category";

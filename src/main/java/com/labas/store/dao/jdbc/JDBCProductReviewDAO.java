@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of ProductReviewDAO.
  */
-public class ProductReviewDAOImpl extends AbstractDAO<ProductReview, Long> implements IProductReviewDAO {
-    private static final Logger logger = LoggerFactory.getLogger(ProductReviewDAOImpl.class);
+public class JDBCProductReviewDAO extends JDBCAbstractDAO<ProductReview, Long> implements IProductReviewDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCProductReviewDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product_review WHERE review_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Product_review";
@@ -29,7 +29,7 @@ public class ProductReviewDAOImpl extends AbstractDAO<ProductReview, Long> imple
     private final IProductDAO IProductDAO;
     private final IUserDAO IUserDAO;
 
-    public ProductReviewDAOImpl(IProductDAO IProductDAO, IUserDAO IUserDAO) {
+    public JDBCProductReviewDAO(IProductDAO IProductDAO, IUserDAO IUserDAO) {
         super();
         this.IProductDAO = IProductDAO;
         this.IUserDAO = IUserDAO;

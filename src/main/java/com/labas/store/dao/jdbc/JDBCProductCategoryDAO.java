@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -17,8 +17,8 @@ import java.util.Optional;
 /**
  * Implementation of ProductCategoryDAO.
  */
-public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory, CompositeKey<Long, Long>> implements IProductCategoryDAO {
-    private static final Logger logger = LoggerFactory.getLogger(ProductCategoryDAOImpl.class);
+public class JDBCProductCategoryDAO extends JDBCAbstractDAO<ProductCategory, CompositeKey<Long, Long>> implements IProductCategoryDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCProductCategoryDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product_category WHERE category_id = ? AND product_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Product_category";
@@ -29,7 +29,7 @@ public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory, Composi
     private final ICategoryDAO ICategoryDAO;
     private final IProductDAO IProductDAO;
 
-    public ProductCategoryDAOImpl(ICategoryDAO ICategoryDAO, IProductDAO IProductDAO) {
+    public JDBCProductCategoryDAO(ICategoryDAO ICategoryDAO, IProductDAO IProductDAO) {
         super();
         this.ICategoryDAO = ICategoryDAO;
         this.IProductDAO = IProductDAO;

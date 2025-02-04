@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 
 import com.labas.store.dao.*;
@@ -17,8 +17,8 @@ import java.util.Optional;
 /**
  * Implementation of PaymentDAO.
  */
-public class PaymentDAOImpl extends AbstractDAO<Payment, Long> implements IPaymentDAO {
-    private static final Logger logger = LoggerFactory.getLogger(PaymentDAOImpl.class);
+public class JDBCPaymentDAO extends JDBCAbstractDAO<Payment, Long> implements IPaymentDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCPaymentDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Payment WHERE payment_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Payment";
@@ -30,7 +30,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment, Long> implements IPayme
     private final IOrderDAO IOrderDAO;
     private final IUserDAO IUserDAO;
 
-    public PaymentDAOImpl(IPaymentMethodDAO IPaymentMethodDAO, IOrderDAO IOrderDAO, IUserDAO IUserDAO) {
+    public JDBCPaymentDAO(IPaymentMethodDAO IPaymentMethodDAO, IOrderDAO IOrderDAO, IUserDAO IUserDAO) {
         super();
         this.IPaymentMethodDAO = IPaymentMethodDAO;
         this.IOrderDAO = IOrderDAO;

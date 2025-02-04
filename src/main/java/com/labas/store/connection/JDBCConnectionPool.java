@@ -1,4 +1,4 @@
-package com.labas.store.util;
+package com.labas.store.connection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,17 +9,17 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class ConnectionPool {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionPool.class);
+public class JDBCConnectionPool implements ConnectionProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JDBCConnectionPool.class);
     private static final String URL = "jdbc:mysql://localhost:3306/OnlineStore";
     private static final String USER = "root";
     private static final String PASSWORD = "7415";
     private static final int POOL_SIZE = 1;
 
 
-    private static volatile ConnectionPool instance;
+    private static volatile JDBCConnectionPool instance;
     private final BlockingQueue<Connection> pool;
-    private ConnectionPool() {
+    private JDBCConnectionPool() {
         pool = new ArrayBlockingQueue<>(POOL_SIZE);
         for (int i = 0; i < POOL_SIZE; i++) {
             pool.add(createConnection());
@@ -37,11 +37,11 @@ public class ConnectionPool {
     }
 
 
-    public static ConnectionPool getInstance() throws SQLException {
+    public static JDBCConnectionPool getInstance() throws SQLException {
         if (instance == null) {
-            synchronized (ConnectionPool.class) {
+            synchronized (JDBCConnectionPool.class) {
                 if (instance == null) {
-                    instance = new ConnectionPool();
+                    instance = new JDBCConnectionPool();
                 }
             }
         }

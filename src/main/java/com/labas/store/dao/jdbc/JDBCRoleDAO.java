@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of RoleDAO.
  */
-public class RoleDAOImpl extends AbstractDAO<Role, Long> implements IRoleDAO {
-    private static final Logger logger = LoggerFactory.getLogger(RoleDAOImpl.class);
+public class JDBCRoleDAO extends JDBCAbstractDAO<Role, Long> implements IRoleDAO {
+    private static final Logger logger = LoggerFactory.getLogger(JDBCRoleDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Role WHERE role_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Role";

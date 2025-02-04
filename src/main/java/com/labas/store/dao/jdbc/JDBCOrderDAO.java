@@ -1,6 +1,5 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.jdbc;
 
-import com.labas.store.dao.AbstractDAO;
 import com.labas.store.dao.IOrderDAO;
 import com.labas.store.dao.IOrderStatusDAO;
 import com.labas.store.dao.IUserDAO;
@@ -19,8 +18,8 @@ import java.util.Optional;
 /**
  * Implementation of OrderDAO.
  */
-public class OrderDAOImpl extends AbstractDAO<Order, Long> implements IOrderDAO {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrderDAOImpl.class);
+public class JDBCOrderDAO extends JDBCAbstractDAO<Order, Long> implements IOrderDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JDBCOrderDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM `Order` WHERE order_id = ?";
     private static final String FIND_ALL = "SELECT * FROM `Order`";
@@ -32,7 +31,7 @@ public class OrderDAOImpl extends AbstractDAO<Order, Long> implements IOrderDAO 
     private final IOrderStatusDAO IOrderStatusDAO;
     private final IUserDAO IUserDAO;
 
-    public OrderDAOImpl(IOrderStatusDAO IOrderStatusDAO, IUserDAO IUserDAO) {
+    public JDBCOrderDAO(IOrderStatusDAO IOrderStatusDAO, IUserDAO IUserDAO) {
         super();
         this.IOrderStatusDAO = IOrderStatusDAO;
         this.IUserDAO = IUserDAO;
