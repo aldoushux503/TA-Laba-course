@@ -17,7 +17,8 @@ import java.util.Optional;
  * Implementation of OrderProductDAO.
  */
 public class MySQLOrderProductDAO extends MySQLAbstractDAO<OrderProduct, CompositeKey<Long, Long>> implements IOrderProductDAO {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLOrderProductDAO.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLOrderProductDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Order_product WHERE order_id = ? AND product_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Order_product";
@@ -25,116 +26,87 @@ public class MySQLOrderProductDAO extends MySQLAbstractDAO<OrderProduct, Composi
     private static final String UPDATE = "UPDATE Order_product SET price_at_order = ?, quantity = ? WHERE order_id = ? AND product_id = ?";
     private static final String DELETE = "DELETE FROM Order_product WHERE order_id = ? AND product_id = ?";
 
-    private final IOrderDAO IOrderDAO;
-    private final IProductDAO IProductDAO;
+    private final IOrderDAO orderDAO;
+    private final IProductDAO productDAO;
 
-    public MySQLOrderProductDAO(IOrderDAO IOrderDAO, IProductDAO IProductDAO) {
-        this.IOrderDAO = IOrderDAO;
-        this.IProductDAO = IProductDAO;
+    public MySQLOrderProductDAO(IOrderDAO orderDAO, IProductDAO productDAO) {
+        this.orderDAO = orderDAO;
+        this.productDAO = productDAO;
     }
 
     @Override
-    public Optional<OrderProduct> findById(CompositeKey<Long, Long> orderProductId) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
+    public Optional<OrderProduct> findById(CompositeKey<Long, Long> id) {
+        return findById(FIND_BY_ID, id, this::mapRow);
+    }
 
-            statement.setLong(1, orderProductId.getK1());
-            statement.setLong(2, orderProductId.getK2());
+    @Override
+    public List<OrderProduct> findAll() {
+        return findAll(FIND_ALL, this::mapRow);
+    }
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
-                }
+    @Override
+    public boolean save(OrderProduct orderProduct) {
+        return save(INSERT, this::setOrderProductParameters, orderProduct);
+    }
+
+    @Override
+    public boolean update(OrderProduct orderProduct) {
+        return update(UPDATE, this::setOrderProductParametersWithId, orderProduct);
+    }
+
+    @Override
+    public boolean delete(CompositeKey<Long, Long> id) {
+        return delete(DELETE, id);
+    }
+
+    private OrderProduct mapRow(ResultSet resultSet) {
+        try {
+            Long orderId = resultSet.getLong("order_id");
+            Long productId = resultSet.getLong("product_id");
+
+            // Получаем связанные сущности
+            Optional<Order> orderOptional = orderDAO.findById(orderId);
+            Optional<Product> productOptional = productDAO.findById(productId);
+
+            if (orderOptional.isEmpty() || productOptional.isEmpty()) {
+                LOGGER.warn("Related entities not found for OrderProduct: order ID={}, product ID={}", orderId, productId);
+                return null; // Можно выбросить исключение или вернуть null в зависимости от требований
             }
+
+            Order order = orderOptional.get();
+            Product product = productOptional.get();
+
+            float priceAtOrder = resultSet.getFloat("price_at_order");
+            int quantity = resultSet.getInt("quantity");
+
+            return new OrderProduct(orderId, priceAtOrder, quantity, order, product);
         } catch (SQLException e) {
-            logger.error("Error finding order product by IDs: {}, {}", orderProductId.getK1(), orderProductId.getK2(), e);
-            throw new DAOException("Error finding order product by IDs", e);
+            LOGGER.error("Error mapping row to OrderProduct object", e);
+            throw new RuntimeException("Error mapping row to OrderProduct object", e);
         }
-        return Optional.empty();
     }
 
-    @Override
-    public List<OrderProduct> findAll() throws DAOException {
-        List<OrderProduct> orderProducts = new ArrayList<>();
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                orderProducts.add(mapRow(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding all order products", e);
-            throw new DAOException("Error finding all order products", e);
-        }
-
-        return orderProducts;
-    }
-
-    @Override
-    public boolean save(OrderProduct orderProduct) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-
+    private void setOrderProductParameters(PreparedStatement statement, OrderProduct orderProduct) {
+        try {
             statement.setLong(1, orderProduct.getOrder().getOrderId());
             statement.setLong(2, orderProduct.getProduct().getProductId());
             statement.setFloat(3, orderProduct.getPriceAtOrder());
             statement.setInt(4, orderProduct.getQuantity());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error saving order product: {}", orderProduct, e);
-            throw new DAOException("Error saving order product: " + orderProduct, e);
+            LOGGER.error("Error setting order product parameters", e);
+            throw new RuntimeException("Error setting order product parameters", e);
         }
     }
 
-    @Override
-    public boolean delete(CompositeKey<Long, Long> orderProductId) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-
-            statement.setLong(1, orderProductId.getK1());
-            statement.setLong(2, orderProductId.getK2());
-
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            logger.error("Error deleting order product by IDs: {}, {}", orderProductId.getK1(), orderProductId.getK2(), e);
-            throw new DAOException("Error deleting order product by IDs", e);
-        }
-    }
-
-    @Override
-    public boolean update(OrderProduct orderProduct) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-
+    private void setOrderProductParametersWithId(PreparedStatement statement, OrderProduct orderProduct) {
+        try {
             statement.setFloat(1, orderProduct.getPriceAtOrder());
             statement.setInt(2, orderProduct.getQuantity());
             statement.setLong(3, orderProduct.getOrder().getOrderId());
             statement.setLong(4, orderProduct.getProduct().getProductId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error updating order product: {}", orderProduct, e);
-            throw new DAOException("Error updating order product", e);
+            LOGGER.error("Error setting order product parameters with ID", e);
+            throw new RuntimeException("Error setting order product parameters with ID", e);
         }
-    }
-
-    private OrderProduct mapRow(ResultSet resultSet) throws SQLException, DAOException {
-        Long orderId = resultSet.getLong("order_id");
-        Order order = IOrderDAO.findById(orderId).orElse(null);
-
-        Long productId = resultSet.getLong("product_id");
-        Product product = IProductDAO.findById(productId).orElse(null);
-
-        float priceAtOrder = resultSet.getFloat("price_at_order");
-        int quantity = resultSet.getInt("quantity");
-
-        if (order == null || product == null) {
-            throw new SQLException("Failed to map OrderProduct: missing related entities");
-        }
-
-        return new OrderProduct(orderId, priceAtOrder, quantity, order, product);
     }
 }

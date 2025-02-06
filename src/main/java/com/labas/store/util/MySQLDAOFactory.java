@@ -4,7 +4,7 @@ package com.labas.store.util;
 import com.labas.store.dao.*;
 import com.labas.store.dao.mysql.*;
 
-public class MySQLFactory implements IDAOFactory {
+public class MySQLDAOFactory implements IDAOFactory {
 
     @Override
     public IUserDAO createUserDAO() {

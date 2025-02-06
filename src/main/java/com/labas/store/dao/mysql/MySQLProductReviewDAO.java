@@ -17,7 +17,8 @@ import java.util.Optional;
  * Implementation of ProductReviewDAO.
  */
 public class MySQLProductReviewDAO extends MySQLAbstractDAO<ProductReview, Long> implements IProductReviewDAO {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLProductReviewDAO.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLProductReviewDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product_review WHERE review_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Product_review";
@@ -25,118 +26,88 @@ public class MySQLProductReviewDAO extends MySQLAbstractDAO<ProductReview, Long>
     private static final String UPDATE = "UPDATE Product_review SET title = ?, rating = ?, created_at = ?, product_id = ?, user_id = ? WHERE review_id = ?";
     private static final String DELETE = "DELETE FROM Product_review WHERE review_id = ?";
 
+    private final IProductDAO productDAO;
+    private final IUserDAO userDAO;
 
-    private final IProductDAO IProductDAO;
-    private final IUserDAO IUserDAO;
-
-    public MySQLProductReviewDAO(IProductDAO IProductDAO, IUserDAO IUserDAO) {
-        super();
-        this.IProductDAO = IProductDAO;
-        this.IUserDAO = IUserDAO;
+    public MySQLProductReviewDAO(IProductDAO productDAO, IUserDAO userDAO) {
+        this.productDAO = productDAO;
+        this.userDAO = userDAO;
     }
 
+    @Override
+    public Optional<ProductReview> findById(Long id) {
+        return findById(FIND_BY_ID, id, this::mapRow);
+    }
 
     @Override
-    public Optional<ProductReview> findById(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
+    public List<ProductReview> findAll() {
+        return findAll(FIND_ALL, this::mapRow);
+    }
 
-            statement.setLong(1, id);
+    @Override
+    public boolean save(ProductReview review) {
+        return save(INSERT, this::setProductReviewParameters, review);
+    }
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
-                }
+    @Override
+    public boolean update(ProductReview review) {
+        return update(UPDATE, this::setProductReviewParametersWithId, review);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return delete(DELETE, id);
+    }
+
+    private ProductReview mapRow(ResultSet resultSet) {
+        try {
+            Long id = resultSet.getLong("review_id");
+            String title = resultSet.getString("title");
+            Double rating = resultSet.getDouble("rating");
+            Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+            // Получаем связанные сущности
+            Long productId = resultSet.getLong("product_id");
+            Optional<Product> productOptional = productDAO.findById(productId);
+
+            Long userId = resultSet.getLong("user_id");
+            Optional<User> userOptional = userDAO.findById(userId);
+
+            if (productOptional.isEmpty() || userOptional.isEmpty()) {
+                LOGGER.warn("Related entities not found for ProductReview: product ID={}, user ID={}", productId, userId);
+                return null; // Можно выбросить исключение или вернуть null в зависимости от требований
             }
-        } catch (SQLException e) {
-            logger.error("Error finding product review by ID: {}", id, e);
-            throw new DAOException("Error finding product review by ID: " + id, e);
-        }
 
-        return Optional.empty();
+            Product product = productOptional.get();
+            User user = userOptional.get();
+
+            return new ProductReview(id, title, rating, createdAt.toString(), product, user);
+        } catch (SQLException e) {
+            LOGGER.error("Error mapping row to ProductReview object", e);
+            throw new RuntimeException("Error mapping row to ProductReview object", e);
+        }
     }
 
-    @Override
-    public List<ProductReview> findAll() throws DAOException {
-        List<ProductReview> reviews = new ArrayList<>();
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                reviews.add(mapRow(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding all product reviews", e);
-            throw new DAOException("Error finding all product reviews", e);
-        }
-
-        return reviews;
-    }
-
-    @Override
-    public boolean save(ProductReview review) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-
+    private void setProductReviewParameters(PreparedStatement statement, ProductReview review) {
+        try {
             statement.setString(1, review.getTitle());
             statement.setDouble(2, review.getRating());
             statement.setTimestamp(3, Timestamp.valueOf(review.getCreatedAt()));
             statement.setLong(4, review.getProduct().getProductId());
             statement.setLong(5, review.getUser().getUserId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error saving product review: {}", review, e);
-            throw new DAOException("Error saving product review: " + review, e);
+            LOGGER.error("Error setting product review parameters", e);
+            throw new RuntimeException("Error setting product review parameters", e);
         }
     }
 
-    @Override
-    public boolean update(ProductReview review) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-
-            statement.setString(1, review.getTitle());
-            statement.setDouble(2, review.getRating());
-            statement.setTimestamp(3, Timestamp.valueOf(review.getCreatedAt()));
-            statement.setLong(4, review.getProduct().getProductId());
-            statement.setLong(5, review.getUser().getUserId());
+    private void setProductReviewParametersWithId(PreparedStatement statement, ProductReview review) {
+        try {
+            setProductReviewParameters(statement, review);
             statement.setLong(6, review.getReviewId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error updating product review: {}", review, e);
-            throw new DAOException("Error updating product review: " + review, e);
+            LOGGER.error("Error setting product review parameters with ID", e);
+            throw new RuntimeException("Error setting product review parameters with ID", e);
         }
-    }
-
-    @Override
-    public boolean delete(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-
-            statement.setLong(1, id);
-
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            logger.error("Error deleting product review by ID: {}", id, e);
-            throw new DAOException("Error deleting product review by ID: " + id, e);
-        }
-    }
-
-    private ProductReview mapRow(ResultSet resultSet) throws SQLException, DAOException {
-        Long id = resultSet.getLong("review_id");
-        String title = resultSet.getString("title");
-        Double rating = resultSet.getDouble("rating");
-        String createdAt = resultSet.getTimestamp("created_at").toString();
-        Long productId = resultSet.getLong("product_id");
-        Product product = IProductDAO.findById(productId).orElse(null);
-
-        Long userId = resultSet.getLong("user_id");
-        User user = IUserDAO.findById(userId).orElse(null);
-
-        return new ProductReview(id, title, rating, createdAt, product, user);
     }
 }

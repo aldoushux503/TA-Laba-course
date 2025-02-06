@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class MySQLProductDAO extends MySQLAbstractDAO<Product, Long> implements IProductDAO {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLProductDAO.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLProductDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product WHERE product_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Product";
@@ -20,97 +21,61 @@ public class MySQLProductDAO extends MySQLAbstractDAO<Product, Long> implements 
     private static final String DELETE = "DELETE FROM Product WHERE product_id = ?";
 
     @Override
-    public Optional<Product> findById(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
-
-            statement.setLong(1, id);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet)); // Return product if found
-                }
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding product by ID: {}", id, e);
-            throw new DAOException("Error finding product by ID: " + id, e);
-        }
-
-        return Optional.empty(); // Explicitly return empty Optional if not found
+    public Optional<Product> findById(Long id) {
+        return findById(FIND_BY_ID, id, this::mapRow);
     }
 
     @Override
-    public List<Product> findAll() throws DAOException {
-        List<Product> products = new ArrayList<>();
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                products.add(mapRow(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding all products", e);
-            throw new DAOException("Error finding all products", e);
-        }
-
-        return products;
+    public List<Product> findAll() {
+        return findAll(FIND_ALL, this::mapRow);
     }
 
     @Override
-    public boolean save(Product product) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
+    public boolean save(Product product) {
+        return save(INSERT, this::setProductParameters, product);
+    }
 
+    @Override
+    public boolean update(Product product) {
+        return update(UPDATE, this::setProductParametersWithId, product);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return delete(DELETE, id);
+    }
+
+    private Product mapRow(ResultSet resultSet) {
+        try {
+            Long id = resultSet.getLong("product_id");
+            String name = resultSet.getString("name");
+            Double price = resultSet.getDouble("price");
+            String description = resultSet.getString("description");
+            return new Product(id, name, price, description);
+        } catch (SQLException e) {
+            LOGGER.error("Error mapping row to Product object", e);
+            throw new RuntimeException("Error mapping row to Product object", e);
+        }
+    }
+
+    private void setProductParameters(PreparedStatement statement, Product product) {
+        try {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
             statement.setString(3, product.getDescription());
-
-            return statement.executeUpdate() > 0; // Return true if a row was inserted
         } catch (SQLException e) {
-            logger.error("Error saving product: {}", product, e);
-            throw new DAOException("Error saving product: " + product, e);
+            LOGGER.error("Error setting product parameters", e);
+            throw new RuntimeException("Error setting product parameters", e);
         }
     }
 
-    @Override
-    public boolean update(Product product) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            statement.setString(3, product.getDescription());
+    private void setProductParametersWithId(PreparedStatement statement, Product product) {
+        try {
+            setProductParameters(statement, product);
             statement.setLong(4, product.getProductId());
-
-            return statement.executeUpdate() > 0; // Return true if a row was updated
         } catch (SQLException e) {
-            logger.error("Error updating product: {}", product, e);
-            throw new DAOException("Error updating product: " + product, e);
+            LOGGER.error("Error setting product parameters with ID", e);
+            throw new RuntimeException("Error setting product parameters with ID", e);
         }
-    }
-
-    @Override
-    public boolean delete(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-
-            statement.setLong(1, id);
-
-            return statement.executeUpdate() > 0; // Return true if a row was deleted
-        } catch (SQLException e) {
-            logger.error("Error deleting product by ID: {}", id, e);
-            throw new DAOException("Error deleting product by ID: " + id, e);
-        }
-    }
-
-    private Product mapRow(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("product_id");
-        String name = resultSet.getString("name");
-        Double price = resultSet.getDouble("price");
-        String description = resultSet.getString("description");
-
-        return new Product(id, name, price, description);
     }
 }

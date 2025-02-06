@@ -3,23 +3,21 @@ package com.labas.store.util;
 import com.labas.store.dao.*;
 
 public interface IDAOFactory {
-    IUserDAO createUserDAO();
-    IOrderStatusDAO createOrderStatusDAO();
-    IPaymentMethodDAO createPaymentMethodDAO();
-    ICarrierDAO createCarrierDAO();
-    IAddressDAO createAddressDAO(IUserDAO userDAO);
-    IShippingStatusDAO createShippingStatusDAO();
-    IOrderDAO createOrderDAO(IOrderStatusDAO orderStatusDAO, IUserDAO userDAO);
-    IPaymentDAO createPaymentDAO(IPaymentMethodDAO paymentMethodDAO, IOrderDAO orderDAO, IUserDAO userDAO);
-    ICategoryDAO createCategoryDAO();
-    IProductDAO createProductDAO();
-    IShippingDAO createShippingDAO(
+    public abstract IUserDAO createUserDAO();
+    public abstract IOrderStatusDAO createOrderStatusDAO();
+    public abstract IPaymentMethodDAO createPaymentMethodDAO();
+    public abstract ICarrierDAO createCarrierDAO();
+    public abstract IAddressDAO createAddressDAO(IUserDAO userDAO);
+    public abstract IShippingStatusDAO createShippingStatusDAO();
+    public abstract IOrderDAO createOrderDAO(IOrderStatusDAO orderStatusDAO, IUserDAO userDAO);
+    public abstract IPaymentDAO createPaymentDAO(IPaymentMethodDAO paymentMethodDAO, IOrderDAO orderDAO, IUserDAO userDAO);
+    public abstract ICategoryDAO createCategoryDAO();
+    public abstract IProductDAO createProductDAO();
+    public abstract IShippingDAO createShippingDAO(
             IShippingStatusDAO shippingStatusDAO,
             IOrderDAO orderDAO,
             IAddressDAO addressDAO,
             ICarrierDAO carrierDAO
     );
-    IRoleDAO createRoleDAO();
-
-    <T> T createDAO(Class<T> daoInterface);
+    public abstract IRoleDAO createRoleDAO();
 }

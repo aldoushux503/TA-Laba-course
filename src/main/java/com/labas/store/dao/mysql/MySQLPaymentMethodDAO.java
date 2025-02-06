@@ -15,7 +15,8 @@ import java.util.Optional;
  * Implementation of PaymentMethodDAO.
  */
 public class MySQLPaymentMethodDAO extends MySQLAbstractDAO<PaymentMethod, Long> implements IPaymentMethodDAO {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLPaymentMethodDAO.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLPaymentMethodDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Payment_method WHERE payment_method_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Payment_method";
@@ -24,91 +25,57 @@ public class MySQLPaymentMethodDAO extends MySQLAbstractDAO<PaymentMethod, Long>
     private static final String DELETE = "DELETE FROM Payment_method WHERE payment_method_id = ?";
 
     @Override
-    public Optional<PaymentMethod> findById(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
-
-            statement.setLong(1, id);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
-                }
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding payment method by ID: {}", id, e);
-            throw new DAOException("Error finding payment method by ID: " + id, e);
-        }
-
-        return Optional.empty();
+    public Optional<PaymentMethod> findById(Long id) {
+        return findById(FIND_BY_ID, id, this::mapRow);
     }
 
     @Override
-    public List<PaymentMethod> findAll() throws DAOException {
-        List<PaymentMethod> paymentMethods = new ArrayList<>();
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                paymentMethods.add(mapRow(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding all payment methods", e);
-            throw new DAOException("Error finding all payment methods", e);
-        }
-
-        return paymentMethods;
+    public List<PaymentMethod> findAll() {
+        return findAll(FIND_ALL, this::mapRow);
     }
 
     @Override
-    public boolean save(PaymentMethod paymentMethod) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
+    public boolean save(PaymentMethod paymentMethod) {
+        return save(INSERT, this::setPaymentMethodParameters, paymentMethod);
+    }
 
+    @Override
+    public boolean update(PaymentMethod paymentMethod) {
+        return update(UPDATE, this::setPaymentMethodParametersWithId, paymentMethod);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return delete(DELETE, id);
+    }
+
+    private PaymentMethod mapRow(ResultSet resultSet) {
+        try {
+            Long id = resultSet.getLong("payment_method_id");
+            String name = resultSet.getString("name");
+            return new PaymentMethod(id, name);
+        } catch (SQLException e) {
+            LOGGER.error("Error mapping row to PaymentMethod object", e);
+            throw new RuntimeException("Error mapping row to PaymentMethod object", e);
+        }
+    }
+
+    private void setPaymentMethodParameters(PreparedStatement statement, PaymentMethod paymentMethod) {
+        try {
             statement.setString(1, paymentMethod.getName());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error saving payment method: {}", paymentMethod, e);
-            throw new DAOException("Error saving payment method: " + paymentMethod, e);
+            LOGGER.error("Error setting payment method parameters", e);
+            throw new RuntimeException("Error setting payment method parameters", e);
         }
     }
 
-    @Override
-    public boolean update(PaymentMethod paymentMethod) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-
+    private void setPaymentMethodParametersWithId(PreparedStatement statement, PaymentMethod paymentMethod) {
+        try {
             statement.setString(1, paymentMethod.getName());
             statement.setLong(2, paymentMethod.getPaymentMethodId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error updating payment method: {}", paymentMethod, e);
-            throw new DAOException("Error updating payment method: " + paymentMethod, e);
+            LOGGER.error("Error setting payment method parameters with ID", e);
+            throw new RuntimeException("Error setting payment method parameters with ID", e);
         }
-    }
-
-    @Override
-    public boolean delete(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-
-            statement.setLong(1, id);
-
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            logger.error("Error deleting payment method by ID: {}", id, e);
-            throw new DAOException("Error deleting payment method by ID: " + id, e);
-        }
-    }
-
-    private PaymentMethod mapRow(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("payment_method_id");
-        String name = resultSet.getString("name");
-
-        return new PaymentMethod(id, name);
     }
 }
