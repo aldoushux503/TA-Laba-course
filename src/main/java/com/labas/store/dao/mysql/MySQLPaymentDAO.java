@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.mysql;
 
 
 import com.labas.store.dao.*;
@@ -17,8 +17,8 @@ import java.util.Optional;
 /**
  * Implementation of PaymentDAO.
  */
-public class PaymentDAOImpl extends JDBCAbstractDAO<Payment, Long> implements IPaymentDAO {
-    private static final Logger logger = LoggerFactory.getLogger(PaymentDAOImpl.class);
+public class MySQLPaymentDAO extends MySQLAbstractDAO<Payment, Long> implements IPaymentDAO {
+    private static final Logger logger = LoggerFactory.getLogger(MySQLPaymentDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Payment WHERE payment_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Payment";
@@ -30,7 +30,7 @@ public class PaymentDAOImpl extends JDBCAbstractDAO<Payment, Long> implements IP
     private final IOrderDAO IOrderDAO;
     private final IUserDAO IUserDAO;
 
-    public PaymentDAOImpl(IPaymentMethodDAO IPaymentMethodDAO, IOrderDAO IOrderDAO, IUserDAO IUserDAO) {
+    public MySQLPaymentDAO(IPaymentMethodDAO IPaymentMethodDAO, IOrderDAO IOrderDAO, IUserDAO IUserDAO) {
         super();
         this.IPaymentMethodDAO = IPaymentMethodDAO;
         this.IOrderDAO = IOrderDAO;

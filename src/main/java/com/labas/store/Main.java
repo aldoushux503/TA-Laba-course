@@ -7,6 +7,7 @@ import com.labas.store.model.entity.User;
 import com.labas.store.service.IOrderService;
 import com.labas.store.service.IOrderStatusService;
 import com.labas.store.service.IUserService;
+import com.labas.store.service.impl.OrderServiceImpl;
 import com.labas.store.util.ServiceFactory;
 
 import javax.xml.XMLConstants;
@@ -27,8 +28,8 @@ import java.util.Optional;
 public class Main {
     public static void main(String[] args) {
         // Get the service instance for working with orders
-        IOrderService IOrderService = ServiceFactory.getOrderService();
-        IUserService IUserService = ServiceFactory.getUserService();
+        IOrderService orderService = ServiceFactory.getService(OrderServiceImpl.class);
+        IUserService userService = ServiceFactory.getUserService();
         IOrderStatusService IOrderStatusService = ServiceFactory.getOrderStatusService();
 
         try {

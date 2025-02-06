@@ -2,58 +2,58 @@ package com.labas.store.util;
 
 
 import com.labas.store.dao.*;
-import com.labas.store.dao.jdbc.*;
+import com.labas.store.dao.mysql.*;
 
-public class JDBCDAOFactory implements DAOFactory {
+public class MySQLFactory implements IDAOFactory {
 
     @Override
     public IUserDAO createUserDAO() {
-        return new JDBCUserDAO();
+        return new MySQLUserDAO();
     }
 
     @Override
     public IOrderStatusDAO createOrderStatusDAO() {
-        return new JDBCOrderStatusDAO();
+        return new MySQLOrderStatusDAO();
     }
 
     @Override
     public IPaymentMethodDAO createPaymentMethodDAO() {
-        return new JDBCPaymentMethodDAO();
+        return new MySQLPaymentMethodDAO();
     }
 
     @Override
     public ICarrierDAO createCarrierDAO() {
-        return new JDBCCarrierDAO();
+        return new MySQLCarrierDAO();
     }
 
     @Override
     public IAddressDAO createAddressDAO(IUserDAO userDAO) {
-        return new JDBCAddressDAO(userDAO);
+        return new MySQLAddressDAO(userDAO);
     }
 
     @Override
     public IShippingStatusDAO createShippingStatusDAO() {
-        return new JDBCShippingStatusDAO();
+        return new MySQLShippingStatusDAO();
     }
 
     @Override
     public IOrderDAO createOrderDAO(IOrderStatusDAO orderStatusDAO, IUserDAO userDAO) {
-        return new JDBCOrderDAO(orderStatusDAO, userDAO);
+        return new MySQLOrderDAO(orderStatusDAO, userDAO);
     }
 
     @Override
     public IPaymentDAO createPaymentDAO(IPaymentMethodDAO paymentMethodDAO, IOrderDAO orderDAO, IUserDAO userDAO) {
-        return new JDBCPaymentDAO(paymentMethodDAO, orderDAO, userDAO);
+        return new MySQLPaymentDAO(paymentMethodDAO, orderDAO, userDAO);
     }
 
     @Override
     public ICategoryDAO createCategoryDAO() {
-        return new JDBCCategoryDAO();
+        return new MySQLCategoryDAO();
     }
 
     @Override
     public IProductDAO createProductDAO() {
-        return new JDBCProductDAO();
+        return new MySQLProductDAO();
     }
 
     @Override
@@ -63,11 +63,11 @@ public class JDBCDAOFactory implements DAOFactory {
             IAddressDAO addressDAO,
             ICarrierDAO carrierDAO
     ) {
-        return new JDBCShippingDAO(shippingStatusDAO, orderDAO, addressDAO, carrierDAO);
+        return new MySQLShippingDAO(shippingStatusDAO, orderDAO, addressDAO, carrierDAO);
     }
 
     @Override
     public IRoleDAO createRoleDAO() {
-        return new JDBCRoleDAO();
+        return new MySQLRoleDAO();
     }
 }

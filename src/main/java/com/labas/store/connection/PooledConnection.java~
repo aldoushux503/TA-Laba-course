@@ -1,4 +1,4 @@
-package com.labas.store.util;
+package com.labas.store.connection;
 
 
 import java.sql.Connection;
@@ -8,11 +8,14 @@ public class PooledConnection implements AutoCloseable {
     private Connection connnection;
     private JDBCConnectionPool pool;
 
-    PooledConnection(Connection connection, JDBCConnectionPool pool) {
+    private PooledConnection(Connection connection, JDBCConnectionPool pool) {
         this.connnection = connection;
         this.pool = pool;
     }
 
+    public static PooledConnection getConnection(Connection connection, JDBCConnectionPool pool) {
+        return pool/get;
+    }
     @Override
     public void close() {
         pool.releaseConnection(connnection);

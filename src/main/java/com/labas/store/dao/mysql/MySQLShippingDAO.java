@@ -1,4 +1,4 @@
-package com.labas.store.dao.impl;
+package com.labas.store.dao.mysql;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of ShippingDAO.
  */
-public class ShippingDAOImpl extends JDBCAbstractDAO<Shipping, Long> implements IShippingDAO {
-    private static final Logger logger = LoggerFactory.getLogger(ShippingDAOImpl.class);
+public class MySQLShippingDAO extends MySQLAbstractDAO<Shipping, Long> implements IShippingDAO {
+    private static final Logger logger = LoggerFactory.getLogger(MySQLShippingDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Shipping WHERE shipping_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Shipping";
@@ -30,7 +30,7 @@ public class ShippingDAOImpl extends JDBCAbstractDAO<Shipping, Long> implements 
     private final IAddressDAO IAddressDAO;
     private final ICarrierDAO ICarrierDAO;
 
-    public ShippingDAOImpl(IShippingStatusDAO IShippingStatusDAO, IOrderDAO IOrderDAO, IAddressDAO IAddressDAO, ICarrierDAO ICarrierDAO) {
+    public MySQLShippingDAO(IShippingStatusDAO IShippingStatusDAO, IOrderDAO IOrderDAO, IAddressDAO IAddressDAO, ICarrierDAO ICarrierDAO) {
         super();
         this.IShippingStatusDAO = IShippingStatusDAO;
         this.IOrderDAO = IOrderDAO;

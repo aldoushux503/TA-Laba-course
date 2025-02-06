@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IGenericDAO<T, ID> {
-    Optional<T> findById(ID id) throws DAOException;
-    List<T> findAll() throws DAOException;
-    boolean save (T entity) throws DAOException;
+    Optional<T> findById(ID id) ;
+    List<T> findAll();
+    boolean save (T entity);
 
-    boolean update(T entity) throws DAOException;
-    boolean delete(ID id) throws DAOException;
+    boolean update(T entity);
+    boolean delete(ID id);
 
 }

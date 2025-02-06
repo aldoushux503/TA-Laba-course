@@ -2,7 +2,7 @@ package com.labas.store.util;
 
 import com.labas.store.dao.*;
 
-public interface DAOFactory {
+public interface IDAOFactory {
     IUserDAO createUserDAO();
     IOrderStatusDAO createOrderStatusDAO();
     IPaymentMethodDAO createPaymentMethodDAO();
@@ -20,4 +20,6 @@ public interface DAOFactory {
             ICarrierDAO carrierDAO
     );
     IRoleDAO createRoleDAO();
+
+    <T> T createDAO(Class<T> daoInterface);
 }

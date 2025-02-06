@@ -1,4 +1,4 @@
-package com.labas.store.dao.jdbc;
+package com.labas.store.dao.mysql;
 import com.labas.store.dao.IProductDAO;
 import com.labas.store.exception.DAOException;
 import com.labas.store.model.entity.Product;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCProductDAO extends JDBCAbstractDAO<Product, Long> implements IProductDAO {
-    private static final Logger logger = LoggerFactory.getLogger(JDBCProductDAO.class);
+public class MySQLProductDAO extends MySQLAbstractDAO<Product, Long> implements IProductDAO {
+    private static final Logger logger = LoggerFactory.getLogger(MySQLProductDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Product WHERE product_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Product";

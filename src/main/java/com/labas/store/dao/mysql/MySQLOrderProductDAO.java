@@ -1,4 +1,4 @@
-package com.labas.store.dao.jdbc;
+package com.labas.store.dao.mysql;
 
 import com.labas.store.dao.*;
 import com.labas.store.exception.DAOException;
@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Implementation of OrderProductDAO.
  */
-public class OrderProductDAOImpl extends JDBCAbstractDAO<OrderProduct, CompositeKey<Long, Long>> implements IOrderProductDAO {
-    private static final Logger logger = LoggerFactory.getLogger(OrderProductDAOImpl.class);
+public class MySQLOrderProductDAO extends MySQLAbstractDAO<OrderProduct, CompositeKey<Long, Long>> implements IOrderProductDAO {
+    private static final Logger logger = LoggerFactory.getLogger(MySQLOrderProductDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Order_product WHERE order_id = ? AND product_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Order_product";
@@ -28,7 +28,7 @@ public class OrderProductDAOImpl extends JDBCAbstractDAO<OrderProduct, Composite
     private final IOrderDAO IOrderDAO;
     private final IProductDAO IProductDAO;
 
-    public OrderProductDAOImpl(IOrderDAO IOrderDAO, IProductDAO IProductDAO) {
+    public MySQLOrderProductDAO(IOrderDAO IOrderDAO, IProductDAO IProductDAO) {
         this.IOrderDAO = IOrderDAO;
         this.IProductDAO = IProductDAO;
     }
