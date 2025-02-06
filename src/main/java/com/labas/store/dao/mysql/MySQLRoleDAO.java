@@ -17,7 +17,8 @@ import java.util.Optional;
  * Implementation of RoleDAO.
  */
 public class MySQLRoleDAO extends MySQLAbstractDAO<Role, Long> implements IRoleDAO {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLRoleDAO.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLRoleDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Role WHERE role_id = ?";
     private static final String FIND_ALL = "SELECT * FROM Role";
@@ -26,90 +27,57 @@ public class MySQLRoleDAO extends MySQLAbstractDAO<Role, Long> implements IRoleD
     private static final String DELETE = "DELETE FROM Role WHERE role_id = ?";
 
     @Override
-    public Optional<Role> findById(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
-
-            statement.setLong(1, id);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
-                }
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding role by ID: {}", id, e);
-            throw new DAOException("Error finding role by ID: " + id, e);
-        }
-        return Optional.empty();
+    public Optional<Role> findById(Long id) {
+        return findById(FIND_BY_ID, id, this::mapRow);
     }
 
     @Override
-    public List<Role> findAll() throws DAOException {
-        List<Role> roles = new ArrayList<>();
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                roles.add(mapRow(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding all roles", e);
-            throw new DAOException("Error finding all roles", e);
-        }
-
-        return roles;
+    public List<Role> findAll() {
+        return findAll(FIND_ALL, this::mapRow);
     }
 
     @Override
-    public boolean save(Role role) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
+    public boolean save(Role role) {
+        return save(INSERT, this::setRoleParameters, role);
+    }
 
+    @Override
+    public boolean update(Role role) {
+        return update(UPDATE, this::setRoleParametersWithId, role);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return delete(DELETE, id);
+    }
+
+    private Role mapRow(ResultSet resultSet) {
+        try {
+            Long id = resultSet.getLong("role_id");
+            String name = resultSet.getString("name");
+            return new Role(id, name);
+        } catch (SQLException e) {
+            LOGGER.error("Error mapping row to Role object", e);
+            throw new RuntimeException("Error mapping row to Role object", e);
+        }
+    }
+
+    private void setRoleParameters(PreparedStatement statement, Role role) {
+        try {
             statement.setString(1, role.getName());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error saving role: {}", role, e);
-            throw new DAOException("Error saving role: " + role, e);
+            LOGGER.error("Error setting role parameters", e);
+            throw new RuntimeException("Error setting role parameters", e);
         }
     }
 
-    @Override
-    public boolean update(Role role) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-
+    private void setRoleParametersWithId(PreparedStatement statement, Role role) {
+        try {
             statement.setString(1, role.getName());
             statement.setLong(2, role.getRoleId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error updating role: {}", role, e);
-            throw new DAOException("Error updating role: " + role, e);
+            LOGGER.error("Error setting role parameters with ID", e);
+            throw new RuntimeException("Error setting role parameters with ID", e);
         }
-    }
-
-    @Override
-    public boolean delete(Long id) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-
-            statement.setLong(1, id);
-
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            logger.error("Error deleting role by ID: {}", id, e);
-            throw new DAOException("Error deleting role by ID: " + id, e);
-        }
-    }
-
-    private Role mapRow(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("role_id");
-        String name = resultSet.getString("name");
-
-        return new Role(id, name);
     }
 }

@@ -20,7 +20,7 @@ public class OrderServiceImpl extends AbstractService<Order, Long> implements IO
     }
 
     @Override
-    public List<Order> findAll() throws ServiceException {
+    public List<Order> findAll() {
         return super.findAll();
     }
 }

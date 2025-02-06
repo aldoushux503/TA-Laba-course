@@ -106,8 +106,19 @@ public class MySQLOrderDAO extends MySQLAbstractDAO<Order, Long> implements IOrd
 
     private void setOrderParametersWithId(PreparedStatement statement, Order order) {
         try {
-            setOrderParameters(statement, order);
-            statement.setLong(7, order.getOrderId());
+            statement.setFloat(1, order.getDiscount());
+            statement.setFloat(2, order.getTotal());
+            statement.setTimestamp(3, Timestamp.valueOf(order.getUpdatedAt()));
+
+            Long orderStatusId = order.getOrderStatus() != null ? order.getOrderStatus().getOrderStatusId() : null;
+            if (orderStatusId == null) {
+                statement.setNull(4, Types.BIGINT);
+            } else {
+                statement.setLong(4, orderStatusId);
+            }
+
+            statement.setLong(5, order.getUser().getUserId());
+            statement.setLong(6, order.getOrderId());
         } catch (SQLException e) {
             LOGGER.error("Error setting order parameters with ID", e);
             throw new RuntimeException("Error setting order parameters with ID", e);

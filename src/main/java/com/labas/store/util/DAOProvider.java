@@ -4,10 +4,11 @@ import com.labas.store.dao.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DAOProvider {
     private final IDAOFactory daoFactory;
-    private final Map<Class<?>, Object> daoCache = new HashMap<>();
+    private final Map<Class<?>, Object> daoCache = new ConcurrentHashMap<>();
 
     public DAOProvider(IDAOFactory daoFactory) {
         this.daoFactory = daoFactory;

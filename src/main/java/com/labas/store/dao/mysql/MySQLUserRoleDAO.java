@@ -19,7 +19,8 @@ import java.util.Optional;
  * Implementation of UserRoleDAO.
  */
 public class MySQLUserRoleDAO extends MySQLAbstractDAO<UserRole, CompositeKey<Long, Long>> implements IUserRoleDAO {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLUserRoleDAO.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLUserRoleDAO.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM User_role WHERE user_id = ? AND role_id = ?";
     private static final String FIND_ALL = "SELECT * FROM User_role";
@@ -27,110 +28,80 @@ public class MySQLUserRoleDAO extends MySQLAbstractDAO<UserRole, CompositeKey<Lo
     private static final String UPDATE = "UPDATE User_role SET role_id = ? WHERE user_id = ? AND role_id = ?";
     private static final String DELETE = "DELETE FROM User_role WHERE user_id = ? AND role_id = ?";
 
-    private final IUserDAO IUserDAO;
-    private final IRoleDAO IRoleDAO;
+    private final IUserDAO userDAO;
+    private final IRoleDAO roleDAO;
 
-    public MySQLUserRoleDAO(IUserDAO IUserDAO, IRoleDAO IRoleDAO) {
-        this.IUserDAO = IUserDAO;
-        this.IRoleDAO = IRoleDAO;
+    public MySQLUserRoleDAO(IUserDAO userDAO, IRoleDAO roleDAO) {
+        this.userDAO = userDAO;
+        this.roleDAO = roleDAO;
     }
 
     @Override
-    public Optional<UserRole> findById(CompositeKey<Long, Long> userRoleId) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
+    public Optional<UserRole> findById(CompositeKey<Long, Long> id) {
+        return findById(FIND_BY_ID, id, this::mapRow);
+    }
 
-            statement.setLong(1, userRoleId.getK1());
-            statement.setLong(2, userRoleId.getK2());
+    @Override
+    public List<UserRole> findAll() {
+        return findAll(FIND_ALL, this::mapRow);
+    }
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
-                }
+    @Override
+    public boolean save(UserRole userRole) {
+        return save(INSERT, this::setUserRoleParameters, userRole);
+    }
+
+    @Override
+    public boolean update(UserRole userRole) {
+        return update(UPDATE, this::setUserRoleParametersWithId, userRole);
+    }
+
+    @Override
+    public boolean delete(CompositeKey<Long, Long> id) {
+        return delete(DELETE, id);
+    }
+
+    private UserRole mapRow(ResultSet resultSet) {
+        try {
+            Long userId = resultSet.getLong("user_id");
+            Long roleId = resultSet.getLong("role_id");
+
+            Optional<User> userOptional = userDAO.findById(userId);
+            Optional<Role> roleOptional = roleDAO.findById(roleId);
+
+            if (userOptional.isEmpty() || roleOptional.isEmpty()) {
+                LOGGER.warn("Related entities not found for UserRole: user ID={}, role ID={}", userId, roleId);
+                return null;
             }
+
+            User user = userOptional.get();
+            Role role = roleOptional.get();
+
+            return new UserRole(user, role);
         } catch (SQLException e) {
-            logger.error("Error finding user role by IDs: {}, {}", userRoleId.getK1(), userRoleId.getK2(), e);
-            throw new DAOException("Error finding user role by IDs", e);
+            LOGGER.error("Error mapping row to UserRole object", e);
+            throw new RuntimeException("Error mapping row to UserRole object", e);
         }
-        return Optional.empty();
     }
 
-    @Override
-    public List<UserRole> findAll() throws DAOException {
-        List<UserRole> userRoles = new ArrayList<>();
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                userRoles.add(mapRow(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("Error finding all user roles", e);
-            throw new DAOException("Error finding all user roles", e);
-        }
-
-        return userRoles;
-    }
-
-    @Override
-    public boolean save(UserRole userRole) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-
+    private void setUserRoleParameters(PreparedStatement statement, UserRole userRole) {
+        try {
             statement.setLong(1, userRole.getUser().getUserId());
             statement.setLong(2, userRole.getRole().getRoleId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error saving user role: {}", userRole, e);
-            throw new DAOException("Error saving user role: " + userRole, e);
+            LOGGER.error("Error setting user role parameters", e);
+            throw new RuntimeException("Error setting user role parameters", e);
         }
     }
 
-    @Override
-    public boolean delete(CompositeKey<Long, Long> userRoleId) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-
-            statement.setLong(1, userRoleId.getK1());
-            statement.setLong(2, userRoleId.getK2());
-
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            logger.error("Error deleting user role by IDs: {}, {}", userRoleId.getK1(), userRoleId.getK2(), e);
-            throw new DAOException("Error deleting user role by IDs", e);
-        }
-    }
-
-    @Override
-    public boolean update(UserRole userRole) throws DAOException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-
+    private void setUserRoleParametersWithId(PreparedStatement statement, UserRole userRole) {
+        try {
             statement.setLong(1, userRole.getRole().getRoleId());
             statement.setLong(2, userRole.getUser().getUserId());
             statement.setLong(3, userRole.getRole().getRoleId());
-
-            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error updating user role to {} and {}", userRole.getUser(), userRole.getRole(), e);
-            throw new DAOException("Error updating user role", e);
+            LOGGER.error("Error setting user role parameters with ID", e);
+            throw new RuntimeException("Error setting user role parameters with ID", e);
         }
-    }
-
-    private UserRole mapRow(ResultSet resultSet) throws SQLException, DAOException {
-        Long userId = resultSet.getLong("user_id");
-        User user = IUserDAO.findById(userId).orElse(null);
-
-        Long roleId = resultSet.getLong("role_id");
-        Role role = IRoleDAO.findById(roleId).orElse(null);
-
-        if (user == null || role == null) {
-            throw new SQLException("Failed to map UserRole: missing related entities");
-        }
-
-        return new UserRole(user, role);
     }
 }

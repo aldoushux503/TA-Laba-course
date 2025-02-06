@@ -66,7 +66,6 @@ public class MySQLProductReviewDAO extends MySQLAbstractDAO<ProductReview, Long>
             Double rating = resultSet.getDouble("rating");
             Timestamp createdAt = resultSet.getTimestamp("created_at");
 
-            // Получаем связанные сущности
             Long productId = resultSet.getLong("product_id");
             Optional<Product> productOptional = productDAO.findById(productId);
 
@@ -75,7 +74,7 @@ public class MySQLProductReviewDAO extends MySQLAbstractDAO<ProductReview, Long>
 
             if (productOptional.isEmpty() || userOptional.isEmpty()) {
                 LOGGER.warn("Related entities not found for ProductReview: product ID={}, user ID={}", productId, userId);
-                return null; // Можно выбросить исключение или вернуть null в зависимости от требований
+                return null;
             }
 
             Product product = productOptional.get();

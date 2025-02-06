@@ -65,13 +65,12 @@ public class MySQLProductCategoryDAO extends MySQLAbstractDAO<ProductCategory, C
             Long categoryId = resultSet.getLong("category_id");
             Long productId = resultSet.getLong("product_id");
 
-            // Получаем связанные сущности
             Optional<Category> categoryOptional = categoryDAO.findById(categoryId);
             Optional<Product> productOptional = productDAO.findById(productId);
 
             if (categoryOptional.isEmpty() || productOptional.isEmpty()) {
                 LOGGER.warn("Related entities not found for ProductCategory: category ID={}, product ID={}", categoryId, productId);
-                return null; // Можно выбросить исключение или вернуть null в зависимости от требований
+                return null;
             }
 
             Category category = categoryOptional.get();

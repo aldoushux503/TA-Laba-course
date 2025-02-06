@@ -71,14 +71,14 @@ public class MySQLPaymentDAO extends MySQLAbstractDAO<Payment, Long> implements 
             Long userId = resultSet.getLong("user_id");
             Long orderId = resultSet.getLong("order_id");
 
-            // Получаем связанные сущности
+
             Optional<PaymentMethod> paymentMethodOptional = paymentMethodDAO.findById(paymentMethodId);
             Optional<User> userOptional = userDAO.findById(userId);
             Optional<Order> orderOptional = orderDAO.findById(orderId);
 
             if (paymentMethodOptional.isEmpty() || userOptional.isEmpty() || orderOptional.isEmpty()) {
                 LOGGER.warn("Related entities not found for Payment ID: {}", id);
-                return null; // Можно выбросить исключение или вернуть null в зависимости от требований
+                return null;
             }
 
             PaymentMethod paymentMethod = paymentMethodOptional.get();
