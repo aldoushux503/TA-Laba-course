@@ -1,8 +1,0 @@
-package com.labas.store.dao;
-
-/**
- * Interface for Order-specific DAO operations.
- */
-public interface OrderDAO extends GenericDAO<Order, Long> {
-    // Add additional methods specific to Order if needed
-}
