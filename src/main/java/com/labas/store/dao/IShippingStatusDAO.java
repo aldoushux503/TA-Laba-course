@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.ShippingStatus;
+import com.labas.store.model.entities.ShippingStatus;
 
 /**
  * Interface for ShippingStatus-specific DAO operations.

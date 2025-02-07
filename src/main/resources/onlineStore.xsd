@@ -76,10 +76,10 @@
                             <xs:element name="total" type="xs:float"/>
                             <xs:element name="createdAt" type="xs:dateTime"/>
                             <xs:element name="updatedAt" type="xs:dateTime" minOccurs="0"/>
+                            <xs:element name="orderStatusId" type="xs:long"/>
+                            <xs:element name="userId" type="xs:long"/>
                         </xs:sequence>
                         <xs:attribute name="orderId" type="xs:long" use="required"/>
-                        <xs:attribute name="orderStatusId" type="xs:long" use="required"/>
-                        <xs:attribute name="userId" type="xs:long" use="required"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
@@ -106,7 +106,7 @@
     </xs:element>
 
     <!-- Root Element -->
-    <xs:element name="store">
+    <xs:element name="onlineStore">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="categories"/>

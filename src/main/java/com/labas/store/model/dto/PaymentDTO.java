@@ -1,12 +1,16 @@
 package com.labas.store.model.dto;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 /**
  * DTO for Payment.
  */
 public class PaymentDTO {
     private Long paymentId;
-    private String createdAt;
-    private String updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Long paymentMethodId;
     private Long userId;
     private Long orderId;
@@ -14,7 +18,7 @@ public class PaymentDTO {
     public PaymentDTO() {
     }
 
-    public PaymentDTO(Long paymentId, String createdAt, String updatedAt, Long paymentMethodId, Long userId, Long orderId) {
+    public PaymentDTO(Long paymentId, LocalDateTime createdAt, LocalDateTime updatedAt, Long paymentMethodId, Long userId, Long orderId) {
         this.paymentId = paymentId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -31,19 +35,19 @@ public class PaymentDTO {
         this.paymentId = paymentId;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

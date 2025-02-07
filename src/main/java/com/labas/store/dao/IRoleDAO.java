@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Role;
+import com.labas.store.model.entities.Role;
 
 /**
  * Interface for Role-specific DAO operations.

@@ -1,4 +1,7 @@
-package com.labas.store.model.entity;
+package com.labas.store.model.entities;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Represents a product review made by a user for a product.
@@ -7,13 +10,13 @@ public class ProductReview {
     private Long reviewId;
     private String title;
     private Double rating;
-    private String createdAt; // ISO 8601 format preferred
+    private LocalDateTime createdAt;
     private Product product; // Associated product
     private User user; // Author of the review
 
     public ProductReview() {}
 
-    public ProductReview(Long reviewId, String title, Double rating, String createdAt, Product product, User user) {
+    public ProductReview(Long reviewId, String title, Double rating, LocalDateTime createdAt, Product product, User user) {
         this.reviewId = reviewId;
         this.title = title;
         this.rating = rating;
@@ -46,11 +49,11 @@ public class ProductReview {
         this.rating = rating;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

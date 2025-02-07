@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.User;
+import com.labas.store.model.entities.User;
 
 /**
  * Interface for User-specific DAO operations.

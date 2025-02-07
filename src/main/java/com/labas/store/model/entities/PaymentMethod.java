@@ -1,4 +1,4 @@
-package com.labas.store.model.entity;
+package com.labas.store.model.entities;
 
 /**
  * Represents a payment method (e.g., Credit Card, PayPal).

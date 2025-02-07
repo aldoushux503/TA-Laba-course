@@ -1,11 +1,23 @@
-package com.labas.store.model.entity;
+package com.labas.store.model.entities;
+
+import com.sun.xml.txw2.annotation.XmlValue;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Represents the status of an order.
  * Could be converted to an enum if statuses are predefined.
  */
+
+@XmlRootElement
 public class OrderStatus {
+
+    @XmlAttribute
     private Long orderStatusId;
+
+    @XmlElement
     private String statusName;
 
     public OrderStatus() {
@@ -20,15 +32,18 @@ public class OrderStatus {
         return orderStatusId;
     }
 
-    public void setOrderStatusId(Long orderStatusId) {
-        this.orderStatusId = orderStatusId;
-    }
 
     public String getStatusName() {
         return statusName;
     }
 
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
+
+
+    @Override
+    public String toString() {
+        return "OrderStatus{" +
+                "orderStatusId=" + orderStatusId +
+                ", statusName='" + statusName + '\'' +
+                '}';
     }
 }

@@ -1,15 +1,14 @@
 package com.labas.store.dao.mysql;
 
 import com.labas.store.dao.*;
-import com.labas.store.exception.DAOException;
 
-import com.labas.store.model.entity.*;
+import com.labas.store.model.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +63,7 @@ public class MySQLProductReviewDAO extends MySQLAbstractDAO<ProductReview, Long>
             Long id = resultSet.getLong("review_id");
             String title = resultSet.getString("title");
             Double rating = resultSet.getDouble("rating");
-            Timestamp createdAt = resultSet.getTimestamp("created_at");
+            LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
             Long productId = resultSet.getLong("product_id");
             Optional<Product> productOptional = productDAO.findById(productId);
@@ -80,7 +79,7 @@ public class MySQLProductReviewDAO extends MySQLAbstractDAO<ProductReview, Long>
             Product product = productOptional.get();
             User user = userOptional.get();
 
-            return new ProductReview(id, title, rating, createdAt.toString(), product, user);
+            return new ProductReview(id, title, rating, createdAt, product, user);
         } catch (SQLException e) {
             LOGGER.error("Error mapping row to ProductReview object", e);
             throw new RuntimeException("Error mapping row to ProductReview object", e);

@@ -2,12 +2,11 @@ package com.labas.store.dao.mysql;
 
 import com.labas.store.dao.*;
 
-import com.labas.store.model.entity.*;
+import com.labas.store.model.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Optional;

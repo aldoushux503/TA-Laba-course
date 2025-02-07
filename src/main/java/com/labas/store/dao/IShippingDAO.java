@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Shipping;
+import com.labas.store.model.entities.Shipping;
 
 /**
  * Interface for Shipping-specific DAO operations.

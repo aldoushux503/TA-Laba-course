@@ -1,11 +1,12 @@
-package com.labas.store.util;
+package com.labas.store.factory.provider;
 
 /**
  * Service factory to switch between different implementations or databases.
  */
+import com.labas.store.factory.provider.DAOProvider;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

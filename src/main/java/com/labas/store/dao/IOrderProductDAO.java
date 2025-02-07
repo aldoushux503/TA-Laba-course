@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.OrderProduct;
+import com.labas.store.model.entities.OrderProduct;
 import com.labas.store.util.CompositeKey;
 
 /**

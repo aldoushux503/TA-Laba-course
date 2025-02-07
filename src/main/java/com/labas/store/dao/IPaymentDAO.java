@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Payment;
+import com.labas.store.model.entities.Payment;
 
 /**
  * Interface for Payment-specific DAO operations.

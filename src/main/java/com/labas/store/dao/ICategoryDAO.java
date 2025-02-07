@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Category;
+import com.labas.store.model.entities.Category;
 
 /**
  * Interface for Category-specific DAO operations.

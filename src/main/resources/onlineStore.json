@@ -1,0 +1,130 @@
+{
+  "categories": [
+    {
+      "categoryId": 1,
+      "name": "Electronics",
+      "parentCategory": null
+    },
+    {
+      "categoryId": 2,
+      "name": "Smartphones",
+      "parentCategory": 1
+    },
+    {
+      "categoryId": 3,
+      "name": "Laptops",
+      "parentCategory": 1
+    },
+    {
+      "categoryId": 4,
+      "name": "Gaming",
+      "parentCategory": 1
+    }
+  ],
+  "products": [
+    {
+      "productId": 101,
+      "name": "iPhone 14",
+      "price": 999.99,
+      "description": "New Apple iPhone 14 with 128GB storage"
+    },
+    {
+      "productId": 102,
+      "name": "Samsung Galaxy S23",
+      "price": 899.99,
+      "description": "Samsung flagship smartphone with 256 storage"
+    },
+    {
+      "productId": 103,
+      "name": "MacBook Pro 16",
+      "price": 2499.99,
+      "description": "Apple MacBook Pro with M2 Chip"
+    },
+    {
+      "productId": 104,
+      "name": "PlayStation 5",
+      "price": 499.99,
+      "description": "Next-gen gaming console from Sony"
+    }
+  ],
+  "orders": [
+    {
+      "orderId": 5001,
+      "discount": 10.00,
+      "total": 1889.99,
+      "createdAt": "2024-01-15T10:30:00",
+      "updatedAt": "2024-01-16T14:45:00",
+      "orderStatusId": 1,
+      "userId": 1001
+    },
+    {
+      "orderId": 5002,
+      "discount": 5.00,
+      "total": 999.99,
+      "createdAt": "2024-01-20T12:00:00",
+      "orderStatusId": 2,
+      "userId": 1002
+    },
+    {
+      "orderId": 5003,
+      "discount": 15.00,
+      "total": 2499.99,
+      "createdAt": "2024-02-01T09:15:00",
+      "updatedAt": "2024-02-02T11:00:00",
+      "orderStatusId": 3,
+      "userId": 1003
+    }
+  ],
+  "productCategories": [
+    {
+      "categoryId": 1,
+      "productId": 101
+    },
+    {
+      "categoryId": 2,
+      "productId": 101
+    },
+    {
+      "categoryId": 1,
+      "productId": 102
+    },
+    {
+      "categoryId": 3,
+      "productId": 103
+    },
+    {
+      "categoryId": 4,
+      "productId": 104
+    }
+  ],
+  "orderProducts": [
+    {
+      "orderProductId": 9001,
+      "orderId": 5001,
+      "productId": 101,
+      "priceAtOrder": 999.99,
+      "quantity": 1
+    },
+    {
+      "orderProductId": 9002,
+      "orderId": 5001,
+      "productId": 102,
+      "priceAtOrder": 899.99,
+      "quantity": 1
+    },
+    {
+      "orderProductId": 9003,
+      "orderId": 5002,
+      "productId": 101,
+      "priceAtOrder": 999.99,
+      "quantity": 1
+    },
+    {
+      "orderProductId": 9004,
+      "orderId": 5003,
+      "productId": 103,
+      "priceAtOrder": 2499.99,
+      "quantity": 1
+    }
+  ]
+}

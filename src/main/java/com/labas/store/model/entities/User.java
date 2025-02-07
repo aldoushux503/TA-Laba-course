@@ -1,4 +1,9 @@
-package com.labas.store.model.entity;
+package com.labas.store.model.entities;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Represents a user in the OnlineStore platform.
@@ -69,6 +74,15 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        }  catch (JsonProcessingException e) {
+            throw new RuntimeException("Error to represent a User class as string" + e);
+        }
     }
 }
 

@@ -1,20 +1,17 @@
 package com.labas.store;
 
+
 import com.labas.store.exception.ServiceException;
-import com.labas.store.model.entity.Order;
-import com.labas.store.model.entity.OrderStatus;
-import com.labas.store.model.entity.User;
-import com.labas.store.service.IOrderService;
-import com.labas.store.service.IOrderStatusService;
-import com.labas.store.service.IUserService;
-import com.labas.store.service.impl.OrderServiceImpl;
-import com.labas.store.service.impl.OrderStatusServiceImpl;
-import com.labas.store.service.impl.UserServiceImpl;
-import com.labas.store.util.DAOProvider;
-import com.labas.store.util.FactoryManager;
-import com.labas.store.util.ServiceProvider;
+import com.labas.store.factory.*;
+import com.labas.store.factory.provider.*;
+import com.labas.store.model.entities.*;
+import com.labas.store.service.*;
+import com.labas.store.service.impl.*;
+import com.labas.store.util.LocalDateTimeAdapter;
+
 
 import javax.xml.XMLConstants;
+import javax.xml.bind.*;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
@@ -25,6 +22,7 @@ import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +43,8 @@ public class Main {
             Order newOrder = new Order();
             newOrder.setDiscount(10.0f);
             newOrder.setTotal(90.0f);
-            newOrder.setCreatedAt("2025-01-27 10:00:00");
-            newOrder.setUpdatedAt("2025-01-27 10:00:00");
+            newOrder.setCreatedAt(LocalDateTime.parse("2025-01-27T10:00:00"));
+            newOrder.setUpdatedAt(LocalDateTime.parse("2025-01-27T10:00:00"));
 
             // Set related entities (OrderStatus and User)
             OrderStatus orderStatus = new OrderStatus(1L, "Pending"); // Example: Order status with ID = 1
@@ -112,6 +110,35 @@ public class Main {
         } else {
             System.out.println("XML validation failed.");
         }
+
+
+        try {
+            JAXBContext context = JAXBContext.newInstance(OnlineStore.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            OnlineStore store = (OnlineStore) unmarshaller.unmarshal(new File("src/main/resources/onlineStore.xml"));
+
+
+            store.buildRelations();
+
+            System.out.println("Categories:");
+            store.getCategories().forEach(category -> System.out.println("  " + category));
+
+            System.out.println("\nProducts:");
+            store.getProducts().forEach(product -> System.out.println("  " + product));
+
+            System.out.println("\nOrders:");
+            store.getOrders().forEach(order -> System.out.println("  " + order));
+
+            System.out.println("\nProduct Categories:");
+            store.getProductCategories().forEach(productCategory -> System.out.println("  " + productCategory));
+
+            System.out.println("\nOrder Products:");
+            store.getOrderProducts().forEach(orderProduct -> System.out.println("  " + orderProduct));
+        } catch (JAXBException e) {
+            throw new RuntimeException("Error to " + e);
+        }
+
+
 
     }
 

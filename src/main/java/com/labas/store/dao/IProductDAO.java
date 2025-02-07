@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Product;
+import com.labas.store.model.entities.Product;
 
 /**
  * Interface for Product-specific DAO operations.

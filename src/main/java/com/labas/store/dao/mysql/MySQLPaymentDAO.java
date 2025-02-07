@@ -2,15 +2,14 @@ package com.labas.store.dao.mysql;
 
 
 import com.labas.store.dao.*;
-import com.labas.store.exception.DAOException;
 
-import com.labas.store.model.entity.*;
+import com.labas.store.model.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,8 +64,8 @@ public class MySQLPaymentDAO extends MySQLAbstractDAO<Payment, Long> implements 
     private Payment mapRow(ResultSet resultSet) {
         try {
             Long id = resultSet.getLong("payment_id");
-            String createdAt = resultSet.getString("created_at");
-            String updatedAt = resultSet.getString("updated_at");
+            LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+            LocalDateTime updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
             Long paymentMethodId = resultSet.getLong("payment_method_id");
             Long userId = resultSet.getLong("user_id");
             Long orderId = resultSet.getLong("order_id");

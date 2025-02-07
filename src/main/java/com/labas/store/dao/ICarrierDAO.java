@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Carrier;
+import com.labas.store.model.entities.Carrier;
 
 /**
  * Interface for Carrier-specific DAO operations.

@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.UserRole;
+import com.labas.store.model.entities.UserRole;
 import com.labas.store.util.CompositeKey;
 
 /**

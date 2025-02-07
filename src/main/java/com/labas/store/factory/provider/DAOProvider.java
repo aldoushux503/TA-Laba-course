@@ -1,8 +1,8 @@
-package com.labas.store.util;
+package com.labas.store.factory.provider;
 
 import com.labas.store.dao.*;
+import com.labas.store.factory.IDAOFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

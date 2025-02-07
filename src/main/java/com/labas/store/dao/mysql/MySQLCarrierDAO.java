@@ -1,7 +1,7 @@
 package com.labas.store.dao.mysql;
 
 import com.labas.store.dao.ICarrierDAO;
-import com.labas.store.model.entity.Carrier;
+import com.labas.store.model.entities.Carrier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

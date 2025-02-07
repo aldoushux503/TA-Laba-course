@@ -3,15 +3,14 @@ package com.labas.store.dao.mysql;
 import com.labas.store.dao.IOrderDAO;
 import com.labas.store.dao.IOrderStatusDAO;
 import com.labas.store.dao.IUserDAO;
-import com.labas.store.exception.DAOException;
-import com.labas.store.model.entity.Order;
-import com.labas.store.model.entity.OrderStatus;
-import com.labas.store.model.entity.User;
+import com.labas.store.model.entities.Order;
+import com.labas.store.model.entities.OrderStatus;
+import com.labas.store.model.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,8 +66,8 @@ public class MySQLOrderDAO extends MySQLAbstractDAO<Order, Long> implements IOrd
             Long id = resultSet.getLong("order_id");
             Float discount = resultSet.getFloat("discount");
             Float total = resultSet.getFloat("total");
-            String createdAt = resultSet.getString("created_at");
-            String updatedAt = resultSet.getString("updated_at");
+            LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+            LocalDateTime updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
             Long orderStatusId = resultSet.getLong("order_status_id");
             Long userId = resultSet.getLong("user_id");
 

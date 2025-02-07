@@ -1,8 +1,12 @@
-package com.labas.store.model.entity;
+package com.labas.store.model.entities;
+
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Represents an address associated with a user or shipping.
  */
+@XmlRootElement
 public class Address {
     private Long addressId;
     private String city;

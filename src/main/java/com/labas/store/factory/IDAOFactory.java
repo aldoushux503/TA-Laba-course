@@ -1,4 +1,4 @@
-package com.labas.store.util;
+package com.labas.store.factory;
 
 import com.labas.store.dao.*;
 

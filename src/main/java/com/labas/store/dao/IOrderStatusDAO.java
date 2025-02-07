@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.OrderStatus;
+import com.labas.store.model.entities.OrderStatus;
 
 /**
  * Interface for OrderStatus-specific DAO operations.

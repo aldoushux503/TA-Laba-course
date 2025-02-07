@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Address;
+import com.labas.store.model.entities.Address;
 
 /**
  * Interface for Address-specific DAO operations.

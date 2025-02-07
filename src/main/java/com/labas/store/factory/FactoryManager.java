@@ -1,4 +1,7 @@
-package com.labas.store.util;
+package com.labas.store.factory;
+
+import com.labas.store.factory.provider.DAOProvider;
+import com.labas.store.factory.provider.ServiceProvider;
 
 public class FactoryManager {
     private static final String DATABASE_TYPE = "mysql";

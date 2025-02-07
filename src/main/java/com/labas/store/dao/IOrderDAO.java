@@ -1,6 +1,6 @@
 package com.labas.store.dao;
 
-import com.labas.store.model.entity.Order;
+import com.labas.store.model.entities.Order;
 
 /**
  * Interface for Order-specific DAO operations.

@@ -1,19 +1,22 @@
-package com.labas.store.model.entity;
+package com.labas.store.model.entities;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Represents a payment made by a user for an order.
  */
 public class Payment {
     private Long paymentId;
-    private String createdAt; // ISO 8601 format preferred
-    private String updatedAt; // Nullable
+    private LocalDateTime createdAt; // ISO 8601 format preferred
+    private LocalDateTime updatedAt; // Nullable
     private PaymentMethod paymentMethod; // Associated payment method
     private User user; // User making the payment
     private Order order; // Associated order
 
     public Payment() {}
 
-    public Payment(Long paymentId, String createdAt, String updatedAt, PaymentMethod paymentMethod, User user, Order order) {
+    public Payment(Long paymentId, LocalDateTime createdAt, LocalDateTime updatedAt, PaymentMethod paymentMethod, User user, Order order) {
         this.paymentId = paymentId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -30,19 +33,19 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
