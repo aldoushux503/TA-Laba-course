@@ -20,10 +20,12 @@ public class OrderProduct {
     @XmlElement(name = "quantity")
     private Integer quantity;
 
-    @XmlElement(name = "order")
+    @XmlAttribute(name = "orderId")
+    @XmlIDREF
     private Order order;
 
-    @XmlElement(name = "product")
+    @XmlAttribute(name = "productId")
+    @XmlIDREF
     private Product product;
 
     public OrderProduct() {
@@ -73,24 +75,9 @@ public class OrderProduct {
         return order;
     }
 
-    @XmlAttribute(name = "orderId")
-    public void setOrderId(Long orderId) {
-        if (this.product == null) {
-            this.order = new Order();
-        }
-        this.order.setOrderId(orderId);
-    }
 
     public Product getProduct() {
         return product;
-    }
-
-    @XmlAttribute(name = "productId")
-    public void setProductId(Long productId) {
-        if (this.product == null) {
-            this.product = new Product();
-        }
-        this.product.setProductId(productId);
     }
 
 

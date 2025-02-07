@@ -3,6 +3,7 @@ package com.labas.store.model.entities;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.labas.store.util.JsonUtils;
+import com.labas.store.util.LongIdAdapter;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -17,7 +18,9 @@ import java.lang.reflect.Field;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Product {
 
-    @XmlAttribute
+    @XmlJavaTypeAdapter(LongIdAdapter.class)
+    @XmlAttribute(name = "productId")
+    @XmlID
     private Long productId;
 
     @XmlElement

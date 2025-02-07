@@ -13,10 +13,12 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProductCategory {
 
-    @XmlElement(name = "product")
+    @XmlAttribute(name = "productId")
+    @XmlIDREF
     private Product product;
 
-    @XmlElement(name = "category")
+    @XmlAttribute(name = "categoryId")
+    @XmlIDREF
     private Category category;
 
     public ProductCategory() {
@@ -41,22 +43,6 @@ public class ProductCategory {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    @XmlAttribute(name = "productId")
-    public void setProductId(long productId) {
-        if (this.product == null) {
-            this.product = new Product();
-        }
-        this.product.setProductId(productId);
-    }
-
-    @XmlAttribute(name = "categoryId")
-    public void setCategoryId(long categoryId) {
-        if (this.category == null) {
-            this.category = new Category();
-        }
-        this.category.setCategoryId(categoryId);
     }
 
     @Override

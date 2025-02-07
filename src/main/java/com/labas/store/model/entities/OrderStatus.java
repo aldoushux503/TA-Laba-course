@@ -1,10 +1,13 @@
 package com.labas.store.model.entities;
 
+import com.labas.store.util.LongIdAdapter;
 import com.sun.xml.txw2.annotation.XmlValue;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Represents the status of an order.
@@ -14,7 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class OrderStatus {
 
+    @XmlJavaTypeAdapter(LongIdAdapter.class)
     @XmlAttribute
+    @XmlID
     private Long orderStatusId;
 
     @XmlElement

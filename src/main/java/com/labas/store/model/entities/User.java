@@ -2,14 +2,21 @@ package com.labas.store.model.entities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.labas.store.util.LongIdAdapter;
 
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Represents a user in the OnlineStore platform.
  * Users can place orders and provide product reviews.
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
+
+    @XmlJavaTypeAdapter(LongIdAdapter.class)
+    @XmlID
     private Long userId;
     private String firstName;
     private String lastName;
