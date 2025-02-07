@@ -44,6 +44,5 @@ public class DAOProvider {
             );
             default -> throw new IllegalArgumentException("Unsupported DAO class: " + daoClass);
         };
-        throw new IllegalArgumentException("Unknown DAO class: " + daoClass.getSimpleName());
     }
 }
