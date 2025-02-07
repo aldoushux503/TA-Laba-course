@@ -1,5 +1,8 @@
 package com.labas.store.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.labas.store.util.JsonUtils;
 
@@ -10,6 +13,11 @@ import javax.xml.bind.annotation.*;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "orderProductId",
+        scope = OrderProduct.class
+)
 public class OrderProduct {
 
     @XmlAttribute(name = "orderProductId")
@@ -22,10 +30,12 @@ public class OrderProduct {
 
     @XmlAttribute(name = "orderId")
     @XmlIDREF
+    @JsonProperty("orderId")
     private Order order;
 
     @XmlAttribute(name = "productId")
     @XmlIDREF
+    @JsonProperty("productId")
     private Product product;
 
     public OrderProduct() {

@@ -59,43 +59,6 @@ public class OnlineStore {
     }
 
 
-    public void buildRelations() {
-        Map<Long, Category> categoryMap = new HashMap<>();
-        categories.forEach(category -> categoryMap.put(category.getCategoryId(), category));
-
-        Map<Long, Product> productMap = new HashMap<>();
-        products.forEach(product -> productMap.put(product.getProductId(), product));
-
-        Map<Long, Order> orderMap = new HashMap<>();
-        orders.forEach(order -> orderMap.put(order.getOrderId(), order));
-
-        for (ProductCategory productCategory : productCategories) {
-            Long productId = productCategory.getProduct() != null ? productCategory.getProduct().getProductId() : null;
-            Long categoryId = productCategory.getCategory() != null ? productCategory.getCategory().getCategoryId() : null;
-
-            if (productId != null && productMap.containsKey(productId)) {
-                productCategory.setProduct(productMap.get(productId));
-            }
-
-            if (categoryId != null && categoryMap.containsKey(categoryId)) {
-                productCategory.setCategory(categoryMap.get(categoryId));
-            }
-        }
-
-        for (OrderProduct orderProduct : orderProducts) {
-            Long orderId = orderProduct.getOrder() != null ? orderProduct.getOrder().getOrderId() : null;
-            Long productId = orderProduct.getProduct() != null ? orderProduct.getProduct().getProductId() : null;
-
-            if (orderId != null && orderMap.containsKey(orderId)) {
-                orderProduct.setOrder(orderMap.get(orderId));
-            }
-
-            if (productId != null && productMap.containsKey(productId)) {
-                orderProduct.setProduct(productMap.get(productId));
-            }
-        }
-    }
-
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }

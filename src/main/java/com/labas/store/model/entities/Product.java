@@ -1,5 +1,8 @@
 package com.labas.store.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.labas.store.util.JsonUtils;
@@ -16,6 +19,7 @@ import java.lang.reflect.Field;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "productId")
 public class Product {
 
     @XmlJavaTypeAdapter(LongIdAdapter.class)
@@ -41,6 +45,7 @@ public class Product {
         this.price = price;
         this.description = description;
     }
+
 
     public Long getProductId() {
         return productId;

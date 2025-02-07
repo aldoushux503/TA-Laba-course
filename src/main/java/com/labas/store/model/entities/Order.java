@@ -1,8 +1,6 @@
 package com.labas.store.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.labas.store.util.JsonUtils;
@@ -21,7 +19,12 @@ import java.time.LocalDateTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderId")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "orderId",
+        scope = Order.class
+)
+@JsonIgnoreProperties({"orderStatusId", "userId"})
 public class Order {
 
     @XmlJavaTypeAdapter(LongIdAdapter.class)
@@ -67,10 +70,15 @@ public class Order {
         this.user = user;
     }
 
+
+
     public Long getOrderId() {
         return orderId;
     }
 
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 
     public Float getDiscount() {
         return discount;
@@ -80,52 +88,44 @@ public class Order {
         this.discount = discount;
     }
 
+    public Float getTotal() {
+        return total;
+    }
+
     public void setTotal(Float total) {
         this.total = total;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Float getTotal() {
-        return total;
-    }
-
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-
     public User getUser() {
         return user;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

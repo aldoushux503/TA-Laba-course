@@ -113,61 +113,60 @@ public class Main {
 //        } else {
 //            System.out.println("XML validation failed.");
 //        }
-
-
-        try {
-            JAXBContext context = JAXBContext.newInstance(OnlineStore.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            OnlineStore store = (OnlineStore) unmarshaller.unmarshal(new File("src/main/resources/onlineStore.xml"));
-
-
-//            store.buildRelations();
-
-            System.out.println("Categories:");
-            store.getCategories().forEach(category -> System.out.println("  " + category));
-
-            System.out.println("\nProducts:");
-            store.getProducts().forEach(product -> System.out.println("  " + product));
-
-            System.out.println("\nOrders:");
-            store.getOrders().forEach(order -> System.out.println("  " + order));
-
-            System.out.println("\nProduct Categories:");
-            store.getProductCategories().forEach(productCategory -> System.out.println("  " + productCategory));
-
-            System.out.println("\nOrder Products:");
-            store.getOrderProducts().forEach(orderProduct -> System.out.println("  " + orderProduct));
-        } catch (JAXBException e) {
-            throw new RuntimeException("Error to " + e);
-        }
-
-//        ObjectMapper mapper = JsonUtils.getObjectMapper();
+//
 //
 //        try {
-//            OnlineStore onlineStore = mapper.readValue(
-//                    new File("src/main/resources/onlineStore.json"),
-//                    OnlineStore.class
-//            );
+//            JAXBContext context = JAXBContext.newInstance(OnlineStore.class);
+//            Unmarshaller unmarshaller = context.createUnmarshaller();
+//            OnlineStore store = (OnlineStore) unmarshaller.unmarshal(new File("src/main/resources/onlineStore.xml"));
+//
 //
 //
 //            System.out.println("Categories:");
-//            onlineStore.getCategories().forEach(System.out::println);
+//            store.getCategories().forEach(category -> System.out.println("  " + category));
 //
 //            System.out.println("\nProducts:");
-//            onlineStore.getProducts().forEach(System.out::println);
+//            store.getProducts().forEach(product -> System.out.println("  " + product));
 //
 //            System.out.println("\nOrders:");
-//            onlineStore.getOrders().forEach(System.out::println);
-////
-////            System.out.println("\nProduct Categories:");
-////            onlineStore.getProductCategories().forEach(System.out::println);
-////
-////            System.out.println("\nOrder Products:");
-////            onlineStore.getOrderProducts().forEach(System.out::println);
+//            store.getOrders().forEach(order -> System.out.println("  " + order));
 //
-//        } catch (IOException e) {
-//            System.err.println("Error reading or parsing JSON: " + e.getMessage());
+//            System.out.println("\nProduct Categories:");
+//            store.getProductCategories().forEach(productCategory -> System.out.println("  " + productCategory));
+//
+//            System.out.println("\nOrder Products:");
+//            store.getOrderProducts().forEach(orderProduct -> System.out.println("  " + orderProduct));
+//        } catch (JAXBException e) {
+//            throw new RuntimeException("Error to " + e);
 //        }
+
+        ObjectMapper mapper = JsonUtils.getObjectMapper();
+
+        try {
+            OnlineStore onlineStore = mapper.readValue(
+                    new File("src/main/resources/onlineStore.json"),
+                    OnlineStore.class
+            );
+
+
+            System.out.println("Categories:");
+            onlineStore.getCategories().forEach(System.out::println);
+
+            System.out.println("\nProducts:");
+            onlineStore.getProducts().forEach(System.out::println);
+
+            System.out.println("\nOrders:");
+            onlineStore.getOrders().forEach(System.out::println);
+
+            System.out.println("\nProduct Categories:");
+            onlineStore.getProductCategories().forEach(System.out::println);
+
+            System.out.println("\nOrder Products:");
+            onlineStore.getOrderProducts().forEach(System.out::println);
+
+        } catch (IOException e) {
+            System.err.println("Error reading or parsing JSON: " + e.getMessage());
+        }
 
     }
 

@@ -1,5 +1,8 @@
 package com.labas.store.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.labas.store.util.LongIdAdapter;
 import com.sun.xml.txw2.annotation.XmlValue;
 
@@ -15,6 +18,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 
 @XmlRootElement
+@JsonRootName("orderStatus")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "orderStatusId",
+        scope = OrderStatus.class
+)
 public class OrderStatus {
 
     @XmlJavaTypeAdapter(LongIdAdapter.class)
@@ -32,6 +41,7 @@ public class OrderStatus {
         this.orderStatusId = orderStatusId;
         this.statusName = statusName;
     }
+
 
     public Long getOrderStatusId() {
         return orderStatusId;

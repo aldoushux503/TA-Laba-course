@@ -1,5 +1,8 @@
 package com.labas.store.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.labas.store.util.JsonUtils;
@@ -15,10 +18,12 @@ public class ProductCategory {
 
     @XmlAttribute(name = "productId")
     @XmlIDREF
+    @JsonIdentityReference(alwaysAsId = true)
     private Product product;
 
     @XmlAttribute(name = "categoryId")
     @XmlIDREF
+    @JsonIdentityReference(alwaysAsId = true)
     private Category category;
 
     public ProductCategory() {
@@ -29,6 +34,7 @@ public class ProductCategory {
         this.category = category;
     }
 
+    @JsonProperty("productId")
     public Product getProduct() {
         return product;
     }
@@ -36,7 +42,7 @@ public class ProductCategory {
     public void setProduct(Product product) {
         this.product = product;
     }
-
+    @JsonProperty("categoryId")
     public Category getCategory() {
         return category;
     }
