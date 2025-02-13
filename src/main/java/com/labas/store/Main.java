@@ -10,6 +10,9 @@ import com.labas.store.service.*;
 import com.labas.store.service.impl.*;
 import com.labas.store.util.JsonUtils;
 import com.labas.store.util.LocalDateTimeAdapter;
+import com.labas.store.util.MyBatisUtil;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 
 import javax.xml.XMLConstants;
@@ -139,34 +142,37 @@ public class Main {
 //        } catch (JAXBException e) {
 //            throw new RuntimeException("Error to " + e);
 //        }
+//
+//        ObjectMapper mapper = JsonUtils.getObjectMapper();
+//
+//        try {
+//            OnlineStore onlineStore = mapper.readValue(
+//                    new File("src/main/resources/onlineStore.json"),
+//                    OnlineStore.class
+//            );
+//
+//
+//            System.out.println("Categories:");
+//            onlineStore.getCategories().forEach(System.out::println);
+//
+//            System.out.println("\nProducts:");
+//            onlineStore.getProducts().forEach(System.out::println);
+//
+//            System.out.println("\nOrders:");
+//            onlineStore.getOrders().forEach(System.out::println);
+//
+//            System.out.println("\nProduct Categories:");
+//            onlineStore.getProductCategories().forEach(System.out::println);
+//
+//            System.out.println("\nOrder Products:");
+//            onlineStore.getOrderProducts().forEach(System.out::println);
+//
+//        } catch (IOException e) {
+//            System.err.println("Error reading or parsing JSON: " + e.getMessage());
+//        }
 
-        ObjectMapper mapper = JsonUtils.getObjectMapper();
-
-        try {
-            OnlineStore onlineStore = mapper.readValue(
-                    new File("src/main/resources/onlineStore.json"),
-                    OnlineStore.class
-            );
-
-
-            System.out.println("Categories:");
-            onlineStore.getCategories().forEach(System.out::println);
-
-            System.out.println("\nProducts:");
-            onlineStore.getProducts().forEach(System.out::println);
-
-            System.out.println("\nOrders:");
-            onlineStore.getOrders().forEach(System.out::println);
-
-            System.out.println("\nProduct Categories:");
-            onlineStore.getProductCategories().forEach(System.out::println);
-
-            System.out.println("\nOrder Products:");
-            onlineStore.getOrderProducts().forEach(System.out::println);
-
-        } catch (IOException e) {
-            System.err.println("Error reading or parsing JSON: " + e.getMessage());
-        }
+        SqlSessionFactory sessionFactory = new MyBatisUtil().getSessionFactory();
+        sessionFactory.openSession();
 
     }
 
