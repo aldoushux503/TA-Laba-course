@@ -28,7 +28,7 @@ public abstract class MyBatisAbstractDAO<T,Long> implements IGenericDAO<T,Long> 
         try (SqlSession session = sessionFactory.openSession()) {
             Object mapper = session.getMapper(getMapperClass());
             Method method = getMapperClass().getMethod("findById", java.lang.Long.class);
-            return (Optional<T>) method.invoke(mapper, id);
+            return Optional.ofNullable((T) method.invoke(mapper, id));
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             e.printStackTrace();
             return Optional.empty();

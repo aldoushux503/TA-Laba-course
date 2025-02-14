@@ -34,6 +34,7 @@ public class OrderStatus {
     @XmlElement
     private String statusName;
 
+
     public OrderStatus() {
     }
 
@@ -53,6 +54,13 @@ public class OrderStatus {
     }
 
 
+    public void setOrderStatusId(Long orderStatusId) {
+        this.orderStatusId = orderStatusId;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
 
     @Override
     public String toString() {
