@@ -1,73 +1,66 @@
 package com.labas.store.factory;
 
-
 import com.labas.store.dao.*;
-import com.labas.store.dao.mysql.*;
+import com.labas.store.dao.mybatis.MyBatisUserDAO;
 
-public class MySQLDAOFactory implements IGenericDAOFactory {
-
+public class MyBatisDAOFactory implements IGenericDAOFactory {
     @Override
     public IUserDAO createUserDAO() {
-        return new MySQLUserDAO();
+        return new MyBatisUserDAO();
     }
 
     @Override
     public IOrderStatusDAO createOrderStatusDAO() {
-        return new MySQLOrderStatusDAO();
+        return null;
     }
 
     @Override
     public IPaymentMethodDAO createPaymentMethodDAO() {
-        return new MySQLPaymentMethodDAO();
+        return null;
     }
 
     @Override
     public ICarrierDAO createCarrierDAO() {
-        return new MySQLCarrierDAO();
+        return null;
     }
 
     @Override
     public IAddressDAO createAddressDAO(IUserDAO userDAO) {
-        return new MySQLAddressDAO(userDAO);
+        return null;
     }
 
     @Override
     public IShippingStatusDAO createShippingStatusDAO() {
-        return new MySQLShippingStatusDAO();
+        return null;
     }
 
     @Override
     public IOrderDAO createOrderDAO(IOrderStatusDAO orderStatusDAO, IUserDAO userDAO) {
-        return new MySQLOrderDAO(orderStatusDAO, userDAO);
+        return null;
     }
 
     @Override
     public IPaymentDAO createPaymentDAO(IPaymentMethodDAO paymentMethodDAO, IOrderDAO orderDAO, IUserDAO userDAO) {
-        return new MySQLPaymentDAO(paymentMethodDAO, orderDAO, userDAO);
+        return null;
     }
 
     @Override
     public ICategoryDAO createCategoryDAO() {
-        return new MySQLCategoryDAO();
+        return null;
     }
 
     @Override
     public IProductDAO createProductDAO() {
-        return new MySQLProductDAO();
+        return null;
     }
 
     @Override
-    public IShippingDAO createShippingDAO(
-            IShippingStatusDAO shippingStatusDAO,
-            IOrderDAO orderDAO,
-            IAddressDAO addressDAO,
-            ICarrierDAO carrierDAO
-    ) {
-        return new MySQLShippingDAO(shippingStatusDAO, orderDAO, addressDAO, carrierDAO);
+    public IShippingDAO createShippingDAO(IShippingStatusDAO shippingStatusDAO, IOrderDAO orderDAO, IAddressDAO addressDAO, ICarrierDAO carrierDAO) {
+        return null;
     }
 
     @Override
     public IRoleDAO createRoleDAO() {
-        return new MySQLRoleDAO();
+        return null;
     }
 }

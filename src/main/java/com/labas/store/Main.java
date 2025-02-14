@@ -34,7 +34,7 @@ import java.util.Optional;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ServiceException {
 //        ServiceProvider serviceProvider = FactoryManager.getServiceProvider();
 //        DAOProvider daoProvider = FactoryManager.getDAOProvider();
 //
@@ -171,9 +171,11 @@ public class Main {
 //            System.err.println("Error reading or parsing JSON: " + e.getMessage());
 //        }
 
-        SqlSessionFactory sessionFactory = new MyBatisUtil().getSessionFactory();
-        sessionFactory.openSession();
+        ServiceProvider serviceProvider = FactoryManager.getServiceProvider();
+        DAOProvider daoProvider = FactoryManager.getDAOProvider();
 
+        IUserService userService = serviceProvider.getService(UserServiceImpl.class);
+        System.out.println(userService.findAll());
     }
 
     public static boolean validateXML(String xmlFile, String xsdFile) {

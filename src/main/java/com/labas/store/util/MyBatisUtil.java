@@ -22,7 +22,7 @@ public class MyBatisUtil {
         }
     }
 
-    public SqlSessionFactory getSessionFactory() {
+    public static SqlSessionFactory getSessionFactory() {
         return sessionFactory;
     }
 }

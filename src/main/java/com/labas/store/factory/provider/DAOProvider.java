@@ -1,16 +1,16 @@
 package com.labas.store.factory.provider;
 
 import com.labas.store.dao.*;
-import com.labas.store.factory.IDAOFactory;
+import com.labas.store.factory.IGenericDAOFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DAOProvider {
-    private final IDAOFactory daoFactory;
+    private final IGenericDAOFactory daoFactory;
     private final Map<Class<?>, Object> daoCache = new ConcurrentHashMap<>();
 
-    public DAOProvider(IDAOFactory daoFactory) {
+    public DAOProvider(IGenericDAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 

@@ -2,7 +2,7 @@ package com.labas.store.factory;
 
 import com.labas.store.dao.*;
 
-public interface IDAOFactory {
+public interface IGenericDAOFactory {
     public abstract IUserDAO createUserDAO();
     public abstract IOrderStatusDAO createOrderStatusDAO();
     public abstract IPaymentMethodDAO createPaymentMethodDAO();
