@@ -70,62 +70,38 @@ public class Order {
         this.user = user;
     }
 
-
+    public void setTotal(Float total) {
+        this.total = total;
+    }
 
     public Long getOrderId() {
         return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
     }
 
     public Float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Float discount) {
-        this.discount = discount;
-    }
-
     public Float getTotal() {
         return total;
     }
 
-    public void setTotal(Float total) {
-        this.total = total;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
 

@@ -3,7 +3,9 @@ package com.labas.store.factory.provider;
 /**
  * Service factory to switch between different implementations or databases.
  */
-import com.labas.store.factory.provider.DAOProvider;
+import com.labas.store.service.IOrderService;
+import com.labas.store.service.decorator.LoggingOrderServiceDecorator;
+import com.labas.store.service.proxy.CachingOrderServiceProxy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -38,5 +40,21 @@ public class ServiceProvider {
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Error creating service instance: " + serviceClass.getSimpleName(), e);
         }
+    }
+
+    public <T> T getDecoratedService(Class<T> serviceClass) {
+        T service = getService(serviceClass);
+        if (service instanceof IOrderService) {
+            return (T) new LoggingOrderServiceDecorator((IOrderService) service);
+        }
+        return service;
+    }
+
+    public <T> T getProxyService(Class<T> serviceClass) {
+        T service = getService(serviceClass);
+        if (service instanceof IOrderService) {
+            return (T) new CachingOrderServiceProxy((IOrderService) service);
+        }
+        return service;
     }
 }

@@ -2,17 +2,27 @@ package com.labas.store;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.labas.store.exception.ServiceException;
 import com.labas.store.factory.*;
 import com.labas.store.factory.provider.*;
+import com.labas.store.model.dto.OrderDTO;
 import com.labas.store.model.entities.*;
+import com.labas.store.model.entities.builder.OrderBuilder;
+import com.labas.store.model.entities.builder.OrderStatusBuilder;
+import com.labas.store.model.entities.builder.UserBuilder;
 import com.labas.store.service.*;
+import com.labas.store.service.decorator.LoggingOrderServiceDecorator;
+import com.labas.store.service.facade.OrderFacade;
 import com.labas.store.service.impl.*;
+import com.labas.store.service.listener.OrderEventManager;
+import com.labas.store.service.listener.OrderLoggerListener;
+import com.labas.store.service.mvc.ConsoleOrderView;
+import com.labas.store.service.mvc.OrderController;
+import com.labas.store.service.mvc.OrderModel;
+import com.labas.store.service.mvc.OrderView;
+import com.labas.store.service.proxy.CachingOrderServiceProxy;
+import com.labas.store.service.strategy.IDiscountStrategy;
+import com.labas.store.service.strategy.PercentageDiscountStrategy;
 import com.labas.store.util.JsonUtils;
-import com.labas.store.util.LocalDateTimeAdapter;
-import com.labas.store.util.MyBatisUtil;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 
 
 import javax.xml.XMLConstants;
@@ -28,7 +38,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,7 +156,7 @@ public class Main {
         }
 
 
-         // 6. JSON. Jackson. ------------
+        // 6. JSON. Jackson. ------------
 
         ObjectMapper mapper = JsonUtils.getObjectMapper();
 
@@ -177,80 +186,134 @@ public class Main {
             System.err.println("Error reading or parsing JSON: " + e.getMessage());
         }
 
+
         // 7. MyBatis. ------------
-        ServiceProvider serviceProvider = FactoryManager.getServiceProvider();
-
-        // Obtain service instances for working with MyBatis-based DAOs
-        IOrderStatusService orderStatusService = serviceProvider.getService(OrderStatusServiceImpl.class);
+        ServiceProvider serviceProvider = configureServices();
         IOrderService orderService = serviceProvider.getService(OrderServiceImpl.class);
-        IUserService userService = serviceProvider.getService(UserServiceImpl.class);
+
+        IOrderService discountedOrderService = new DiscountedOrderService(
+                orderService,
+                new PercentageDiscountStrategy(10.0f)
+        );
+
+        OrderFacade storeFacade = new OrderFacade(
+                discountedOrderService,
+                serviceProvider.getService(UserServiceImpl.class),
+                serviceProvider.getService(OrderStatusServiceImpl.class),
+                new OrderEventManager()
+        );
+
+        // 1. Create a new order
+        System.out.println("Creating a new order...");
+
+        // Set related entities (OrderStatus and User)
+        User user = new UserBuilder()
+                .withUserId(1L)
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withEmail("john.doe@example.com")
+                .withPhoneNumber("123456789")
+                .withPasswordHash("hashedPassword")
+                .build();
+
+        OrderStatus status = new OrderStatusBuilder()
+                .withOrderStatusId(1L)
+                .withStatusName("Pending")
+                .build();
+
+        // Create and save the new order
+        boolean orderCreated = storeFacade.createOrder(user, 10.0f, 90.0f, status);
+        System.out.println("Order created: " + orderCreated);
 
 
-        try {
-            // 1. Create a new order
-            System.out.println("Creating a new order...");
-            Order newOrder = new Order();
-            newOrder.setOrderId(4L);
-            newOrder.setDiscount(10.0f);
-            newOrder.setTotal(90.0f);
-            newOrder.setCreatedAt(LocalDateTime.now());
-            newOrder.setUpdatedAt(LocalDateTime.now());
+        // 2. Retrieve all orders
+        System.out.println("\nRetrieving all orders...");
+        List<Order> orders = storeFacade.getAllOrders();
+        orders.forEach(order -> System.out.println("Order: " + order));
 
-            // Set related entities (OrderStatus and User)
-            OrderStatus orderStatus = new OrderStatus(1L, "Pending");
-            User user = new User(
-                    1L,
-                    "John",
-                    "Doe",
-                    "john.doe@example.com",
-                    "123456789",
-                    "hashedPassword"
-            );
+        // 3. Retrieve an order by ID
+        Optional<Order> retrievedOrder = storeFacade.getOrder(1L);
+        retrievedOrder.ifPresent(order -> System.out.println("Retrieved Order: " + order));
 
-            newOrder.setOrderStatus(orderStatus);
-            newOrder.setUser(user);
+        // 4. Update an order
+        System.out.println("\nUpdating order with ID = 1...");
+        Order order = new OrderBuilder()
+                .withUser(user)
+                .withDiscount(1.2F)
+                .withTotal(12F)
+                .withStatus(status)
+                .build();
 
-            // Save the new order
-            boolean userSaved = userService.save(user);
-            boolean orderStatusSaved = orderStatusService.save(orderStatus);
-            boolean orderSaved = orderService.save(newOrder);
-            System.out.println("New order saved: " + userSaved);
-            System.out.println("New order saved: " + orderStatusSaved);
-            System.out.println("New order saved: " + orderSaved);
+        boolean updated = storeFacade.updateOrder(order);
+        System.out.println("Order update completed: " + updated);
 
-            // 2. Retrieve all orders
-            System.out.println("\nRetrieving all orders...");
-            List<Order> orders = orderService.findAll();
-            orders.forEach(order -> System.out.println("Order: " + order));
 
-            // 3. Retrieve an order by ID
-            System.out.println("\nRetrieving order with ID = 1...");
-            Optional<Order> foundOrder = orderService.findById(1L);
-            foundOrder.ifPresent(order -> System.out.println("Found order: " + order));
+        // 5. Delete an order
+        System.out.println("\nDeleting order with ID = 1...");
+        boolean deleted = storeFacade.deleteOrder(1L);
+        System.out.println("Order deletion completed: " + deleted);
 
-            // 4. Update an order
-            System.out.println("\nUpdating order with ID = 1...");
 
-            newOrder.setTotal(124.1F);
-            newOrder.setDiscount(1.3F);
-            newOrder.setUpdatedAt(LocalDateTime.now());
-            try {
-                boolean updated = orderService.update(newOrder);
-                System.out.println("Order update completed: " + updated);
-            } catch (ServiceException e) {
-                e.printStackTrace();
-            }
+        // MVC ---------------------------------
 
-            // 5. Delete an order
-            System.out.println("\nDeleting order with ID = 1...");
-            boolean deleted = orderService.delete(1L);
-            System.out.println("Order deletion completed: " + deleted);
+        // Dependency Configuration
+        serviceProvider = configureServices();
+        OrderModel orderModel = createOrderModel(serviceProvider);
+        OrderView view = new ConsoleOrderView();
+        OrderEventManager eventManager = new OrderEventManager();
 
-        } catch (ServiceException e) {
-            System.err.println("An error occurred while working with orders:");
-            e.printStackTrace();
-        }
+        // MVC Setup
+        OrderController controller = new OrderController(orderModel, view, eventManager);
+
+        // Example Usage
+        user = createSampleUser();
+        status = createSampleStatus();
+        order = new OrderBuilder()
+                .withUser(user)
+                .withStatus(status)
+                .withDiscount(1.2F)
+                .withTotal(12F)
+                .withStatus(status)
+                .build();
+        controller.createOrder(user, status, order);
+        controller.viewOrder(1L);
     }
+
+    private static ServiceProvider configureServices() {
+        ServiceProvider provider = FactoryManager.getServiceProvider();
+
+        // Decorators Chain
+        IOrderService baseService = provider.getService(OrderServiceImpl.class);
+        IOrderService decoratedService = new CachingOrderServiceProxy(new LoggingOrderServiceDecorator(baseService));
+
+        provider.registerService(IOrderService.class, decoratedService);
+        return provider;
+    }
+
+    private static OrderModel createOrderModel(ServiceProvider provider) {
+        return new OrderModel(
+                provider.getService(IOrderService.class)
+        );
+    }
+
+    private static User createSampleUser() {
+        return new UserBuilder()
+                .withUserId(1L)
+                .withFirstName("John")
+                .withLastName("Doe")
+                .build();
+    }
+
+    private static OrderStatus createSampleStatus() {
+        return new OrderStatusBuilder()
+                .withOrderStatusId(1L)
+                .withStatusName("Pending")
+                .build();
+
+    }
+
+
+
 
     public static boolean validateXML(String xmlFile, String xsdFile) {
         try {

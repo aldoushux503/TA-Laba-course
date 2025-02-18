@@ -1,2 +1,4 @@
-package com.labas.store.model.dto;public class OrderDTO {
+package com.labas.store.model.dto;
+
+public class OrderDTO {
 }
